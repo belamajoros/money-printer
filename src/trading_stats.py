@@ -331,14 +331,26 @@ class ModelDriftDetector:
 
     def _load_model(self) -> bool:
         """Load the current model from the path defined in MODEL_PATHS"""
+        logger.info(f"📦 Attempting to load model: {self.model_name}")
+        logger.info(f"🔍 MODEL_PATHS available keys: {list(MODEL_PATHS.keys())}")
+
         model_path = MODEL_PATHS.get(self.model_name)
         if not model_path:
-            logger.error(f"❌ No model path defined for {self.model_name} in MODEL_PATHS")
+            logger.error(f"❌ No model path defined for '{self.model_name}' in MODEL_PATHS")
             self.is_model_valid = False
             return False
 
+        logger.info(f"📂 Resolved model path: {model_path}")
+        logger.info(f"📁 Current working directory: {os.getcwd()}")
+        logger.info(f"📂 Absolute path: {os.path.abspath(model_path)}")
+
         if not os.path.exists(model_path):
-            logger.error(f"❌ Model file not found: {model_path}")
+            logger.error(f"❌ Model file not found at resolved path: {model_path}")
+            try:
+                files_in_dir = os.listdir(os.path.dirname(model_path))
+                logger.warning(f"📄 Files in {os.path.dirname(model_path)}: {files_in_dir}")
+            except Exception as e:
+                logger.warning(f"⚠️ Failed to list files in model directory: {e}")
             self.is_model_valid = False
             return False
 
@@ -348,13 +360,12 @@ class ModelDriftDetector:
             self.model_version = datetime.fromtimestamp(os.path.getmtime(model_path)).strftime("%Y%m%d_%H%M%S")
             self.model_load_time = datetime.utcnow()
             self.is_model_valid = True
-            logger.info(f"✅ Loaded model {self.model_name} from {model_path}")
+            logger.info(f"✅ Loaded model {self.model_name} from {model_path} (version {self.model_version})")
             return True
         except Exception as e:
             logger.error(f"❌ Failed to load model {self.model_name}: {e}")
             self.is_model_valid = False
             return False
-
 
     def calculate_current_performance(self) -> Optional[ModelPerformanceMetrics]:
         """Compute metrics from recent trades"""
