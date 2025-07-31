@@ -750,6 +750,8 @@ async def train_model(interaction: discord.Interaction, model_type: str = "rando
         # Start training in background
         if model_type.lower() in ["random_forest", "rf"]:
             result = await asyncio.get_event_loop().run_in_executor(None, train_rf_model_with_metrics)
+        elif model_type.lower() in ["xgboost"]:
+            result = await asyncio.get_event_loop().run_in_executor(None, train_xgboost_model)
         else:
             await interaction.followup.send("❌ Unsupported model type. Use 'random_forest' or 'rf'")
             return
