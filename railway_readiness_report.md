@@ -140,7 +140,7 @@ base64 -i secrets/service_account.json
 
 ### On Startup
 1. **Container builds** using `Dockerfile.full`
-2. **Dependencies install** from `requirements-production.txt`
+2. **Dependencies install** from `requirements-minimal.txt`
 3. **Environment loads** from Railway variables
 4. **Google Drive connects** using service account
 5. **Binance API connects** for market data

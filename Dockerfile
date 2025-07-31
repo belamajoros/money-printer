@@ -9,8 +9,8 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy and install ultra-minimal requirements first
-COPY requirements-production.txt .
-RUN pip install --no-cache-dir -r requirements-ultra-minimal.txt
+COPY requirements-minimal.txt .
+RUN pip install --no-cache-dir -r requirements-minimal.txt
 
 # Copy essential files
 COPY ultra_simple_health.py .
@@ -26,10 +26,10 @@ ENV PORT=8000
 # Create directories
 RUN mkdir -p data logs cache
 
-# *** Add this section to log file listing ***
-RUN mkdir -p /app/logs/build_logs \
-    && ls -R /app/data/models/ > /app/logs/build_logs/models_dir_listing.log \
-    && ls -R /app/src/ >> /app/logs/build_logs/src_dir_listing.log
+# *** Add this section to log file listing (print to console) ***
+RUN echo "--- Listing contents of /app/data/models/ ---" && ls -R /app/data/models/ || echo "--- /app/data/models/ not found or empty ---"
+RUN echo "--- Listing contents of /app/src/ ---" && ls -R /app/src/ || echo "--- /app/src/ not found or empty ---"
+RUN echo "--- Listing full contents of /app/ ---" && ls -R /app/ || echo "--- /app/ not found or empty ---"
 
 # Create non-root user
 RUN useradd -m -u 1001 bot && \

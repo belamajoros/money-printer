@@ -92,7 +92,7 @@ railway connect
 ### Option 3: Local Python Environment
 ```bash
 # Install dependencies
-pip install -r requirements-production.txt
+pip install -r requirements-minimal.txt
 
 # Run the bot
 python main.py
