@@ -26,6 +26,11 @@ ENV PORT=8000
 # Create directories
 RUN mkdir -p data logs cache
 
+# *** Add this section to log file listing ***
+RUN mkdir -p /app/logs/build_logs \
+    && ls -R /app/data/models/ > /app/logs/build_logs/models_dir_listing.log \
+    && ls -R /app/src/ >> /app/logs/build_logs/src_dir_listing.log
+
 # Create non-root user
 RUN useradd -m -u 1001 bot && \
     chown -R bot:bot /app && \
