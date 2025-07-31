@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy and install ultra-minimal requirements first
-COPY requirements-ultra-minimal.txt .
+COPY requirements-production.txt .
 RUN pip install --no-cache-dir -r requirements-ultra-minimal.txt
 
 # Copy essential files
