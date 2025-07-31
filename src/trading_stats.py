@@ -16,6 +16,13 @@ from dataclasses import dataclass, asdict
 from collections import defaultdict
 import numpy as np
 
+# Model file path mapping
+MODEL_PATHS = {
+    "random_forest_v1": "data/models/random_forest/trained_model.pkl",
+    "xgboost_v1": "data/models/xgboost/trained_model.pkl",
+    # Add more models here as needed
+}
+
 logger = logging.getLogger(__name__)
 
 @dataclass
@@ -323,27 +330,31 @@ class ModelDriftDetector:
         self._load_model()
 
     def _load_model(self) -> bool:
-        """Try to load a model from known paths"""
-        model_paths = [
-            f"data/models/random_forest/trained_model.pkl",
-            f"data/models/xgboost/trained_model.pkl"
-        ]
-        for path in model_paths:
-            if os.path.exists(path):
-                try:
-                    with open(path, "rb") as f:
-                        self.current_model = pickle.load(f)
-                    self.model_load_time = datetime.utcnow()
-                    self.model_version = datetime.fromtimestamp(
-                        os.path.getmtime(path)
-                    ).strftime("%Y%m%d_%H%M%S")
-                    self.is_model_valid = True
-                    logger.info(f"✅ Loaded model: {path} (version {self.model_version})")
-                    return True
-                except Exception as e:
-                    logger.error(f"❌ Failed to load model at {path}: {e}")
-        self.is_model_valid = False
-        return False
+        """Load the current model from the path defined in MODEL_PATHS"""
+        model_path = MODEL_PATHS.get(self.model_name)
+        if not model_path:
+            logger.error(f"❌ No model path defined for {self.model_name} in MODEL_PATHS")
+            self.is_model_valid = False
+            return False
+
+        if not os.path.exists(model_path):
+            logger.error(f"❌ Model file not found: {model_path}")
+            self.is_model_valid = False
+            return False
+
+        try:
+            with open(model_path, 'rb') as f:
+                self.current_model = pickle.load(f)
+            self.model_version = datetime.fromtimestamp(os.path.getmtime(model_path)).strftime("%Y%m%d_%H%M%S")
+            self.model_load_time = datetime.utcnow()
+            self.is_model_valid = True
+            logger.info(f"✅ Loaded model {self.model_name} from {model_path}")
+            return True
+        except Exception as e:
+            logger.error(f"❌ Failed to load model {self.model_name}: {e}")
+            self.is_model_valid = False
+            return False
+
 
     def calculate_current_performance(self) -> Optional[ModelPerformanceMetrics]:
         """Compute metrics from recent trades"""
