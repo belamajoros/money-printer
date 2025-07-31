@@ -19,7 +19,7 @@
 
 #### 📦 Docker Configuration
 - ✅ `Dockerfile.full` - Production-ready container
-- ✅ `requirements-minimal.txt` - Optimized dependencies
+- ✅ `requirements-production.txt` - Optimized dependencies
 - ✅ Health check endpoint configured
 - ✅ Non-root user security
 - ✅ Port 8000 exposed for Railway
@@ -140,7 +140,7 @@ base64 -i secrets/service_account.json
 
 ### On Startup
 1. **Container builds** using `Dockerfile.full`
-2. **Dependencies install** from `requirements-minimal.txt`
+2. **Dependencies install** from `requirements-production.txt`
 3. **Environment loads** from Railway variables
 4. **Google Drive connects** using service account
 5. **Binance API connects** for market data

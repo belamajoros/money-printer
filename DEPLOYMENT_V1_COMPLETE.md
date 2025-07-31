@@ -201,7 +201,7 @@ docker run -d \\
 
 1. **Install dependencies**:
 ```bash
-pip install -r requirements-minimal.txt
+pip install -r requirements-production.txt
 ```
 
 2. **Set environment variables**:
