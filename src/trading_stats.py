@@ -308,6 +308,168 @@ class TradingStatsManager:
                 
         return "\n".join(output)
 
+class ModelDriftDetector:
+    """Handles model loading, performance tracking, and drift detection"""
+    def __init__(self, model_name: str):
+        self.model_name = model_name
+        self.performance_history: List[ModelPerformanceMetrics] = []
+        self.model_version: Optional[str] = None
+        self.model_load_time: Optional[datetime] = None
+        self.is_model_valid: bool = False
+        self.drift_detection_window: int = 50
+        self.validation_threshold: float = 50.0  # Min acceptable win rate %
+        self.current_model = None
+
+        self._load_model()
+
+    def _load_model(self) -> bool:
+        """Try to load a model from known paths"""
+        model_paths = [
+            f"data/models/random_forest/trained_model.pkl",
+            f"data/models/xgboost/trained_model.pkl"
+        ]
+        for path in model_paths:
+            if os.path.exists(path):
+                try:
+                    with open(path, "rb") as f:
+                        self.current_model = pickle.load(f)
+                    self.model_load_time = datetime.utcnow()
+                    self.model_version = datetime.fromtimestamp(
+                        os.path.getmtime(path)
+                    ).strftime("%Y%m%d_%H%M%S")
+                    self.is_model_valid = True
+                    logger.info(f"✅ Loaded model: {path} (version {self.model_version})")
+                    return True
+                except Exception as e:
+                    logger.error(f"❌ Failed to load model at {path}: {e}")
+        self.is_model_valid = False
+        return False
+
+    def calculate_current_performance(self) -> Optional[ModelPerformanceMetrics]:
+        """Compute metrics from recent trades"""
+        trades_file = f"data/transactions/{self.model_name}_trades.csv"
+        if not os.path.exists(trades_file):
+            logger.warning(f"No trades found for model: {self.model_name}")
+            return None
+
+        df = pd.read_csv(trades_file)
+        if len(df) < 10:
+            logger.warning(f"Too few trades for analysis: {len(df)}")
+            return None
+
+        recent_df = df.tail(self.drift_detection_window)
+        win_rate = recent_df["was_successful"].mean() * 100
+        avg_profit = recent_df["pnl_percent"].mean()
+        total_trades = len(recent_df)
+
+        if "confidence" in recent_df.columns:
+            y_true = recent_df["was_successful"].astype(int)
+            y_pred_proba = recent_df["confidence"]
+            y_pred = (y_pred_proba > 0.5).astype(int)
+
+            if len(np.unique(y_true)) > 1:
+                accuracy = accuracy_score(y_true, y_pred)
+                precision = precision_score(y_true, y_pred, zero_division=0)
+                recall = recall_score(y_true, y_pred, zero_division=0)
+                f1 = f1_score(y_true, y_pred, zero_division=0)
+                cc = np.corrcoef(y_pred_proba, recent_df["pnl_percent"])[0, 1]
+                if np.isnan(cc):
+                    cc = 0.0
+            else:
+                accuracy = precision = recall = f1 = 0.0
+                cc = 0.0
+        else:
+            accuracy = precision = recall = f1 = cc = 0.0
+
+        return ModelPerformanceMetrics(
+            timestamp=datetime.utcnow(),
+            accuracy=accuracy,
+            precision=precision,
+            recall=recall,
+            f1_score=f1,
+            win_rate=win_rate,
+            avg_profit=avg_profit,
+            total_trades=total_trades,
+            confidence_correlation=cc,
+            model_version=self.model_version or "unknown",
+        )
+
+    def detect_drift(self) -> Tuple[bool, str, Dict[str, Any]]:
+        """Determine whether drift has occurred"""
+        metrics = self.calculate_current_performance()
+        if not metrics:
+            return True, "Insufficient trade data", {}
+
+        self.performance_history.append(metrics)
+
+        # 1. Win rate threshold
+        if metrics.win_rate < self.validation_threshold:
+            return True, f"Win rate too low: {metrics.win_rate:.1f}%", {
+                "current_win_rate": metrics.win_rate
+            }
+
+        # 2. Decline trend
+        if len(self.performance_history) >= 3:
+            recent = self.performance_history[-3:]
+            win_rates = [m.win_rate for m in recent]
+            if win_rates[-1] < win_rates[-2] < win_rates[-3]:
+                decline = win_rates[-3] - win_rates[-1]
+                if decline > 10:
+                    return True, f"Performance dropped {decline:.1f}% over 3 windows", {
+                        "trend": win_rates,
+                        "decline": decline
+                    }
+
+        # 3. Confidence correlation
+        if metrics.confidence_correlation < -0.2:
+            return True, f"Negative confidence correlation: {metrics.confidence_correlation:.2f}", {
+                "confidence_correlation": metrics.confidence_correlation
+            }
+
+        # 4. Model age
+        if self.model_load_time:
+            age_days = (datetime.utcnow() - self.model_load_time).days
+            if age_days > 7:
+                return True, f"Model older than 7 days ({age_days} days)", {
+                    "model_age_days": age_days
+                }
+
+        return False, "Performance acceptable", {
+            "win_rate": metrics.win_rate,
+            "confidence_correlation": metrics.confidence_correlation,
+            "avg_profit": metrics.avg_profit
+        }
+
+    def validate_model_for_trading(self) -> Tuple[bool, str]:
+        if not self.is_model_valid:
+            return False, "Model not loaded or invalid"
+
+        has_drift, reason, _ = self.detect_drift()
+        if has_drift:
+            return False, f"Drift detected: {reason}"
+
+        return True, "Model is valid for trading"
+
+    def get_performance_summary(self) -> Dict[str, Any]:
+        current = self.calculate_current_performance()
+        has_drift, reason, details = self.detect_drift()
+        return {
+            "model_name": self.model_name,
+            "model_version": self.model_version,
+            "is_valid": self.is_model_valid,
+            "model_age_hours": (
+                (datetime.utcnow() - self.model_load_time).total_seconds() / 3600
+                if self.model_load_time else None
+            ),
+            "current_performance": asdict(current) if current else None,
+            "drift_status": {
+                "has_drift": has_drift,
+                "reason": reason,
+                "details": details
+            }
+        }
+
+
 # Global instance
 _stats_manager = None
 
@@ -317,3 +479,4 @@ def get_stats_manager() -> TradingStatsManager:
     if _stats_manager is None:
         _stats_manager = TradingStatsManager()
     return _stats_manager
+
