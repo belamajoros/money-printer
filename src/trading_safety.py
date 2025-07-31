@@ -253,40 +253,40 @@ class TradingSafetyManager:
             # For now, we'll use common minimum quantities for popular coins
             common_min_qtys = {
                 # Major coins
-                'BTCUSDT': 0.00001,   # ~$0.50 min
-                'ETHUSDT': 0.0001,    # ~$0.30 min  
-                'BNBUSDT': 0.001,     # ~$0.50 min
-                'SOLUSDT': 0.001,     # ~$0.20 min
-                'XRPUSDT': 1.0,       # ~$0.60 min
+                'BTCUSDC': 0.00001,   # ~$0.50 min
+                'ETHUSDC': 0.0001,    # ~$0.30 min  
+                'BNBUSDC': 0.001,     # ~$0.50 min
+                'SOLUSDC': 0.001,     # ~$0.20 min
+                'XRPUSDC': 1.0,       # ~$0.60 min
                 
                 # Top altcoins  
-                'ADAUSDT': 1.0,       # ~$0.40 min
-                'DOTUSDT': 0.1,       # ~$0.50 min
-                'LINKUSDT': 0.01,     # ~$0.20 min
-                'LTCUSDT': 0.001,     # ~$0.10 min
-                'AVAXUSDT': 0.01,     # ~$0.40 min
-                'ATOMUSDT': 0.01,     # ~$0.10 min
-                'MATICUSDT': 1.0,     # ~$0.50 min
-                'UNIUSDT': 0.01,      # ~$0.10 min
-                'FILUSDT': 0.01,      # ~$0.50 min
-                'VETUSDT': 10.0,      # ~$0.30 min
+                'ADAUSDC': 1.0,       # ~$0.40 min
+                'DOTUSDC': 0.1,       # ~$0.50 min
+                'LINKUSDC': 0.01,     # ~$0.20 min
+                'LTCUSDC': 0.001,     # ~$0.10 min
+                'AVAXUSDC': 0.01,     # ~$0.40 min
+                'ATOMUSDC': 0.01,     # ~$0.10 min
+                'MATICUSDC': 1.0,     # ~$0.50 min
+                'UNIUSDC': 0.01,      # ~$0.10 min
+                'FILUSDC': 0.01,      # ~$0.50 min
+                'VETUSDC': 10.0,      # ~$0.30 min
                 
                 # Popular mid-caps
-                'SHIBUSDT': 400000.0, # ~$8.00 min (realistic high MOQ)
-                'DOGEUSDT': 1.0,      # ~$0.40 min
-                'TRXUSDT': 1.0,       # ~$0.20 min
-                'NEARUSDT': 0.1,      # ~$0.50 min
-                'FTMUSDT': 1.0,       # ~$0.80 min
-                'SANDUSDT': 0.1,      # ~$0.30 min
-                'MANAUSDT': 0.1,      # ~$0.50 min
-                'CHZUSDT': 1.0,       # ~$0.10 min
-                'ENJUSDT': 0.1,       # ~$0.20 min
-                'GALAUSDT': 1.0,      # ~$0.04 min
+                'SHIBUSDC': 400000.0, # ~$8.00 min (realistic high MOQ)
+                'DOGEUSDC': 1.0,      # ~$0.40 min
+                'TRXUSDC': 1.0,       # ~$0.20 min
+                'NEARUSDC': 0.1,      # ~$0.50 min
+                'FTMUSDC': 1.0,       # ~$0.80 min
+                'SANDUSDC': 0.1,      # ~$0.30 min
+                'MANAUSDC': 0.1,      # ~$0.50 min
+                'CHZUSDC': 1.0,       # ~$0.10 min
+                'ENJUSDC': 0.1,       # ~$0.20 min
+                'GALAUSDC': 1.0,      # ~$0.04 min
                 
                 # Lower cap coins (often higher MOQ)
-                'PEPEUSDT': 5000000.0,  # ~$5.00 min (realistic high MOQ meme coin)
-                'FLOKIUSDT': 50000.0,   # ~$10.00 min (realistic high MOQ)
-                'BONKUSDT': 200000.0,   # ~$6.00 min (realistic MOQ)
+                'PEPEUSDC': 5000000.0,  # ~$5.00 min (realistic high MOQ meme coin)
+                'FLOKIUSDC': 50000.0,   # ~$10.00 min (realistic high MOQ)
+                'BONKUSDC': 200000.0,   # ~$6.00 min (realistic MOQ)
             }
             
             # Use conservative default minimum for unknown symbols

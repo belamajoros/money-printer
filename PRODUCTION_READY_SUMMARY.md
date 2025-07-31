@@ -7,7 +7,7 @@ The Money Printer crypto trading bot has been completely rebuilt and is now prod
 ## 🎯 **COMPLETED FIXES**
 
 ### **1. Real Binance Balance Integration** ✅
-- **Status Command**: Shows actual USDT balance ($8.41 available)
+- **Status Command**: Shows actual USDC balance ($8.41 available)
 - **Account Info**: Real trading permissions and asset holdings
 - **Connection Validation**: Proper API authentication and testing
 
@@ -56,7 +56,7 @@ The Money Printer crypto trading bot has been completely rebuilt and is now prod
 python main_production.py status
 ```
 **Output:**
-- Real Binance balance ($8.41 USDT available)
+- Real Binance balance ($8.41 USDC available)
 - Google Drive connection status
 - Local storage status
 - Available trained models
@@ -70,7 +70,7 @@ python main_production.py collect --hours 1
 python main_production.py collect
 
 # Collect specific symbols/intervals
-python main_production.py collect --symbols BTCUSDT ETHUSDT --intervals 1m 5m
+python main_production.py collect --symbols BTCUSDC ETHUSDC --intervals 1m 5m
 ```
 
 ### **3. Train Models**
@@ -141,7 +141,7 @@ python main_production.py status
 ## 📈 **Key Improvements**
 
 1. **Real Data Collection**: No more fake metrics - actual Binance market data
-2. **Proper Balance Reporting**: Shows real USDT balance for trading
+2. **Proper Balance Reporting**: Shows real USDC balance for trading
 3. **Robust Error Handling**: Graceful fallbacks and proper error reporting
 4. **Production Logging**: Comprehensive logging for monitoring
 5. **Railway Optimized**: Designed for cloud deployment with timed execution

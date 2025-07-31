@@ -137,7 +137,7 @@ def generate_status_report():
     print("="*50)
     print("📈 Market Data:")
     print("   • Live WebSocket streams from Binance")
-    print("   • Top 200 USDT pairs by volume")
+    print("   • Top 200 USDC pairs by volume")
     print("   • Real-time price updates")
     print()
     print("🎯 Trading Logic:")

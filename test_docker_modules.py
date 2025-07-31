@@ -19,7 +19,7 @@ logger = logging.getLogger("ModuleTest")
 def test_trading_imports():
     """Test trading module imports"""
     try:
-        from src.trading_bot.trade_runner import run_single_trade, get_usdt_balance
+        from src.trading_bot.trade_runner import run_single_trade, get_usdc_balance
         logger.info("✅ Trading modules imported successfully")
         return True
     except ImportError as e:

@@ -48,9 +48,9 @@ if not can_afford:
 ### ✅ **Realistic MOQ Database**
 ```python
 # High-MOQ meme coins are properly filtered
-'SHIBUSDT': 400000.0,    # ~$8.00 minimum
-'PEPEUSDT': 5000000.0,   # ~$5.00 minimum  
-'FLOKIUSDT': 50000.0,    # ~$10.00 minimum
+'SHIBUSDC': 400000.0,    # ~$8.00 minimum
+'PEPEUSDC': 5000000.0,   # ~$5.00 minimum  
+'FLOKIUSDC': 50000.0,    # ~$10.00 minimum
 ```
 
 ### ✅ **User-Friendly Feedback**

@@ -108,7 +108,7 @@ Track your trading results:
 | Command | Description | Example |
 |---------|-------------|---------|
 | `/start_dry_trade [num]` | Paper trading | `/start_dry_trade 5` |
-| `/balance` | Check USDT balance | `/balance` |
+| `/balance` | Check USDC balance | `/balance` |
 | `/trading_stats` | View performance | `/trading_stats` |
 
 ## 🎯 Best Practices

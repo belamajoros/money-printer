@@ -103,8 +103,8 @@ def test_complete_trading_system():
     
     # Test balance checking
     try:
-        from src.trading_bot.trade_runner import get_usdt_balance
-        balance = get_usdt_balance()
+        from src.trading_bot.trade_runner import get_usdc_balance
+        balance = get_usdc_balance()
         print(f"✅ Balance check successful: ${balance:.2f}")
         results.append(True)
     except Exception as e:

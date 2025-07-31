@@ -172,22 +172,22 @@ def show_status():
             client = Client(api_key=api_key, api_secret=secret_key)
             account_info = client.get_account()
             
-            # Get USDT balance
-            usdt_balance = 0.0
+            # Get USDC balance
+            usdc_balance = 0.0
             for balance in account_info.get('balances', []):
-                if balance['asset'] == 'USDT':
-                    usdt_balance = float(balance['free'])
+                if balance['asset'] == 'USDC':
+                    usdc_balance = float(balance['free'])
                     break
             
-            print(f"💵 USDT Balance: {usdt_balance:.2f} USDT")
+            print(f"💵 USDC Balance: {usdc_balance:.2f} USDC")
             print(f"📊 Account Type: {account_info.get('accountType', 'Unknown')}")
             print(f"🔄 Can Trade: {account_info.get('canTrade', False)}")
             
             # Check if balance is sufficient for trading
-            if usdt_balance >= 5.0:
+            if usdc_balance >= 5.0:
                 print("✅ Balance sufficient for trading")
             else:
-                print("⚠️ Balance may be insufficient for trading (recommended: $5+ USDT)")
+                print("⚠️ Balance may be insufficient for trading (recommended: $5+ USDC)")
         else:
             print("❌ Binance API credentials not configured")
     except Exception as e:

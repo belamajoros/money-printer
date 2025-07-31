@@ -345,7 +345,7 @@ if __name__ == "__main__":
         'low': 0,
         'close': 0,
         'volume': np.random.randint(1000, 10000, 100),
-        'symbol': 'BTCUSDT'
+        'symbol': 'BTCUSDC'
     })
     
     # Calculate high/low based on open/close

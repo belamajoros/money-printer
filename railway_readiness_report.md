@@ -77,7 +77,7 @@ TRADING_ENABLED=true  # ENABLED for full trading system
 #### 🛡️ Safety Systems
 - ✅ **Trading Disabled**: Safe for data collection
 - ✅ **Daily Limits**: Configured (50 trades max)
-- ✅ **Account Balance Check**: Working ($8.41 USDT available)
+- ✅ **Account Balance Check**: Working ($8.41 USDC available)
 - ✅ **Error Handling**: Comprehensive
 - ✅ **Logging System**: Working
 

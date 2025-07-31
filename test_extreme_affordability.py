@@ -20,10 +20,10 @@ def test_extreme_scenarios():
     
     # Simulate high MOQ scenarios (common in real trading)
     high_moq_scenarios = [
-        {"symbol": "SHIBUSDT", "price": 0.00002, "realistic_min_order": 8.0},    # Often $8-15 minimum
-        {"symbol": "PEPEUSDT", "price": 0.000001, "realistic_min_order": 5.0},   # Often $5-12 minimum
-        {"symbol": "FLOKIUSDT", "price": 0.0002, "realistic_min_order": 10.0},   # Often $10+ minimum
-        {"symbol": "BONKUSDT", "price": 0.00003, "realistic_min_order": 6.0},    # Often $6+ minimum
+        {"symbol": "SHIBUSDC", "price": 0.00002, "realistic_min_order": 8.0},    # Often $8-15 minimum
+        {"symbol": "PEPEUSDC", "price": 0.000001, "realistic_min_order": 5.0},   # Often $5-12 minimum
+        {"symbol": "FLOKIUSDC", "price": 0.0002, "realistic_min_order": 10.0},   # Often $10+ minimum
+        {"symbol": "BONKUSDC", "price": 0.00003, "realistic_min_order": 6.0},    # Often $6+ minimum
     ]
     
     print("🔥 Testing Extreme Small Balance Scenarios")
@@ -35,10 +35,10 @@ def test_extreme_scenarios():
         
         # Test normal coins first
         normal_coins = [
-            {"symbol": "DOGEUSDT", "price": 0.08},
-            {"symbol": "TRXUSDT", "price": 0.20},
-            {"symbol": "CHZUSDT", "price": 0.12},
-            {"symbol": "ADAUSDT", "price": 0.40},
+            {"symbol": "DOGEUSDC", "price": 0.08},
+            {"symbol": "TRXUSDC", "price": 0.20},
+            {"symbol": "CHZUSDC", "price": 0.12},
+            {"symbol": "ADAUSDC", "price": 0.40},
         ]
         
         affordable_normal = 0

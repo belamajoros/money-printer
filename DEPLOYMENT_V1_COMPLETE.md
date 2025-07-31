@@ -149,7 +149,7 @@ psutil>=5.9.0               # System monitoring
 # Risk Management Parameters
 DAILY_TRADE_LIMIT = 50          # Maximum trades per day
 HOURLY_TRADE_LIMIT = 10         # Maximum trades per hour
-MAX_DAILY_LOSS = 100            # Maximum daily loss in USDT
+MAX_DAILY_LOSS = 100            # Maximum daily loss in USDC
 MIN_BALANCE_THRESHOLD = 10      # Minimum balance to continue trading
 POSITION_SIZE_LIMIT = 0.1       # Maximum 10% of balance per trade
 ```

@@ -33,7 +33,7 @@ class ProductionDataScraper:
                  local_backup_dir: str = None,
                  memory_only: bool = False):
         
-        self.symbols = symbols or ['BTCUSDT', 'ETHUSDT', 'ADAUSDT', 'DOTUSDT', 'LINKUSDT']
+        self.symbols = symbols or ['BTCUSDC', 'ETHUSDC', 'ADAUSDC', 'DOTUSDC', 'LINKUSDC']
         self.intervals = intervals or ['1m', '5m', '15m', '1h']
         self.stop_flag = threading.Event()
         self.is_running = False
@@ -398,7 +398,7 @@ def main():
     parser.add_argument('--cycle-interval', type=int, default=5, 
                        help='Minutes between collection cycles (default: 5)')
     parser.add_argument('--symbols', nargs='+', 
-                       default=['BTCUSDT', 'ETHUSDT', 'ADAUSDT', 'DOTUSDT', 'LINKUSDT'],
+                       default=['BTCUSDC', 'ETHUSDC', 'ADAUSDC', 'DOTUSDC', 'LINKUSDC'],
                        help='Symbols to collect')
     parser.add_argument('--intervals', nargs='+', 
                        default=['1m', '5m', '15m', '1h'],

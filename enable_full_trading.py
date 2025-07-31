@@ -66,7 +66,7 @@ def reset_trading_system():
         
         # Test trading capability
         print("\n🧪 Testing trading capability...")
-        can_trade, reason = safety_mgr.can_execute_trade("BTCUSDT", 10.0)
+        can_trade, reason = safety_mgr.can_execute_trade("BTCUSDC", 10.0)
         
         if can_trade:
             print(f"   ✅ Trading ENABLED: System ready for trades")
@@ -128,15 +128,15 @@ def test_complete_trading_system():
                 print("   ✅ Binance API connection working")
                 print(f"   💰 Account Type: {account_info.get('accountType', 'Unknown')}")
                 
-                # Check USDT balance
+                # Check USDC balance
                 balances = {asset['asset']: float(asset['free']) for asset in account_info.get('balances', [])}
-                usdt_balance = balances.get('USDT', 0)
-                print(f"   💵 USDT Balance: ${usdt_balance:.2f}")
+                usdc_balance = balances.get('USDC', 0)
+                print(f"   💵 USDC Balance: ${usdc_balance:.2f}")
                 
-                if usdt_balance >= 10:
+                if usdc_balance >= 10:
                     print("   ✅ Sufficient balance for trading")
                 else:
-                    print("   ⚠️ Low USDT balance - consider adding funds")
+                    print("   ⚠️ Low USDC balance - consider adding funds")
             else:
                 print("   ❌ Could not retrieve account info")
         else:

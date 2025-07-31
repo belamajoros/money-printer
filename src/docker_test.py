@@ -24,7 +24,7 @@ except Exception as e:
 
 # Test trading modules
 try:
-    from src.trading_bot.trade_runner import run_single_trade, get_usdt_balance
+    from src.trading_bot.trade_runner import run_single_trade, get_usdc_balance
     print("✅ Trading modules imported successfully")
 except Exception as e:
     print(f"❌ Trading modules failed: {e}")

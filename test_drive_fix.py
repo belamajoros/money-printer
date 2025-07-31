@@ -32,7 +32,7 @@ def test_drive_upload_fix():
             # Create a small test DataFrame
             test_data = {
                 'timestamp': ['2024-01-01 00:00:00', '2024-01-01 01:00:00'],
-                'symbol': ['BTCUSDT', 'BTCUSDT'],
+                'symbol': ['BTCUSDC', 'BTCUSDC'],
                 'close': [50000.0, 51000.0],
                 'volume': [1000.0, 1100.0]
             }
@@ -55,7 +55,7 @@ def test_drive_upload_fix():
                 result = drive_manager.upload_file_async(
                     local_path=Path(temp_file_path),
                     category="test_data",
-                    subcategory="btcusdt",
+                    subcategory="btcusdc",
                     priority=1,
                     date_based=True
                 )

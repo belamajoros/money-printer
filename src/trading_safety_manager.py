@@ -352,13 +352,13 @@ def main():
     safety = ProductionTradingSafetyManager()
     
     # Test safety check
-    check_result = safety.pre_trade_safety_check("BTCUSDT", 100.0)
+    check_result = safety.pre_trade_safety_check("BTCUSDC", 100.0)
     print(f"Safety check result: {check_result['is_safe_to_trade']}")
     
     # Test trade recording
     if check_result['is_safe_to_trade']:
-        safety.record_trade_entry("BTCUSDT", 100.0, 50000.0)
-        safety.record_trade_exit("BTCUSDT", 50500.0, 10.0, "Take Profit")
+        safety.record_trade_entry("BTCUSDC", 100.0, 50000.0)
+        safety.record_trade_exit("BTCUSDC", 50500.0, 10.0, "Take Profit")
     
     # Test health check
     health = safety.check_system_health()

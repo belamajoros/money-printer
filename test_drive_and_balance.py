@@ -111,28 +111,28 @@ def test_binance_balance():
             account_info = client.get_account()
             logger.info("✅ Binance connection successful!")
             
-            # Get USDT balance
-            usdt_balance = 0
+            # Get USDC balance
+            usdc_balance = 0
             for balance in account_info['balances']:
-                if balance['asset'] == 'USDT':
-                    usdt_balance = float(balance['free'])
+                if balance['asset'] == 'USDC':
+                    usdc_balance = float(balance['free'])
                     break
             
-            logger.info(f"💰 USDT Balance: {usdt_balance:.4f} USDT")
+            logger.info(f"💰 USDC Balance: {usdc_balance:.4f} USDC")
             
-            if usdt_balance >= 8.0:
+            if usdc_balance >= 8.0:
                 logger.info("✅ Balance is sufficient for trading! ($8+ detected)")
-            elif usdt_balance > 0:
-                logger.warning(f"⚠️ Balance detected but low: ${usdt_balance:.2f} USD")
+            elif usdc_balance > 0:
+                logger.warning(f"⚠️ Balance detected but low: ${usdc_balance:.2f} USD")
             else:
-                logger.error("❌ No USDT balance detected!")
-                logger.error("💡 Make sure you deposited USDT to your Binance Spot wallet")
+                logger.error("❌ No USDC balance detected!")
+                logger.error("💡 Make sure you deposited USDC to your Binance Spot wallet")
             
             # Check if balance reflects your 500 PHP deposit
             php_to_usd = 500 / 58  # Approximate PHP to USD conversion
             logger.info(f"📊 Expected balance from 500 PHP: ~${php_to_usd:.2f} USD")
             
-            if usdt_balance >= php_to_usd * 0.9:  # Allow 10% variance
+            if usdc_balance >= php_to_usd * 0.9:  # Allow 10% variance
                 logger.info("✅ Balance matches expected deposit!")
             else:
                 logger.warning("⚠️ Balance doesn't match expected deposit amount")
@@ -163,7 +163,7 @@ def test_discord_balance_command():
         balance = get_binance_balance()
         
         if balance is not None:
-            logger.info(f"✅ Discord balance function works: {balance:.4f} USDT")
+            logger.info(f"✅ Discord balance function works: {balance:.4f} USDC")
             return True
         else:
             logger.error("❌ Discord balance function returned None")
@@ -273,7 +273,7 @@ def main():
     if not results.get("Binance Balance Detection", False):
         logger.info("🔧 For Binance Balance:")
         logger.info("   1. Verify BINANCE_API_KEY and BINANCE_SECRET_KEY are correct")
-        logger.info("   2. Check that USDT is in your Spot wallet (not Futures)")
+        logger.info("   2. Check that USDC is in your Spot wallet (not Futures)")
         logger.info("   3. Wait for deposit confirmation (can take 10-30 minutes)")
         logger.info("   4. Try the Discord /balance command directly")
     

@@ -64,7 +64,7 @@ DRIVE_TOKEN_PATH = SECRETS_DIR / "token.json"
 SECRETS_DIR.mkdir(parents=True, exist_ok=True)
 
 # Data Collection Settings
-DEFAULT_SYMBOLS = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "ADAUSDT", "BNBUSDT"]
+DEFAULT_SYMBOLS = ["BTCUSDC", "ETHUSDC", "SOLUSDC", "ADAUSDC", "BNBUSDC"]
 KLINE_INTERVAL = "1m"
 MAX_BUFFER_SIZE = 1000
 SAVE_INTERVAL_SECONDS = 60  # Save every 60 seconds for testing (was 300)
@@ -83,7 +83,7 @@ RANDOM_STATE = 42
 TRADING_ENABLED = os.getenv("TRADING_ENABLED", "True").lower() == "true"  # Master trading switch - ENABLED
 PAPER_TRADING = False  # Set to False for live trading - USING LIVE BINANCE API
 live_trading = not PAPER_TRADING  # For compatibility with trade_runner.py
-DEFAULT_TRADE_AMOUNT = 100  # USDT
+DEFAULT_TRADE_AMOUNT = 100  # USDC
 STOP_LOSS_PERCENT = 2.0
 TAKE_PROFIT_PERCENT = 4.0
 

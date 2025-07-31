@@ -199,7 +199,7 @@ def check_trading_safety():
             results['warnings'].extend(health['warnings'])
         
         # Test safety check
-        test_check = safety.pre_trade_safety_check("BTCUSDT", 100.0)
+        test_check = safety.pre_trade_safety_check("BTCUSDC", 100.0)
         results['stats']['safety_check'] = {
             'is_safe': test_check['is_safe_to_trade'],
             'checks_passed': test_check['checks_passed'],

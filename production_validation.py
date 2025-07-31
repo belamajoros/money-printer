@@ -76,7 +76,7 @@ class ProductionValidator:
                 
                 # Test key functions exist
                 if 'trade_runner' in module_name:
-                    if hasattr(module, 'run_single_trade') and hasattr(module, 'get_usdt_balance'):
+                    if hasattr(module, 'run_single_trade') and hasattr(module, 'get_usdc_balance'):
                         self.log_success("Trading functions available")
                     else:
                         self.log_error("Missing trading functions")

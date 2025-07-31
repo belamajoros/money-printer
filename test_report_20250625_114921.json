@@ -51,7 +51,7 @@
     {
       "test_name": "Trade Registration",
       "passed": true,
-      "details": "Registered BTCUSDT",
+      "details": "Registered BTCUSDC",
       "timestamp": "2025-06-25T11:49:12.587101"
     },
     {
@@ -99,7 +99,7 @@
     {
       "test_name": "Trading Execution Safety",
       "passed": false,
-      "details": "Error: 'SafeConfig' object has no attribute 'min_usdt_balance'",
+      "details": "Error: 'SafeConfig' object has no attribute 'min_usdc_balance'",
       "timestamp": "2025-06-25T11:49:12.596595"
     },
     {

@@ -15,14 +15,14 @@ print(f"🔗 Connection test: {client.test_connection()}")
 
 # Test data retrieval
 print("\n📊 Testing data retrieval...")
-klines = client.get_historical_klines("BTCUSDT", "1m", 10)
+klines = client.get_historical_klines("BTCUSDC", "1m", 10)
 print(f"Raw klines: {len(klines) if klines else 0} items")
 
 if klines:
     print(f"First kline: {klines[0]}")
     
     # Test DataFrame conversion
-    df = client.klines_to_dataframe(klines, "BTCUSDT", "1m")
+    df = client.klines_to_dataframe(klines, "BTCUSDC", "1m")
     print(f"DataFrame: {len(df)} rows")
     print(df.head())
 else:

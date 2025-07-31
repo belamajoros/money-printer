@@ -25,16 +25,16 @@ def test_affordability():
     
     # Sample symbols with different characteristics (more realistic MOQs)
     test_symbols = [
-        {"symbol": "BTCUSDT", "price": 45000.0},  # High price, low MOQ
-        {"symbol": "ETHUSDT", "price": 3000.0},   # High price, low MOQ
-        {"symbol": "ADAUSDT", "price": 0.40},     # Low price, medium MOQ
-        {"symbol": "DOGEUSDT", "price": 0.08},    # Low price, low MOQ
-        {"symbol": "SHIBUSDT", "price": 0.00002}, # Very low price, HIGH MOQ (realistic: $5-10 min)
-        {"symbol": "PEPEUSDT", "price": 0.000001}, # Very low price, VERY HIGH MOQ (realistic: $3-8 min)
-        {"symbol": "CHZUSDT", "price": 0.12},     # Low price, reasonable MOQ
-        {"symbol": "SOLUSDT", "price": 180.0},    # Medium price, low MOQ
-        {"symbol": "XRPUSDT", "price": 0.60},     # Medium price, higher MOQ due to popularity
-        {"symbol": "TRXUSDT", "price": 0.20},     # Low price, low MOQ (good for small balances)
+        {"symbol": "BTCUSDC", "price": 45000.0},  # High price, low MOQ
+        {"symbol": "ETHUSDC", "price": 3000.0},   # High price, low MOQ
+        {"symbol": "ADAUSDC", "price": 0.40},     # Low price, medium MOQ
+        {"symbol": "DOGEUSDC", "price": 0.08},    # Low price, low MOQ
+        {"symbol": "SHIBUSDC", "price": 0.00002}, # Very low price, HIGH MOQ (realistic: $5-10 min)
+        {"symbol": "PEPEUSDC", "price": 0.000001}, # Very low price, VERY HIGH MOQ (realistic: $3-8 min)
+        {"symbol": "CHZUSDC", "price": 0.12},     # Low price, reasonable MOQ
+        {"symbol": "SOLUSDC", "price": 180.0},    # Medium price, low MOQ
+        {"symbol": "XRPUSDC", "price": 0.60},     # Medium price, higher MOQ due to popularity
+        {"symbol": "TRXUSDC", "price": 0.20},     # Low price, low MOQ (good for small balances)
     ]
     
     print("🧪 Testing Symbol Affordability for Different Balance Sizes")

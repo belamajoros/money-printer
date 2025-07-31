@@ -52,7 +52,7 @@ def test_binance_detailed():
         # Check ALL balances
         logger.info("\n💰 ALL ACCOUNT BALANCES:")
         total_balances = 0
-        usdt_balance = 0
+        usdc_balance = 0
         
         for balance in account['balances']:
             free_balance = float(balance['free'])
@@ -63,24 +63,24 @@ def test_binance_detailed():
                 logger.info(f"  💵 {balance['asset']}: Free={free_balance:.8f}, Locked={locked_balance:.8f}, Total={total_balance:.8f}")
                 total_balances += 1
                 
-                if balance['asset'] == 'USDT':
-                    usdt_balance = total_balance
+                if balance['asset'] == 'USDC':
+                    usdc_balance = total_balance
         
         if total_balances == 0:
             logger.warning("❌ NO BALANCES FOUND! Account appears empty.")
         else:
             logger.info(f"\n📊 Summary: Found {total_balances} assets with balances")
         
-        # Focus on USDT
-        logger.info(f"\n🎯 USDT Analysis:")
-        logger.info(f"   💰 USDT Balance: {usdt_balance:.8f}")
-        logger.info(f"   💵 USD Value: ~${usdt_balance:.2f}")
+        # Focus on USDC
+        logger.info(f"\n🎯 USDC Analysis:")
+        logger.info(f"   💰 USDC Balance: {usdc_balance:.8f}")
+        logger.info(f"   💵 USD Value: ~${usdc_balance:.2f}")
         
         # Check if this matches expected 500 PHP deposit
         expected_usd = 500 / 58  # 500 PHP to USD
         logger.info(f"   📊 Expected from 500 PHP: ~${expected_usd:.2f}")
         
-        if usdt_balance >= expected_usd * 0.8:  # Allow 20% variance
+        if usdc_balance >= expected_usd * 0.8:  # Allow 20% variance
             logger.info("   ✅ Balance matches expected deposit!")
         else:
             logger.warning("   ⚠️ Balance doesn't match expected amount")
@@ -106,12 +106,12 @@ def test_binance_detailed():
         logger.info("\n🛡️ Testing trading permissions...")
         try:
             # Try to get trading fees (this tests trading API access)
-            trade_fee = client.get_trade_fee(symbol='BTCUSDT')
+            trade_fee = client.get_trade_fee(symbol='BTCUSDC')
             logger.info("   ✅ Trading API access confirmed")
         except Exception as e:
             logger.warning(f"   ⚠️ Trading API issue: {e}")
         
-        return usdt_balance > 0
+        return usdc_balance > 0
         
     except Exception as e:
         logger.error(f"❌ Binance test failed: {e}")
@@ -137,7 +137,7 @@ def test_discord_balance_direct():
         logger.info(f"📊 Balance function result: {balance_info}")
         
         if balance_info["status"] == "success":
-            logger.info(f"✅ Balance: {balance_info['balance']:.4f} USDT")
+            logger.info(f"✅ Balance: {balance_info['balance']:.4f} USDC")
             logger.info(f"📊 Mode: {balance_info['mode']}")
             
             if balance_info["mode"] == "paper":

@@ -7,7 +7,7 @@ from datetime import datetime
 
 # Fix imports for standalone execution
 try:
-    from .trade_runner import run_single_trade, get_usdt_balance
+    from .trade_runner import run_single_trade, get_usdc_balance
     from ..trading_stats import get_stats_manager
     from ..model_training.trainer_diagnostics import get_trainer_diagnostics
     from ..auto_culling import get_auto_culler
@@ -16,7 +16,7 @@ try:
 except ImportError:
     # Add parent directory to path for standalone execution
     sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-    from src.trading_bot.trade_runner import run_single_trade, get_usdt_balance
+    from src.trading_bot.trade_runner import run_single_trade, get_usdc_balance
     from src.trading_stats import get_stats_manager
     from src.model_training.trainer_diagnostics import get_trainer_diagnostics
     from src.auto_culling import get_auto_culler
@@ -92,7 +92,7 @@ async def start_live_trade(ctx):
         await ctx.send("🛑 You are not authorized to command the markets.")
         return
 
-    balance = get_usdt_balance()
+    balance = get_usdc_balance()
     if balance is None or balance < 10:  # Assuming $10 is the minimum balance
         await ctx.send(
             f"⚠️ My lord, we're out of money for live trading. Consider switching to dry trading instead."
@@ -128,7 +128,7 @@ async def dashboard(ctx):
 
     try:
         stats_mgr = get_stats_manager()
-        balance = get_usdt_balance()
+        balance = get_usdc_balance()
         dashboard = stats_mgr.format_dashboard_display(balance)
 
         await ctx.send("📊 Trading Dashboard:")
@@ -182,7 +182,7 @@ async def status(ctx):
 
     try:
         stats_mgr = get_stats_manager()
-        balance = get_usdt_balance()
+        balance = get_usdc_balance()
         dashboard = stats_mgr.format_dashboard_display(balance)
 
         await ctx.send("📊 **TRADING STATUS**")
@@ -310,10 +310,10 @@ async def balance(ctx):
         return
 
     try:
-        balance = get_usdt_balance()
+        balance = get_usdc_balance()
         embed = discord.Embed(
             title="💰 Wallet Balance",
-            description=f"Current USDT Balance: **${balance:.2f}**",
+            description=f"Current USDC Balance: **${balance:.2f}**",
             color=0x00ff00
         )
         await ctx.send(embed=embed)

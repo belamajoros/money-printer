@@ -128,8 +128,8 @@ This ensures notifications are never lost even if you only configure one webhook
 ```
 💰 **Trading operations initiated, my lord!**
 
-💰 **Trade Executed**: BUY BTCUSDT - $100 USDT
-💰 **Profit Generated**: +$5.50 USDT (+5.5%)
+💰 **Trade Executed**: BUY BTCUSDC - $100 USDC
+💰 **Profit Generated**: +$5.50 USDC (+5.5%)
 💰 **The money printer goes BRRR, my lord!**
 ```
 

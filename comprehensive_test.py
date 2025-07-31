@@ -121,7 +121,7 @@ class ComprehensiveTestSuite:
                 self.log_test("Dynamic Stop Loss", True, f"SL: {dynamic_sl:.2%}")
             else:
                 self.log_test("Dynamic Stop Loss", False, f"SL out of range: {dynamic_sl:.2%}")            # Test trade registration first
-            test_symbol = "BTCUSDT"
+            test_symbol = "BTCUSDC"
             
             # Reset trade count to test registration
             safety_mgr.daily_trade_count = 0
@@ -153,7 +153,7 @@ class ComprehensiveTestSuite:
             self.log_test("WebSocket Manager Init", True, "Successfully initialized")
             
             # Test connection (brief test)
-            test_symbols = ["BTCUSDT", "ETHUSDT"]
+            test_symbols = ["BTCUSDC", "ETHUSDC"]
             connected = ws_manager.subscribe_to_prices(test_symbols)
             
             if connected:
@@ -235,7 +235,7 @@ class ComprehensiveTestSuite:
                 self.log_test("Volatility Filter", False, "Volatility filter not working")
                 
             # Test minimum trade size validation
-            min_trade_value = safety_mgr.config.min_usdt_balance
+            min_trade_value = safety_mgr.config.min_usdc_balance
             if min_trade_value >= 3:  # Should be at least $3
                 self.log_test("Minimum Trade Value", True, f"Min: ${min_trade_value}")
             else:
@@ -387,7 +387,7 @@ class ComprehensiveTestSuite:
             
             # Valid DataFrame
             valid_df = pd.DataFrame({
-                'symbol': ['BTCUSDT', 'ETHUSDT'],
+                'symbol': ['BTCUSDC', 'ETHUSDC'],
                 'close': [50000.0, 3000.0],
                 'volume': [1000000, 500000],
                 'rsi': [45.0, 55.0],
@@ -399,7 +399,7 @@ class ComprehensiveTestSuite:
             
             # Invalid DataFrame (with NaN)
             invalid_df = pd.DataFrame({
-                'symbol': ['BTCUSDT', None],
+                'symbol': ['BTCUSDC', None],
                 'close': [50000.0, float('nan')],
                 'volume': [1000000, None]
             })

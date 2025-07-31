@@ -60,12 +60,12 @@ def test_trading_pipeline():
                 print(f"   💰 Account: {account_info.get('accountType', 'SPOT')}")
                 print(f"   🔄 Can Trade: {account_info.get('canTrade', False)}")
                 
-                # Check USDT balance
+                # Check USDC balance
                 balances = {asset['asset']: float(asset['free']) for asset in account_info.get('balances', [])}
-                usdt_balance = balances.get('USDT', 0)
-                print(f"   💵 USDT Balance: ${usdt_balance:.2f}")
+                usdc_balance = balances.get('USDC', 0)
+                print(f"   💵 USDC Balance: ${usdc_balance:.2f}")
                 
-                if usdt_balance >= 5.0:
+                if usdc_balance >= 5.0:
                     print(f"   ✅ Sufficient balance for trading")
                     results['balance'] = True
                 else:
@@ -121,7 +121,7 @@ def test_trading_pipeline():
         print(f"   💰 Total PnL: ${safety_mgr.total_bot_pnl:.2f}")
         
         # Test if we can trade
-        test_symbol = "BTCUSDT"
+        test_symbol = "BTCUSDC"
         test_amount = 10.0
         
         # Check if method exists
@@ -153,7 +153,7 @@ def test_trading_pipeline():
         
         if 'client' in locals():
             # Get recent klines
-            symbol = "BTCUSDT"
+            symbol = "BTCUSDC"
             klines = client.get_klines(symbol, "1m", limit=100)
             
             if klines:

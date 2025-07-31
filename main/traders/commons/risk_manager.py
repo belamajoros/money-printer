@@ -16,8 +16,8 @@ class RiskManager:
     """Advanced risk management for trading operations"""
     
     def __init__(self,
-                 max_position_size: float = 100.0,  # Max position in USDT
-                 max_daily_loss: float = 50.0,      # Max daily loss in USDT
+                 max_position_size: float = 100.0,  # Max position in USDC
+                 max_daily_loss: float = 50.0,      # Max daily loss in USDC
                  max_drawdown: float = 20.0,        # Max drawdown percentage
                  risk_per_trade: float = 2.0,       # Risk per trade percentage
                  max_open_positions: int = 3,       # Max concurrent positions
@@ -27,8 +27,8 @@ class RiskManager:
         Initialize risk manager
         
         Args:
-            max_position_size: Maximum position size in USDT
-            max_daily_loss: Maximum daily loss in USDT
+            max_position_size: Maximum position size in USDC
+            max_daily_loss: Maximum daily loss in USDC
             max_drawdown: Maximum portfolio drawdown (%)
             risk_per_trade: Risk per trade as percentage of balance
             max_open_positions: Maximum number of open positions

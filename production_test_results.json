@@ -9,7 +9,7 @@
     "update_time": 1751024127525,
     "balances": [
       {
-        "asset": "USDT",
+        "asset": "USDC",
         "free": 8.41,
         "locked": 0.0,
         "total": 8.41

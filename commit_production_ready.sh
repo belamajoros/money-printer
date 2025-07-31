@@ -49,7 +49,7 @@ git commit -m "🚀 Money Printer v2.0 - Production Ready
 ✅ Complete system rework with production-ready components:
 
 🔧 Core Improvements:
-- Real Binance balance integration ($8.41 USDT verified)
+- Real Binance balance integration ($8.41 USDC verified)
 - Production data scraper (23,910 rows/hour rate)
 - Enhanced model trainer with strict validation
 - Multi-storage system (Drive + Local + Memory fallbacks)

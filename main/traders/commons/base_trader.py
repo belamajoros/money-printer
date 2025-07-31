@@ -20,7 +20,7 @@ class BaseTrader(ABC):
     def __init__(self, 
                  binance_client=None,
                  storage_manager=None,
-                 symbol: str = 'BTCUSDT',
+                 symbol: str = 'BTCUSDC',
                  trading_amount: float = 10.0,
                  risk_percentage: float = 2.0,
                  stop_loss_percentage: float = 2.0,
@@ -32,7 +32,7 @@ class BaseTrader(ABC):
             binance_client: Enhanced Binance client instance
             storage_manager: Storage manager for data access
             symbol: Trading pair symbol
-            trading_amount: Amount to trade in USDT
+            trading_amount: Amount to trade in USDC
             risk_percentage: Maximum risk per trade (%)
             stop_loss_percentage: Stop loss threshold (%)
             take_profit_percentage: Take profit threshold (%)
@@ -134,7 +134,7 @@ class BaseTrader(ABC):
                 return self._execute_paper_trade(signal)
             
             # Get current balance
-            balance = self.binance_client.get_usdt_balance()
+            balance = self.binance_client.get_usdc_balance()
             if not balance:
                 logger.error("❌ Could not get balance")
                 return False
@@ -189,7 +189,7 @@ class BaseTrader(ABC):
         """Execute sell order"""
         try:
             # Get current position size
-            balance = self.binance_client.get_asset_balance(self.symbol.replace('USDT', ''))
+            balance = self.binance_client.get_asset_balance(self.symbol.replace('USDC', ''))
             if not balance or balance['free'] <= 0:
                 logger.error("❌ No position to sell")
                 return False

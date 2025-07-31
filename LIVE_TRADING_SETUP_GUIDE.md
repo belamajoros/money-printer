@@ -42,7 +42,7 @@ Once you enable `LIVE_TRADING=true`, the bot will:
 - ✅ Display your **real Binance balance**
 - ✅ Execute **real trades** with real money
 - ✅ Place **actual buy/sell orders** on Binance
-- ⚠️ Use your **real USDT** for trading
+- ⚠️ Use your **real USDC** for trading
 
 ### 🛡️ Safety Features Active
 The bot has comprehensive safety mechanisms:
@@ -54,7 +54,7 @@ The bot has comprehensive safety mechanisms:
 - Minimum balance checks
 
 ### 💰 Recommended for Live Trading
-- **Minimum Balance**: $100+ USDT for meaningful trades
+- **Minimum Balance**: $100+ USDC for meaningful trades
 - **Start Small**: Consider starting with $50-200 to test
 - **Monitor Closely**: Watch the Discord notifications
 - **Have Stop-Loss**: All trades include automatic stop-loss
@@ -70,7 +70,7 @@ The bot has comprehensive safety mechanisms:
 
 ### After (Live Trading):
 ```
-💰 Current Balance: $X.XX USDT (Real Binance Balance)
+💰 Current Balance: $X.XX USDC (Real Binance Balance)
 📊 All trades use real money
 💸 Real profits and losses
 ```
@@ -80,7 +80,7 @@ The bot has comprehensive safety mechanisms:
 1. **Set Environment Variable**: `LIVE_TRADING=true`
 2. **Wait for Deployment**: ~2-3 minutes
 3. **Check Bot Status**: Use `/status` command in Discord
-4. **Verify Balance**: Should show your real USDT balance
+4. **Verify Balance**: Should show your real USDC balance
 
 ## 🆘 If Something Goes Wrong
 

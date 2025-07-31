@@ -24,7 +24,7 @@ def enable_live_trading():
     print("")
     print("📋 Next steps:")
     print("1. Restart the Discord bot")
-    print("2. Use /balance command - should show real USDT balance")
+    print("2. Use /balance command - should show real USDC balance")
     print("3. Make sure your Binance deposit is confirmed first")
     print("")
     print("⚠️ WARNING: This enables REAL MONEY trading!")

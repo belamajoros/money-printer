@@ -74,7 +74,7 @@ def create_and_upload_test_file():
         client = Client(api_key=api_key, api_secret=secret_key)
         
         # Get fresh data
-        symbol = 'BTCUSDT'
+        symbol = 'BTCUSDC'
         logger.info(f"📊 Fetching fresh data for {symbol}...")
         
         klines = client.get_klines(symbol=symbol, interval='1h', limit=24)  # Last 24 hours

@@ -144,9 +144,9 @@ class SafeConfig:
         return os.getenv("DISCORD_WEBHOOK_TRAINERS", "")
     
     @property
-    def min_usdt_balance(self) -> float:
-        """Minimum USDT balance required for trading"""
-        return float(os.getenv("MIN_USDT_BALANCE", "3.0"))
+    def min_usdc_balance(self) -> float:
+        """Minimum USDC balance required for trading"""
+        return float(os.getenv("MIN_USDC_BALANCE", "3.0"))
     
     def get_trading_config(self) -> Dict[str, Any]:
         """Get all trading-related configuration"""

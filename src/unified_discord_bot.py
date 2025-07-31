@@ -22,7 +22,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 # Import trading functionality
 try:
-    from trading_bot.trade_runner import run_single_trade, get_usdt_balance, dry_trade_budget
+    from trading_bot.trade_runner import run_single_trade, get_usdc_balance, dry_trade_budget
     from trading_stats import get_stats_manager
     from model_training.trainer_diagnostics import get_trainer_diagnostics
     from auto_culling import get_auto_culler
@@ -33,7 +33,7 @@ except ImportError as e:
     # Create stub functions to prevent errors
     def run_single_trade():
         return {"coin": "BTC", "buy_price": 50000, "final_sell_price": 50500, "pnl_percent": 1.0, "pnl_amount": 500}
-    def get_usdt_balance():
+    def get_usdc_balance():
         return 1000.0
     dry_trade_budget = 1000.0
 
@@ -190,7 +190,7 @@ async def start_live_trade(interaction: discord.Interaction):
         await interaction.response.send_message("🛑 You are not authorized to command the markets.")
         return
 
-    balance = get_usdt_balance()
+    balance = get_usdc_balance()
     if balance is None or balance < 10:
         await interaction.response.send_message(
             f"⚠️ My lord, we're out of money for live trading. Consider switching to dry trading instead."
@@ -223,7 +223,7 @@ async def dashboard(interaction: discord.Interaction):
 
     try:
         stats_mgr = get_stats_manager()
-        balance = get_usdt_balance()
+        balance = get_usdc_balance()
         dashboard_text = stats_mgr.format_dashboard_display(balance)
 
         await interaction.response.send_message(f"📊 **Trading Dashboard:**\n```\n{dashboard_text}\n```")
@@ -238,7 +238,7 @@ async def status(interaction: discord.Interaction):
 
     try:
         stats_mgr = get_stats_manager()
-        balance = get_usdt_balance()
+        balance = get_usdc_balance()
         dashboard_text = stats_mgr.format_dashboard_display(balance)
         
         # Add scraper status
@@ -327,15 +327,15 @@ async def model_info(interaction: discord.Interaction, model_name: str = None):
     except Exception as e:
         await interaction.response.send_message(f"🚨 Could not retrieve metrics: {e}")
 
-@bot.tree.command(name="balance", description="Check current USDT balance")
+@bot.tree.command(name="balance", description="Check current USDC balance")
 async def balance_command(interaction: discord.Interaction):
     if not is_authorized(interaction):
         await interaction.response.send_message("🛑 You are not authorized to view balance.")
         return
 
     try:
-        balance = get_usdt_balance()
-        await interaction.response.send_message(f"💰 Current USDT Balance: **${balance:.2f}**")
+        balance = get_usdc_balance()
+        await interaction.response.send_message(f"💰 Current USDC Balance: **${balance:.2f}**")
     except Exception as e:
         await interaction.response.send_message(f"🚨 Could not retrieve balance: {e}")
 
@@ -549,7 +549,7 @@ async def help_command(interaction: discord.Interaction):
               "`/status` - Show system status\n"
               "`/leaderboard` - Show model performance\n"
               "`/model_info [name]` - Get model details\n"
-              "`/balance` - Check current USDT balance\n"
+              "`/balance` - Check current USDC balance\n"
               "`/retrain [target]` - Manual model retraining\n"
               "`/culling [action]` - Manage auto-culling system\n"
               "`/unpause [model_name]` - Unpause a specific model\n"

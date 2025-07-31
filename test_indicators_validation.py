@@ -21,7 +21,7 @@ from src.model_training.common import preprocess_data
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-def generate_sample_data(days=30, symbol='BTCUSDT'):
+def generate_sample_data(days=30, symbol='BTCUSDC'):
     """Generate realistic sample OHLCV data for testing."""
     
     # Generate timestamps (1-hour intervals)
@@ -75,7 +75,7 @@ def test_technical_indicators():
     logger.info("=== Testing Technical Indicators Module ===")
     
     # Generate sample data
-    df = generate_sample_data(days=10, symbol='BTCUSDT')
+    df = generate_sample_data(days=10, symbol='BTCUSDC')
     logger.info(f"Generated {len(df)} data points for testing")
     
     # Test the indicators
@@ -133,7 +133,7 @@ def test_model_training_integration():
     
     try:
         # Generate sample data
-        df = generate_sample_data(days=5, symbol='ETHUSDT')
+        df = generate_sample_data(days=5, symbol='ETHUSDC')
         
         # Test preprocessing
         processed_df = preprocess_data(df)
@@ -168,7 +168,7 @@ def test_legacy_compatibility():
         from src.trading_bot.technical_indicators import calculate_rsi_macd
         
         # Generate sample data
-        df = generate_sample_data(days=3, symbol='ADAUSDT')
+        df = generate_sample_data(days=3, symbol='ADAUSDC')
         
         # Test legacy function
         result_df = calculate_rsi_macd(df)
@@ -198,7 +198,7 @@ def performance_benchmark():
         import time
         
         # Test with larger dataset
-        large_df = generate_sample_data(days=90, symbol='BTCUSDT')  # ~2160 data points
+        large_df = generate_sample_data(days=90, symbol='BTCUSDC')  # ~2160 data points
         logger.info(f"Benchmarking with {len(large_df)} data points")
         
         indicators = TechnicalIndicators()

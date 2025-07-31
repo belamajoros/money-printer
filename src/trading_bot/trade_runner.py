@@ -39,7 +39,7 @@ PLATFORM_FEE = 0.001
 SLIPPAGE_RATE = 0.001
 GAS_FEE = 0.0
 CONFIDENCE_THRESHOLD = 0.35
-MIN_USDT_BALANCE = 3
+MIN_USDC_BALANCE = 3
 LIVE_TRADING = config.live_trading
 DRY_TRADE_BUDGET = 1000  # Default budget for dry trading
 TRADE_MONITOR_INTERVAL = 5  # Seconds between price checks
@@ -200,8 +200,8 @@ def get_user_trading_budget():
             
             try:
                 budget = float(user_input)
-                if budget < MIN_USDT_BALANCE:
-                    print(f"❌ Budget must be at least ${MIN_USDT_BALANCE}. Please try again.")
+                if budget < MIN_USDC_BALANCE:
+                    print(f"❌ Budget must be at least ${MIN_USDC_BALANCE}. Please try again.")
                     continue
                 elif budget > 1000000:
                     print("❌ Budget seems too high. Please enter a reasonable amount.")
@@ -640,14 +640,14 @@ def fetch_top_200_ohlcv():
         
         # Fetch all tickers with retry logic
         tickers = retry_api_call(_get_tickers)
-        usdt_pairs = [ticker for ticker in tickers if ticker["symbol"].endswith("USDT")]
+        usdc_pairs = [ticker for ticker in tickers if ticker["symbol"].endswith("USDC")]
 
         # Sort by 24-hour trading volume in descending order
-        usdt_pairs.sort(key=lambda x: float(x["quoteVolume"]), reverse=True)
+        usdc_pairs.sort(key=lambda x: float(x["quoteVolume"]), reverse=True)
 
         # Get the top 200 pairs
-        top_symbols = [pair["symbol"] for pair in usdt_pairs[:200]]
-        clean_print(f"Analyzing top {len(top_symbols)} USDT pairs", "INFO")
+        top_symbols = [pair["symbol"] for pair in usdc_pairs[:200]]
+        clean_print(f"Analyzing top {len(top_symbols)} USDC pairs", "INFO")
 
         ohlcv_data = []
         failed_symbols = []
@@ -783,9 +783,9 @@ def calculate_rsi_macd(df):
         return df
 
 
-def get_usdt_balance():
+def get_usdc_balance():
     """
-    Fetch the USDT balance from the Binance account or dry trade budget.
+    Fetch the USDC balance from the Binance account or dry trade budget.
     Returns the available balance as a float.
     """
     global dry_trade_budget
@@ -793,13 +793,13 @@ def get_usdt_balance():
         try:
             # Use proper client initialization
             binance_client = get_client()
-            balance_info = binance_client.get_asset_balance(asset="USDT")
+            balance_info = binance_client.get_asset_balance(asset="USDC")
             if balance_info is None:
-                logger.warning("No balance info returned for USDT.")
+                logger.warning("No balance info returned for USDC.")
                 return 0.0
             return float(balance_info["free"])
         except Exception as e:
-            logger.error(f"Error fetching USDT balance: {e}")
+            logger.error(f"Error fetching USDC balance: {e}")
             # Return dry trade budget as fallback
             return dry_trade_budget
     else:
@@ -810,7 +810,7 @@ def place_order(side, coin, qty, price=None):
     """
     Place a buy or sell order with comprehensive safety checks.
     :param side: "BUY" or "SELL"
-    :param coin: The trading pair (e.g., "BTCUSDT").
+    :param coin: The trading pair (e.g., "BTCUSDC").
     :param qty: The quantity to trade.
     :param price: The price (optional for market orders).
     :return: A dictionary with the order result.
@@ -938,7 +938,7 @@ def place_order(side, coin, qty, price=None):
 def schedule_exit_orders(coin, qty, buy_price, tp, sl, fee, slip, gas):
     """
     Schedule take-profit and stop-loss orders.
-    :param coin: The trading pair (e.g., "BTCUSDT").
+    :param coin: The trading pair (e.g., "BTCUSDC").
     :param qty: The quantity to sell.
     :param buy_price: The buy price.
     :param tp: Take-profit percentage.
@@ -971,7 +971,7 @@ def schedule_exit_orders(coin, qty, buy_price, tp, sl, fee, slip, gas):
 def get_trade_fraction(balance):
     """
     Calculate the fraction of the balance to use for a trade.
-    :param balance: The current balance (USDT).
+    :param balance: The current balance (USDC).
     :return: A fraction of the balance to use for the trade.
     """
     try:
@@ -1007,7 +1007,7 @@ def get_trade_fraction(balance):
 def get_min_trade_qty(coin):
     """
     Fetch the minimum trade quantity for a given coin.
-    :param coin: The trading pair (e.g., "BTCUSDT").
+    :param coin: The trading pair (e.g., "BTCUSDC").
     :return: The minimum trade quantity as a float.
     """
     try:
@@ -1130,11 +1130,11 @@ def run_single_trade():
         logger.info("Starting single trade execution...")
         clean_print("Starting trade analysis...", "INFO")
 
-        balance = get_usdt_balance()
+        balance = get_usdc_balance()
         logger.info(f"Current balance: ${balance:.2f}")
         clean_print(f"Available balance: ${balance:.2f}", "INFO")
 
-        if balance < MIN_USDT_BALANCE:
+        if balance < MIN_USDC_BALANCE:
             logger.warning(f"Low balance (${balance:.2f}), insufficient for trading.")
             clean_print(f"Insufficient balance: ${balance:.2f}", "WARNING")
             return {"error": "Insufficient balance"}
@@ -1381,7 +1381,7 @@ def run_single_trade():
             # Clean output for trade start
             clean_print("TRADE PLACED SUCCESSFULLY!", "SUCCESS")
             print(f"  📊 Symbol: {coin}")
-            print(f"  💰 Amount: ${position_size:.2f} ({qty:.8f} {coin.replace('USDT', '')})")
+            print(f"  💰 Amount: ${position_size:.2f} ({qty:.8f} {coin.replace('USDC', '')})")
             print(f"  📈 Buy Price: ${buy_price:.4f}")
             print(f"  🎯 Predicted Profit: {predicted_profit_pct:.2f}%")
             print(f"  📈 Take Profit: ${take_profit_price:.4f}")
@@ -1475,9 +1475,9 @@ def main():
             try:
                 client = get_client()
                 tickers = retry_api_call(lambda: client.get_ticker())
-                usdt_pairs = [ticker["symbol"] for ticker in tickers if ticker["symbol"].endswith("USDT")]
-                usdt_pairs.sort(key=lambda x: float(next((t["quoteVolume"] for t in tickers if t["symbol"] == x), 0)), reverse=True)
-                top_50_symbols = usdt_pairs[:50]  # Subscribe to top 50 for performance
+                usdc_pairs = [ticker["symbol"] for ticker in tickers if ticker["symbol"].endswith("USDC")]
+                usdc_pairs.sort(key=lambda x: float(next((t["quoteVolume"] for t in tickers if t["symbol"] == x), 0)), reverse=True)
+                top_50_symbols = usdc_pairs[:50]  # Subscribe to top 50 for performance
                 
                 # Subscribe to price and kline streams
                 if ws_manager.subscribe_to_prices(top_50_symbols):
@@ -1495,10 +1495,10 @@ def main():
             send_trader_notification("🚀 **Live Trading Session Started**: Engaging real market operations")
             
             # Extra confirmation for live trading
-            balance = get_usdt_balance()
+            balance = get_usdc_balance()
             clean_print(f"Live trading balance: ${balance:.2f}", "INFO")
             
-            if balance < MIN_USDT_BALANCE:
+            if balance < MIN_USDC_BALANCE:
                 clean_print(f"❌ Insufficient balance (${balance:.2f}) for live trading", "ERROR")
                 logger.error(f"Insufficient balance (${balance:.2f}) for live trading. Exiting.")
                 return
@@ -1518,7 +1518,7 @@ def main():
             send_trader_notification("🧪 **Dry Trading Session Started**: Simulating market operations")
             clean_print(f"Dry trading budget set: ${dry_trade_budget:.2f}", "SUCCESS")
             
-            if dry_trade_budget < MIN_USDT_BALANCE:
+            if dry_trade_budget < MIN_USDC_BALANCE:
                 clean_print(f"❌ Insufficient budget (${dry_trade_budget:.2f}) for trading", "ERROR")
                 logger.error(f"Insufficient budget (${dry_trade_budget:.2f}) for dry trading. Exiting.")
                 return
@@ -1530,7 +1530,7 @@ def main():
         
         if LIVE_TRADING:
             print(f"  🔴 Mode: LIVE TRADING")
-            print(f"  💰 Balance: ${get_usdt_balance():.2f}")
+            print(f"  💰 Balance: ${get_usdc_balance():.2f}")
             print(f"  🌐 Exchange: Binance (Live)")
         else:
             print(f"  🟡 Mode: DRY TRADING (Simulation)")
@@ -1682,7 +1682,7 @@ def get_account_balance_safe():
             try:
                 # Initialize client and get balance
                 binance_client = get_client()
-                balance_info = binance_client.get_asset_balance(asset="USDT")
+                balance_info = binance_client.get_asset_balance(asset="USDC")
                 
                 if balance_info is None:
                     return {

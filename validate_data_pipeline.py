@@ -44,13 +44,13 @@ def test_local_data_creation():
     
     try:
         # Create sample cryptocurrency data
-        test_symbols = ['BTCUSDT', 'ETHUSDT', 'ADAUSDT']
+        test_symbols = ['BTCUSDC', 'ETHUSDC', 'ADAUSDC']
         created_files = []
         
         for symbol in test_symbols:
             # Generate sample OHLCV data with enough records (100 to be safe)
             dates = pd.date_range(start='2025-06-27 12:00:00', periods=100, freq='1min')
-            base_price = 50000 if symbol == 'BTCUSDT' else (3000 if symbol == 'ETHUSDT' else 0.5)
+            base_price = 50000 if symbol == 'BTCUSDC' else (3000 if symbol == 'ETHUSDC' else 0.5)
             
             sample_data = pd.DataFrame({
                 'timestamp': dates,
@@ -110,7 +110,7 @@ def test_google_drive_integration():
             # Look for our test files
             test_files_found = []
             for file_info in drive_files:
-                if any(symbol in file_info.get('name', '') for symbol in ['BTCUSDT', 'ETHUSDT', 'ADAUSDT']):
+                if any(symbol in file_info.get('name', '') for symbol in ['BTCUSDC', 'ETHUSDC', 'ADAUSDC']):
                     test_files_found.append(file_info)
                     logger.info(f"📁 Found test file: {file_info.get('name')} ({file_info.get('size', 0)} bytes)")
             

@@ -76,7 +76,7 @@ DISCORD_USER_ID=your_discord_user_id
 #### 3. **Live Trading Activation**
 ⚠️ **WARNING**: Only proceed after thorough paper trading validation
 1. Set `LIVE_TRADING=true` in Railway environment
-2. Ensure sufficient USDT balance ($100+ recommended)
+2. Ensure sufficient USDC balance ($100+ recommended)
 3. Monitor first trades closely via Discord notifications
 4. Verify balance display shows real Binance balance
 
@@ -92,7 +92,7 @@ DISCORD_USER_ID=your_discord_user_id
 
 #### Live Trading Readiness
 - [ ] Binance API keys have trading permissions
-- [ ] Sufficient USDT balance for meaningful trades
+- [ ] Sufficient USDC balance for meaningful trades
 - [ ] Discord notifications configured and working
 - [ ] User understands risks of live trading
 - [ ] Emergency contact method established

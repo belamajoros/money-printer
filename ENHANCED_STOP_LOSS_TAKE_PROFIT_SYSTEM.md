@@ -120,9 +120,9 @@ SL_BUFFER = 0.1%               # Stop loss tolerance
 
 ### Real-time Updates:
 ```
-💹 BTCUSDT: $43,250.45 (+2.34%)  # Every 10 checks
-🎉 TAKE PROFIT HIT! BTCUSDT @ $44,100.00
-🛑 STOP LOSS HIT! BTCUSDT @ $42,100.00
+💹 BTCUSDC: $43,250.45 (+2.34%)  # Every 10 checks
+🎉 TAKE PROFIT HIT! BTCUSDC @ $44,100.00
+🛑 STOP LOSS HIT! BTCUSDC @ $42,100.00
 ```
 
 ### Critical Alerts:

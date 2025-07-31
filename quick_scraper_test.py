@@ -5,7 +5,7 @@ from src.data_collector.production_data_scraper import ProductionDataScraper
 
 # Test the scraper
 scraper = ProductionDataScraper(
-    symbols=['BTCUSDT'], 
+    symbols=['BTCUSDC'], 
     intervals=['1m'], 
     memory_only=True
 )

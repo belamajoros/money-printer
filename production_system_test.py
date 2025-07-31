@@ -153,7 +153,7 @@ class ProductionSystemTester:
             
             # Create scraper
             scraper = ProductionDataScraper(
-                symbols=['BTCUSDT', 'ETHUSDT'],  # Just 2 symbols for testing
+                symbols=['BTCUSDC', 'ETHUSDC'],  # Just 2 symbols for testing
                 intervals=['1m', '5m'],  # Just 2 intervals for testing
                 drive_folder_id=GOOGLE_DRIVE_FOLDER_ID,
                 local_backup_dir="test_data",
@@ -197,7 +197,7 @@ class ProductionSystemTester:
             # First, collect some data to train on
             logger.info("📊 Collecting training data...")
             scraper = ProductionDataScraper(
-                symbols=['BTCUSDT', 'ETHUSDT'],
+                symbols=['BTCUSDC', 'ETHUSDC'],
                 intervals=['1m', '5m'],
                 local_backup_dir="test_data",
                 memory_only=False

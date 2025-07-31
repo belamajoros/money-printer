@@ -262,21 +262,21 @@ def handle_kline_message(msg):
     logger.info(f"[{symbol}] OHLCV updated: {kline_data}")
 
 # Load symbols from environment variable or use default
-symbols = os.getenv("SCRAPE_SYMBOLS", "btcusdt,ethusdt,solusdt").split(",")
+symbols = os.getenv("SCRAPE_SYMBOLS", "btcusdc,ethusdc,solusdc").split(",")
 
 def get_top_100_trading_pairs():
     """
     Fetch the top 100 trading pairs by trading volume from Binance.
-    :return: A list of trading pair symbols (e.g., ["BTCUSDT", "ETHUSDT", "SOLUSDT"]).
+    :return: A list of trading pair symbols (e.g., ["BTCUSDC", "ETHUSDC", "SOLUSDC"]).
     """
     try:
         # Fetch 24-hour ticker price change statistics
         tickers = client.get_ticker()
         # Sort by quote volume (descending) and take the top 100
         top_pairs = sorted(tickers, key=lambda x: float(x['quoteVolume']), reverse=True)[:100]
-        # Filter for USDT pairs only
-        usdt_pairs = [ticker['symbol'] for ticker in top_pairs if ticker['symbol'].endswith("USDT")]
-        return usdt_pairs
+        # Filter for USDC pairs only
+        usdc_pairs = [ticker['symbol'] for ticker in top_pairs if ticker['symbol'].endswith("USDC")]
+        return usdc_pairs
     except Exception as e:
         logger.error(f"❌ Failed to fetch top trading pairs: {e}")
         return [] 

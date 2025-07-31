@@ -44,7 +44,7 @@ def test_binance_connection():
         logger.info("✅ Binance connection successful")
         
         # Test data retrieval
-        symbols = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT']
+        symbols = ['BTCUSDC', 'ETHUSDC', 'SOLUSDC']
         
         for symbol in symbols:
             logger.info(f"📊 Testing data retrieval for {symbol}...")

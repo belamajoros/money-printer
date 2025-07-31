@@ -162,20 +162,20 @@ Feature names seen at fit time, yet now missing:
 2025-06-25 18:25:31 [INFO] Running model predictions...
 2025-06-25 18:25:31 [INFO] Creating mock predictions for testing...
 2025-06-25 18:25:31 [INFO] Mock predictions created successfully
-2025-06-25 18:25:31 [INFO] Top coin to buy: YFIUSDT with predicted profit: 2988951.7861
+2025-06-25 18:25:31 [INFO] Top coin to buy: YFIUSDC with predicted profit: 2988951.7861
 2025-06-25 18:25:31 [INFO] Trade fraction calculated: 0.0100 (Trade Amount: $10.00)
-2025-06-25 18:25:31 [INFO] Checking minimum trade quantity for YFIUSDT...
-2025-06-25 18:25:31 [INFO] Minimum trade quantity for YFIUSDT: 1e-05
-2025-06-25 18:25:31 [INFO] Placing BUY order for YFIUSDT...
-2025-06-25 18:25:31 [INFO] [DRY RUN] BUY order simulated for YFIUSDT qty 0.0021217907914279654 @ 4713.0
+2025-06-25 18:25:31 [INFO] Checking minimum trade quantity for YFIUSDC...
+2025-06-25 18:25:31 [INFO] Minimum trade quantity for YFIUSDC: 1e-05
+2025-06-25 18:25:31 [INFO] Placing BUY order for YFIUSDC...
+2025-06-25 18:25:31 [INFO] [DRY RUN] BUY order simulated for YFIUSDC qty 0.0021217907914279654 @ 4713.0
 2025-06-25 18:25:31 [INFO] Scheduling exit orders...
-2025-06-25 18:25:31 [INFO] Scheduled exit orders for YFIUSDT: [{'qty': 0.0021217907914279654, 'price': 4938.752700000001, 'type': 'TAKE_PROFIT'}, {'qty': 0.0021217907914279654, 'price': 4656.53826, 'type': 'STOP_LOSS'}]
+2025-06-25 18:25:31 [INFO] Scheduled exit orders for YFIUSDC: [{'qty': 0.0021217907914279654, 'price': 4938.752700000001, 'type': 'TAKE_PROFIT'}, {'qty': 0.0021217907914279654, 'price': 4656.53826, 'type': 'STOP_LOSS'}]
 2025-06-25 18:25:31 [INFO] Placing SELL order: {'qty': 0.0021217907914279654, 'price': 4938.752700000001, 'type': 'TAKE_PROFIT'}
-2025-06-25 18:25:31 [INFO] [DRY RUN] SELL order simulated for YFIUSDT qty 0.0021217907914279654 @ 4938.752700000001
+2025-06-25 18:25:31 [INFO] [DRY RUN] SELL order simulated for YFIUSDC qty 0.0021217907914279654 @ 4938.752700000001
 2025-06-25 18:25:31 [INFO] Placing SELL order: {'qty': 0.0021217907914279654, 'price': 4656.53826, 'type': 'STOP_LOSS'}
-2025-06-25 18:25:31 [INFO] [DRY RUN] SELL order simulated for YFIUSDT qty 0.0021217907914279654 @ 4656.53826
-2025-06-25 18:25:31 [INFO] Trade completed: {'timestamp': '2025-06-25T10:25:31.669998', 'coin': 'YFIUSDT', 'qty': 0.0021217907914279654, 'buy_price': 4713.0, 'sell_orders': [{'qty': 0.0021217907914279654, 'price': 4938.752700000001, 'type': 'TAKE_PROFIT'}, {'qty': 0.0021217907914279654, 'price': 4656.53826, 'type': 'STOP_LOSS'}], 'total_out': 20.359200000000005, 'pnl_amount': 10.357200000000004, 'pnl_percent': 103.57200000000005}
-2025-06-25 18:25:31 [INFO] Trade completed successfully: {'timestamp': '2025-06-25T10:25:31.669998', 'coin': 'YFIUSDT', 'qty': 0.0021217907914279654, 'buy_price': 4713.0, 'sell_orders': [{'qty': 0.0021217907914279654, 'price': 4938.752700000001, 'type': 'TAKE_PROFIT'}, {'qty': 0.0021217907914279654, 'price': 4656.53826, 'type': 'STOP_LOSS'}], 'total_out': 20.359200000000005, 'pnl_amount': 10.357200000000004, 'pnl_percent': 103.57200000000005}
+2025-06-25 18:25:31 [INFO] [DRY RUN] SELL order simulated for YFIUSDC qty 0.0021217907914279654 @ 4656.53826
+2025-06-25 18:25:31 [INFO] Trade completed: {'timestamp': '2025-06-25T10:25:31.669998', 'coin': 'YFIUSDC', 'qty': 0.0021217907914279654, 'buy_price': 4713.0, 'sell_orders': [{'qty': 0.0021217907914279654, 'price': 4938.752700000001, 'type': 'TAKE_PROFIT'}, {'qty': 0.0021217907914279654, 'price': 4656.53826, 'type': 'STOP_LOSS'}], 'total_out': 20.359200000000005, 'pnl_amount': 10.357200000000004, 'pnl_percent': 103.57200000000005}
+2025-06-25 18:25:31 [INFO] Trade completed successfully: {'timestamp': '2025-06-25T10:25:31.669998', 'coin': 'YFIUSDC', 'qty': 0.0021217907914279654, 'buy_price': 4713.0, 'sell_orders': [{'qty': 0.0021217907914279654, 'price': 4938.752700000001, 'type': 'TAKE_PROFIT'}, {'qty': 0.0021217907914279654, 'price': 4656.53826, 'type': 'STOP_LOSS'}], 'total_out': 20.359200000000005, 'pnl_amount': 10.357200000000004, 'pnl_percent': 103.57200000000005}
 2025-06-25 18:25:32 [INFO] \u2705 Discord notification sent successfully for TRADERS
 2025-06-25 18:25:32 [INFO] Trading session ended.
 2025-06-25 18:40:45 [INFO] \u2705 Loaded expected features from Z:\money_printer\data\models\random_forest\expected_features.json: ['symbol_id', 'open', 'high', 'low', 'close', 'volume', 'rsi', 'macd', 'macd_signal', 'macd_hist', 'price_volume_corr', 'open_close_diff', 'volume_change', 'volume_zscore']
@@ -186,19 +186,19 @@ Feature names seen at fit time, yet now missing:
 2025-06-25 18:41:03 [INFO] Running model predictions...
 2025-06-25 18:41:03 [INFO] Creating realistic mock predictions...
 2025-06-25 18:41:03 [INFO] Realistic mock predictions created successfully
-2025-06-25 18:41:03 [INFO] Top coin to buy: SUSDT with predicted profit: 0.0800
+2025-06-25 18:41:03 [INFO] Top coin to buy: SUSDC with predicted profit: 0.0800
 2025-06-25 18:41:03 [INFO] Trade fraction calculated: 0.1000 (Trade Amount: $5.00)
-2025-06-25 18:41:03 [INFO] Minimum trade quantity for SUSDT: 0.1
-2025-06-25 18:41:03 [INFO] [DRY RUN] BUY order simulated for SUSDT qty 15.586034912718207 @ 0.3208
-2025-06-25 18:41:03 [INFO] Scheduled exit orders for SUSDT: [{'qty': 15.586034912718207, 'price': 0.33616631999999996, 'type': 'TAKE_PROFIT'}, {'qty': 15.586034912718207, 'price': 0.316956816, 'type': 'STOP_LOSS'}]
+2025-06-25 18:41:03 [INFO] Minimum trade quantity for SUSDC: 0.1
+2025-06-25 18:41:03 [INFO] [DRY RUN] BUY order simulated for SUSDC qty 15.586034912718207 @ 0.3208
+2025-06-25 18:41:03 [INFO] Scheduled exit orders for SUSDC: [{'qty': 15.586034912718207, 'price': 0.33616631999999996, 'type': 'TAKE_PROFIT'}, {'qty': 15.586034912718207, 'price': 0.316956816, 'type': 'STOP_LOSS'}]
 2025-06-25 18:41:03 [INFO] Placing SELL order: {'qty': 15.586034912718207, 'price': 0.33616631999999996, 'type': 'TAKE_PROFIT'}
-2025-06-25 18:41:03 [INFO] [DRY RUN] SELL order simulated for SUSDT qty 15.586034912718207 @ 0.33616631999999996
+2025-06-25 18:41:03 [INFO] [DRY RUN] SELL order simulated for SUSDC qty 15.586034912718207 @ 0.33616631999999996
 2025-06-25 18:41:03 [INFO] Placing SELL order: {'qty': 15.586034912718207, 'price': 0.316956816, 'type': 'STOP_LOSS'}
-2025-06-25 18:41:03 [INFO] [DRY RUN] SELL order simulated for SUSDT qty 15.586034912718207 @ 0.316956816
+2025-06-25 18:41:03 [INFO] [DRY RUN] SELL order simulated for SUSDC qty 15.586034912718207 @ 0.316956816
 2025-06-25 18:41:03 [INFO] Created new CSV file for transactions: Z:\money_printer\src\trading_bot\trading_transactions.csv
-2025-06-25 18:41:03 [INFO] Transaction saved to CSV: SUSDT
-2025-06-25 18:41:03 [INFO] Trade completed: {'timestamp': '2025-06-25T10:41:03.563592', 'coin': 'SUSDT', 'qty': 15.586034912718207, 'buy_price': 0.3208, 'sell_orders': [{'qty': 15.586034912718207, 'price': 0.33616631999999996, 'type': 'TAKE_PROFIT'}, {'qty': 15.586034912718207, 'price': 0.316956816, 'type': 'STOP_LOSS'}], 'total_out': 10.1796, 'pnl_amount': 5.177600000000001, 'pnl_percent': 103.55200000000002, 'predicted_profit_pct': 8.0, 'confidence': 80.0, 'action': 'BUY', 'total_value': 5.0, 'fee': 0.01, 'net_value': 4.99}
-2025-06-25 18:41:03 [INFO] Trade completed successfully: {'timestamp': '2025-06-25T10:41:03.563592', 'coin': 'SUSDT', 'qty': 15.586034912718207, 'buy_price': 0.3208, 'sell_orders': [{'qty': 15.586034912718207, 'price': 0.33616631999999996, 'type': 'TAKE_PROFIT'}, {'qty': 15.586034912718207, 'price': 0.316956816, 'type': 'STOP_LOSS'}], 'total_out': 10.1796, 'pnl_amount': 5.177600000000001, 'pnl_percent': 103.55200000000002, 'predicted_profit_pct': 8.0, 'confidence': 80.0, 'action': 'BUY', 'total_value': 5.0, 'fee': 0.01, 'net_value': 4.99}
+2025-06-25 18:41:03 [INFO] Transaction saved to CSV: SUSDC
+2025-06-25 18:41:03 [INFO] Trade completed: {'timestamp': '2025-06-25T10:41:03.563592', 'coin': 'SUSDC', 'qty': 15.586034912718207, 'buy_price': 0.3208, 'sell_orders': [{'qty': 15.586034912718207, 'price': 0.33616631999999996, 'type': 'TAKE_PROFIT'}, {'qty': 15.586034912718207, 'price': 0.316956816, 'type': 'STOP_LOSS'}], 'total_out': 10.1796, 'pnl_amount': 5.177600000000001, 'pnl_percent': 103.55200000000002, 'predicted_profit_pct': 8.0, 'confidence': 80.0, 'action': 'BUY', 'total_value': 5.0, 'fee': 0.01, 'net_value': 4.99}
+2025-06-25 18:41:03 [INFO] Trade completed successfully: {'timestamp': '2025-06-25T10:41:03.563592', 'coin': 'SUSDC', 'qty': 15.586034912718207, 'buy_price': 0.3208, 'sell_orders': [{'qty': 15.586034912718207, 'price': 0.33616631999999996, 'type': 'TAKE_PROFIT'}, {'qty': 15.586034912718207, 'price': 0.316956816, 'type': 'STOP_LOSS'}], 'total_out': 10.1796, 'pnl_amount': 5.177600000000001, 'pnl_percent': 103.55200000000002, 'predicted_profit_pct': 8.0, 'confidence': 80.0, 'action': 'BUY', 'total_value': 5.0, 'fee': 0.01, 'net_value': 4.99}
 2025-06-25 18:41:04 [INFO] \u2705 Discord notification sent successfully for TRADERS
 2025-06-25 18:41:04 [INFO] Trading session ended.
 2025-06-25 18:42:17 [INFO] Starting trading session...
@@ -208,18 +208,18 @@ Feature names seen at fit time, yet now missing:
 2025-06-25 18:42:34 [INFO] Running model predictions...
 2025-06-25 18:42:34 [INFO] Creating realistic mock predictions...
 2025-06-25 18:42:34 [INFO] Realistic mock predictions created successfully
-2025-06-25 18:42:34 [INFO] Top coin to buy: ENSUSDT with predicted profit: 0.0800
+2025-06-25 18:42:34 [INFO] Top coin to buy: ENSUSDC with predicted profit: 0.0800
 2025-06-25 18:42:34 [INFO] Trade fraction calculated: 0.1000 (Trade Amount: $1.00)
-2025-06-25 18:42:34 [INFO] Minimum trade quantity for ENSUSDT: 0.01
-2025-06-25 18:42:34 [INFO] [DRY RUN] BUY order simulated for ENSUSDT qty 0.05299417064122946 @ 18.87
-2025-06-25 18:42:34 [INFO] Scheduled exit orders for ENSUSDT: [{'qty': 0.05299417064122946, 'price': 19.773873000000002, 'type': 'TAKE_PROFIT'}, {'qty': 0.05299417064122946, 'price': 18.6439374, 'type': 'STOP_LOSS'}]
+2025-06-25 18:42:34 [INFO] Minimum trade quantity for ENSUSDC: 0.01
+2025-06-25 18:42:34 [INFO] [DRY RUN] BUY order simulated for ENSUSDC qty 0.05299417064122946 @ 18.87
+2025-06-25 18:42:34 [INFO] Scheduled exit orders for ENSUSDC: [{'qty': 0.05299417064122946, 'price': 19.773873000000002, 'type': 'TAKE_PROFIT'}, {'qty': 0.05299417064122946, 'price': 18.6439374, 'type': 'STOP_LOSS'}]
 2025-06-25 18:42:34 [INFO] Placing SELL order: {'qty': 0.05299417064122946, 'price': 19.773873000000002, 'type': 'TAKE_PROFIT'}
-2025-06-25 18:42:34 [INFO] [DRY RUN] SELL order simulated for ENSUSDT qty 0.05299417064122946 @ 19.773873000000002
+2025-06-25 18:42:34 [INFO] [DRY RUN] SELL order simulated for ENSUSDC qty 0.05299417064122946 @ 19.773873000000002
 2025-06-25 18:42:34 [INFO] Placing SELL order: {'qty': 0.05299417064122946, 'price': 18.6439374, 'type': 'STOP_LOSS'}
-2025-06-25 18:42:34 [INFO] [DRY RUN] SELL order simulated for ENSUSDT qty 0.05299417064122946 @ 18.6439374
-2025-06-25 18:42:34 [INFO] Transaction saved to CSV: ENSUSDT
-2025-06-25 18:42:34 [INFO] Trade completed: {'timestamp': '2025-06-25T10:42:34.847280', 'coin': 'ENSUSDT', 'qty': 0.05299417064122946, 'buy_price': 18.87, 'sell_orders': [{'qty': 0.05299417064122946, 'price': 19.773873000000002, 'type': 'TAKE_PROFIT'}, {'qty': 0.05299417064122946, 'price': 18.6439374, 'type': 'STOP_LOSS'}], 'total_out': 2.03592, 'pnl_amount': 1.03392, 'pnl_percent': 103.392, 'predicted_profit_pct': 8.0, 'confidence': 76.67821840024357, 'action': 'BUY', 'total_value': 1.0, 'fee': 0.002, 'net_value': 0.998}
-2025-06-25 18:42:34 [INFO] Trade completed successfully: {'timestamp': '2025-06-25T10:42:34.847280', 'coin': 'ENSUSDT', 'qty': 0.05299417064122946, 'buy_price': 18.87, 'sell_orders': [{'qty': 0.05299417064122946, 'price': 19.773873000000002, 'type': 'TAKE_PROFIT'}, {'qty': 0.05299417064122946, 'price': 18.6439374, 'type': 'STOP_LOSS'}], 'total_out': 2.03592, 'pnl_amount': 1.03392, 'pnl_percent': 103.392, 'predicted_profit_pct': 8.0, 'confidence': 76.67821840024357, 'action': 'BUY', 'total_value': 1.0, 'fee': 0.002, 'net_value': 0.998}
+2025-06-25 18:42:34 [INFO] [DRY RUN] SELL order simulated for ENSUSDC qty 0.05299417064122946 @ 18.6439374
+2025-06-25 18:42:34 [INFO] Transaction saved to CSV: ENSUSDC
+2025-06-25 18:42:34 [INFO] Trade completed: {'timestamp': '2025-06-25T10:42:34.847280', 'coin': 'ENSUSDC', 'qty': 0.05299417064122946, 'buy_price': 18.87, 'sell_orders': [{'qty': 0.05299417064122946, 'price': 19.773873000000002, 'type': 'TAKE_PROFIT'}, {'qty': 0.05299417064122946, 'price': 18.6439374, 'type': 'STOP_LOSS'}], 'total_out': 2.03592, 'pnl_amount': 1.03392, 'pnl_percent': 103.392, 'predicted_profit_pct': 8.0, 'confidence': 76.67821840024357, 'action': 'BUY', 'total_value': 1.0, 'fee': 0.002, 'net_value': 0.998}
+2025-06-25 18:42:34 [INFO] Trade completed successfully: {'timestamp': '2025-06-25T10:42:34.847280', 'coin': 'ENSUSDC', 'qty': 0.05299417064122946, 'buy_price': 18.87, 'sell_orders': [{'qty': 0.05299417064122946, 'price': 19.773873000000002, 'type': 'TAKE_PROFIT'}, {'qty': 0.05299417064122946, 'price': 18.6439374, 'type': 'STOP_LOSS'}], 'total_out': 2.03592, 'pnl_amount': 1.03392, 'pnl_percent': 103.392, 'predicted_profit_pct': 8.0, 'confidence': 76.67821840024357, 'action': 'BUY', 'total_value': 1.0, 'fee': 0.002, 'net_value': 0.998}
 2025-06-25 18:42:35 [INFO] \u2705 Discord notification sent successfully for TRADERS
 2025-06-25 18:42:35 [INFO] Trading session ended.
 2025-06-25 18:43:47 [INFO] \u2705 Loaded expected features from Z:\money_printer\data\models\random_forest\expected_features.json: ['symbol_id', 'open', 'high', 'low', 'close', 'volume', 'rsi', 'macd', 'macd_signal', 'macd_hist', 'price_volume_corr', 'open_close_diff', 'volume_change', 'volume_zscore']
@@ -230,18 +230,18 @@ Feature names seen at fit time, yet now missing:
 2025-06-25 18:44:05 [INFO] Running model predictions...
 2025-06-25 18:44:05 [INFO] Creating realistic mock predictions...
 2025-06-25 18:44:05 [INFO] Realistic mock predictions created successfully
-2025-06-25 18:44:05 [INFO] Top coin to buy: USDCUSDT with predicted profit: 0.0800
+2025-06-25 18:44:05 [INFO] Top coin to buy: USDCUSDC with predicted profit: 0.0800
 2025-06-25 18:44:05 [INFO] Trade fraction calculated: 0.0500 (Trade Amount: $25.00)
-2025-06-25 18:44:06 [INFO] Minimum trade quantity for USDCUSDT: 1.0
-2025-06-25 18:44:06 [INFO] [DRY RUN] BUY order simulated for USDCUSDT qty 25.025025025025027 @ 0.999
-2025-06-25 18:44:06 [INFO] Scheduled exit orders for USDCUSDT: [{'qty': 25.025025025025027, 'price': 1.0468521, 'type': 'TAKE_PROFIT'}, {'qty': 25.025025025025027, 'price': 0.9870319799999999, 'type': 'STOP_LOSS'}]
+2025-06-25 18:44:06 [INFO] Minimum trade quantity for USDCUSDC: 1.0
+2025-06-25 18:44:06 [INFO] [DRY RUN] BUY order simulated for USDCUSDC qty 25.025025025025027 @ 0.999
+2025-06-25 18:44:06 [INFO] Scheduled exit orders for USDCUSDC: [{'qty': 25.025025025025027, 'price': 1.0468521, 'type': 'TAKE_PROFIT'}, {'qty': 25.025025025025027, 'price': 0.9870319799999999, 'type': 'STOP_LOSS'}]
 2025-06-25 18:44:06 [INFO] Placing SELL order: {'qty': 25.025025025025027, 'price': 1.0468521, 'type': 'TAKE_PROFIT'}
-2025-06-25 18:44:06 [INFO] [DRY RUN] SELL order simulated for USDCUSDT qty 25.025025025025027 @ 1.0468521
+2025-06-25 18:44:06 [INFO] [DRY RUN] SELL order simulated for USDCUSDC qty 25.025025025025027 @ 1.0468521
 2025-06-25 18:44:06 [INFO] Placing SELL order: {'qty': 25.025025025025027, 'price': 0.9870319799999999, 'type': 'STOP_LOSS'}
-2025-06-25 18:44:06 [INFO] [DRY RUN] SELL order simulated for USDCUSDT qty 25.025025025025027 @ 0.9870319799999999
-2025-06-25 18:44:06 [INFO] Transaction saved to CSV: USDCUSDT
-2025-06-25 18:44:06 [INFO] Trade completed: {'timestamp': '2025-06-25T10:44:06.043071', 'coin': 'USDCUSDT', 'qty': 25.025025025025027, 'buy_price': 0.999, 'sell_orders': [{'qty': 25.025025025025027, 'price': 1.0468521, 'type': 'TAKE_PROFIT'}, {'qty': 25.025025025025027, 'price': 0.9870319799999999, 'type': 'STOP_LOSS'}], 'total_out': 50.897999999999996, 'pnl_amount': 25.895999999999997, 'pnl_percent': 103.58399999999999, 'predicted_profit_pct': 8.0, 'confidence': 71.97293999624523, 'action': 'BUY', 'total_value': 25.0, 'fee': 0.05, 'net_value': 24.95}
-2025-06-25 18:44:06 [INFO] Trade completed successfully: {'timestamp': '2025-06-25T10:44:06.043071', 'coin': 'USDCUSDT', 'qty': 25.025025025025027, 'buy_price': 0.999, 'sell_orders': [{'qty': 25.025025025025027, 'price': 1.0468521, 'type': 'TAKE_PROFIT'}, {'qty': 25.025025025025027, 'price': 0.9870319799999999, 'type': 'STOP_LOSS'}], 'total_out': 50.897999999999996, 'pnl_amount': 25.895999999999997, 'pnl_percent': 103.58399999999999, 'predicted_profit_pct': 8.0, 'confidence': 71.97293999624523, 'action': 'BUY', 'total_value': 25.0, 'fee': 0.05, 'net_value': 24.95}
+2025-06-25 18:44:06 [INFO] [DRY RUN] SELL order simulated for USDCUSDC qty 25.025025025025027 @ 0.9870319799999999
+2025-06-25 18:44:06 [INFO] Transaction saved to CSV: USDCUSDC
+2025-06-25 18:44:06 [INFO] Trade completed: {'timestamp': '2025-06-25T10:44:06.043071', 'coin': 'USDCUSDC', 'qty': 25.025025025025027, 'buy_price': 0.999, 'sell_orders': [{'qty': 25.025025025025027, 'price': 1.0468521, 'type': 'TAKE_PROFIT'}, {'qty': 25.025025025025027, 'price': 0.9870319799999999, 'type': 'STOP_LOSS'}], 'total_out': 50.897999999999996, 'pnl_amount': 25.895999999999997, 'pnl_percent': 103.58399999999999, 'predicted_profit_pct': 8.0, 'confidence': 71.97293999624523, 'action': 'BUY', 'total_value': 25.0, 'fee': 0.05, 'net_value': 24.95}
+2025-06-25 18:44:06 [INFO] Trade completed successfully: {'timestamp': '2025-06-25T10:44:06.043071', 'coin': 'USDCUSDC', 'qty': 25.025025025025027, 'buy_price': 0.999, 'sell_orders': [{'qty': 25.025025025025027, 'price': 1.0468521, 'type': 'TAKE_PROFIT'}, {'qty': 25.025025025025027, 'price': 0.9870319799999999, 'type': 'STOP_LOSS'}], 'total_out': 50.897999999999996, 'pnl_amount': 25.895999999999997, 'pnl_percent': 103.58399999999999, 'predicted_profit_pct': 8.0, 'confidence': 71.97293999624523, 'action': 'BUY', 'total_value': 25.0, 'fee': 0.05, 'net_value': 24.95}
 2025-06-25 18:44:06 [INFO] \u2705 Discord notification sent successfully for TRADERS
 2025-06-25 18:44:06 [INFO] Trading session ended.
 2025-06-25 19:13:39 [INFO] \u2705 Loaded expected features from Z:\money_printer\data\models\random_forest\expected_features.json: ['symbol_id', 'open', 'high', 'low', 'close', 'volume', 'rsi', 'macd', 'macd_signal', 'macd_hist', 'price_volume_corr', 'open_close_diff', 'volume_change', 'volume_zscore']
@@ -252,15 +252,15 @@ Feature names seen at fit time, yet now missing:
 2025-06-25 19:18:21 [INFO] Running model predictions...
 2025-06-25 19:18:21 [INFO] Creating realistic mock predictions...
 2025-06-25 19:18:21 [INFO] Realistic mock predictions created successfully
-2025-06-25 19:18:21 [INFO] Top coin to buy: SKLUSDT with predicted profit: 0.0800
+2025-06-25 19:18:21 [INFO] Top coin to buy: SKLUSDC with predicted profit: 0.0800
 2025-06-25 19:18:21 [INFO] Trade fraction calculated: 0.0500 (Trade Amount: $25.00)
-2025-06-25 19:18:21 [INFO] Minimum trade quantity for SKLUSDT: 1.0
-2025-06-25 19:18:21 [INFO] [DRY RUN] BUY order simulated for SKLUSDT qty 1314.4058885383809 @ 0.01902
-2025-06-25 19:18:21 [INFO] Scheduled exit orders for SKLUSDT: [{'qty': 1314.4058885383809, 'price': 0.019931057999999998, 'type': 'TAKE_PROFIT'}, {'qty': 1314.4058885383809, 'price': 0.018792140399999997, 'type': 'STOP_LOSS'}]
+2025-06-25 19:18:21 [INFO] Minimum trade quantity for SKLUSDC: 1.0
+2025-06-25 19:18:21 [INFO] [DRY RUN] BUY order simulated for SKLUSDC qty 1314.4058885383809 @ 0.01902
+2025-06-25 19:18:21 [INFO] Scheduled exit orders for SKLUSDC: [{'qty': 1314.4058885383809, 'price': 0.019931057999999998, 'type': 'TAKE_PROFIT'}, {'qty': 1314.4058885383809, 'price': 0.018792140399999997, 'type': 'STOP_LOSS'}]
 2025-06-25 19:18:22 [INFO] Created new training CSV: Z:\money_printer\data\transactions\random_forest_v1_trades.csv
-2025-06-25 19:18:22 [INFO] Training data saved: SKLUSDT -> Z:\money_printer\data\transactions\random_forest_v1_trades.csv
-2025-06-25 19:18:22 [INFO] Transaction saved to CSV: SKLUSDT
-2025-06-25 19:18:22 [INFO] Trade completed: {'coin': 'SKLUSDT', 'qty': 1314.4058885383809, 'buy_price': 0.01902, 'take_profit_price': 0.019931057999999998, 'stop_loss_price': 0.018792140399999997, 'timestamp': '2025-06-25T11:18:21.952810', 'confidence': 0.8, 'predicted_profit_pct': 8.0, 'rsi_at_buy': 10.841069957788203, 'macd_at_buy': -0.008375703827451883, 'volume_change_at_buy': 0.21142014783221375, 'total_value': 25.0, 'fee': 0.05, 'net_value': 24.95, 'final_sell_price': 0.018792140399999997, 'trade_duration_secs': 0.073775, 'pnl_amount': -0.3492005000000019, 'pnl_percent': -1.3968020000000074, 'was_successful': False, 'end_timestamp': '2025-06-25T11:18:22.027128', 'trade_duration_formatted': '0.0h', 'action': 'BUY', 'sell_orders': [{'qty': 1314.4058885383809, 'price': 0.019931057999999998, 'type': 'TAKE_PROFIT'}, {'qty': 1314.4058885383809, 'price': 0.018792140399999997, 'type': 'STOP_LOSS'}]}
+2025-06-25 19:18:22 [INFO] Training data saved: SKLUSDC -> Z:\money_printer\data\transactions\random_forest_v1_trades.csv
+2025-06-25 19:18:22 [INFO] Transaction saved to CSV: SKLUSDC
+2025-06-25 19:18:22 [INFO] Trade completed: {'coin': 'SKLUSDC', 'qty': 1314.4058885383809, 'buy_price': 0.01902, 'take_profit_price': 0.019931057999999998, 'stop_loss_price': 0.018792140399999997, 'timestamp': '2025-06-25T11:18:21.952810', 'confidence': 0.8, 'predicted_profit_pct': 8.0, 'rsi_at_buy': 10.841069957788203, 'macd_at_buy': -0.008375703827451883, 'volume_change_at_buy': 0.21142014783221375, 'total_value': 25.0, 'fee': 0.05, 'net_value': 24.95, 'final_sell_price': 0.018792140399999997, 'trade_duration_secs': 0.073775, 'pnl_amount': -0.3492005000000019, 'pnl_percent': -1.3968020000000074, 'was_successful': False, 'end_timestamp': '2025-06-25T11:18:22.027128', 'trade_duration_formatted': '0.0h', 'action': 'BUY', 'sell_orders': [{'qty': 1314.4058885383809, 'price': 0.019931057999999998, 'type': 'TAKE_PROFIT'}, {'qty': 1314.4058885383809, 'price': 0.018792140399999997, 'type': 'STOP_LOSS'}]}
 2025-06-25 19:18:22 [INFO] Loaded 1 total trades for analysis
 2025-06-25 19:18:22 [INFO] Loaded 1 total trades for analysis
 2025-06-25 19:20:14 [INFO] \u2705 Loaded expected features from Z:\money_printer\data\models\random_forest\expected_features.json: ['symbol_id', 'open', 'high', 'low', 'close', 'volume', 'rsi', 'macd', 'macd_signal', 'macd_hist', 'price_volume_corr', 'open_close_diff', 'volume_change', 'volume_zscore']
@@ -271,15 +271,15 @@ Feature names seen at fit time, yet now missing:
 2025-06-25 19:24:58 [INFO] Running model predictions...
 2025-06-25 19:24:58 [INFO] Creating realistic mock predictions...
 2025-06-25 19:24:58 [INFO] Realistic mock predictions created successfully
-2025-06-25 19:24:58 [INFO] Top coin to buy: GALAUSDT with predicted profit: 0.0800
+2025-06-25 19:24:58 [INFO] Top coin to buy: GALAUSDC with predicted profit: 0.0800
 2025-06-25 19:24:58 [INFO] Trade fraction calculated: 0.1000 (Trade Amount: $1.00)
-2025-06-25 19:24:59 [INFO] Minimum trade quantity for GALAUSDT: 1.0
-2025-06-25 19:24:59 [INFO] [DRY RUN] BUY order simulated for GALAUSDT qty 69.34812760055478 @ 0.01442
-2025-06-25 19:24:59 [INFO] Scheduled exit orders for GALAUSDT: [{'qty': 69.34812760055478, 'price': 0.015110718000000002, 'type': 'TAKE_PROFIT'}, {'qty': 69.34812760055478, 'price': 0.0142472484, 'type': 'STOP_LOSS'}]
-2025-06-25 19:24:59 [INFO] Training data saved: GALAUSDT -> Z:\money_printer\data\transactions\random_forest_v1_trades.csv
-2025-06-25 19:24:59 [INFO] Transaction saved to CSV: GALAUSDT
-2025-06-25 19:24:59 [INFO] Trade completed: {'coin': 'GALAUSDT', 'qty': 69.34812760055478, 'buy_price': 0.01442, 'take_profit_price': 0.015110718000000002, 'stop_loss_price': 0.0142472484, 'timestamp': '2025-06-25T11:24:59.030309', 'confidence': 0.7510838461363455, 'predicted_profit_pct': 8.0, 'rsi_at_buy': 7.364933906955143, 'macd_at_buy': -0.0199325973731665, 'volume_change_at_buy': 0.0483021089069704, 'total_value': 1.0, 'fee': 0.002, 'net_value': 0.998, 'final_sell_price': 0.0142472484, 'trade_duration_secs': 0.074367, 'pnl_amount': -0.01396801999999999, 'pnl_percent': -1.3968019999999992, 'was_successful': False, 'end_timestamp': '2025-06-25T11:24:59.105683', 'trade_duration_formatted': '0.0h', 'action': 'BUY', 'sell_orders': [{'qty': 69.34812760055478, 'price': 0.015110718000000002, 'type': 'TAKE_PROFIT'}, {'qty': 69.34812760055478, 'price': 0.0142472484, 'type': 'STOP_LOSS'}]}
-2025-06-25 19:24:59 [INFO] Trade completed successfully: {'coin': 'GALAUSDT', 'qty': 69.34812760055478, 'buy_price': 0.01442, 'take_profit_price': 0.015110718000000002, 'stop_loss_price': 0.0142472484, 'timestamp': '2025-06-25T11:24:59.030309', 'confidence': 0.7510838461363455, 'predicted_profit_pct': 8.0, 'rsi_at_buy': 7.364933906955143, 'macd_at_buy': -0.0199325973731665, 'volume_change_at_buy': 0.0483021089069704, 'total_value': 1.0, 'fee': 0.002, 'net_value': 0.998, 'final_sell_price': 0.0142472484, 'trade_duration_secs': 0.074367, 'pnl_amount': -0.01396801999999999, 'pnl_percent': -1.3968019999999992, 'was_successful': False, 'end_timestamp': '2025-06-25T11:24:59.105683', 'trade_duration_formatted': '0.0h', 'action': 'BUY', 'sell_orders': [{'qty': 69.34812760055478, 'price': 0.015110718000000002, 'type': 'TAKE_PROFIT'}, {'qty': 69.34812760055478, 'price': 0.0142472484, 'type': 'STOP_LOSS'}]}
+2025-06-25 19:24:59 [INFO] Minimum trade quantity for GALAUSDC: 1.0
+2025-06-25 19:24:59 [INFO] [DRY RUN] BUY order simulated for GALAUSDC qty 69.34812760055478 @ 0.01442
+2025-06-25 19:24:59 [INFO] Scheduled exit orders for GALAUSDC: [{'qty': 69.34812760055478, 'price': 0.015110718000000002, 'type': 'TAKE_PROFIT'}, {'qty': 69.34812760055478, 'price': 0.0142472484, 'type': 'STOP_LOSS'}]
+2025-06-25 19:24:59 [INFO] Training data saved: GALAUSDC -> Z:\money_printer\data\transactions\random_forest_v1_trades.csv
+2025-06-25 19:24:59 [INFO] Transaction saved to CSV: GALAUSDC
+2025-06-25 19:24:59 [INFO] Trade completed: {'coin': 'GALAUSDC', 'qty': 69.34812760055478, 'buy_price': 0.01442, 'take_profit_price': 0.015110718000000002, 'stop_loss_price': 0.0142472484, 'timestamp': '2025-06-25T11:24:59.030309', 'confidence': 0.7510838461363455, 'predicted_profit_pct': 8.0, 'rsi_at_buy': 7.364933906955143, 'macd_at_buy': -0.0199325973731665, 'volume_change_at_buy': 0.0483021089069704, 'total_value': 1.0, 'fee': 0.002, 'net_value': 0.998, 'final_sell_price': 0.0142472484, 'trade_duration_secs': 0.074367, 'pnl_amount': -0.01396801999999999, 'pnl_percent': -1.3968019999999992, 'was_successful': False, 'end_timestamp': '2025-06-25T11:24:59.105683', 'trade_duration_formatted': '0.0h', 'action': 'BUY', 'sell_orders': [{'qty': 69.34812760055478, 'price': 0.015110718000000002, 'type': 'TAKE_PROFIT'}, {'qty': 69.34812760055478, 'price': 0.0142472484, 'type': 'STOP_LOSS'}]}
+2025-06-25 19:24:59 [INFO] Trade completed successfully: {'coin': 'GALAUSDC', 'qty': 69.34812760055478, 'buy_price': 0.01442, 'take_profit_price': 0.015110718000000002, 'stop_loss_price': 0.0142472484, 'timestamp': '2025-06-25T11:24:59.030309', 'confidence': 0.7510838461363455, 'predicted_profit_pct': 8.0, 'rsi_at_buy': 7.364933906955143, 'macd_at_buy': -0.0199325973731665, 'volume_change_at_buy': 0.0483021089069704, 'total_value': 1.0, 'fee': 0.002, 'net_value': 0.998, 'final_sell_price': 0.0142472484, 'trade_duration_secs': 0.074367, 'pnl_amount': -0.01396801999999999, 'pnl_percent': -1.3968019999999992, 'was_successful': False, 'end_timestamp': '2025-06-25T11:24:59.105683', 'trade_duration_formatted': '0.0h', 'action': 'BUY', 'sell_orders': [{'qty': 69.34812760055478, 'price': 0.015110718000000002, 'type': 'TAKE_PROFIT'}, {'qty': 69.34812760055478, 'price': 0.0142472484, 'type': 'STOP_LOSS'}]}
 2025-06-25 19:24:59 [INFO] \u2705 Discord notification sent successfully for TRADERS
 2025-06-25 19:24:59 [INFO] Trading session ended.
 2025-06-25 19:25:43 [INFO] Loaded 2 total trades for analysis
@@ -292,18 +292,18 @@ Feature names seen at fit time, yet now missing:
 2025-06-25 19:26:23 [INFO] Running model predictions...
 2025-06-25 19:26:23 [INFO] Creating realistic mock predictions...
 2025-06-25 19:26:24 [INFO] Realistic mock predictions created successfully
-2025-06-25 19:26:24 [INFO] Top coin to buy: DATAUSDT with predicted profit: 0.0800
+2025-06-25 19:26:24 [INFO] Top coin to buy: DATAUSDC with predicted profit: 0.0800
 2025-06-25 19:26:24 [INFO] Trade fraction calculated: 0.0500 (Trade Amount: $25.00)
-2025-06-25 19:26:24 [INFO] Minimum trade quantity for DATAUSDT: 0.1
-2025-06-25 19:26:24 [INFO] [DRY RUN] BUY order simulated for DATAUSDT qty 1631.8537859007834 @ 0.01532
-2025-06-25 19:26:24 [INFO] Scheduled exit orders for DATAUSDT: [{'qty': 1631.8537859007834, 'price': 0.016053828, 'type': 'TAKE_PROFIT'}, {'qty': 1631.8537859007834, 'price': 0.0151364664, 'type': 'STOP_LOSS'}]
-2025-06-25 19:31:15 [INFO] Training data saved: DATAUSDT -> Z:\money_printer\data\transactions\random_forest_v1_trades.csv
-2025-06-25 19:31:15 [INFO] Transaction saved to CSV: DATAUSDT
-2025-06-25 19:31:15 [INFO] Trade completed: {'coin': 'DATAUSDT', 'qty': 1631.8537859007834, 'buy_price': 0.01532, 'take_profit_price': 0.016053828, 'stop_loss_price': 0.0151364664, 'timestamp': '2025-06-25T11:26:24.303241', 'confidence': 0.6906844778644253, 'predicted_profit_pct': 8.0, 'rsi_at_buy': 27.121672717769673, 'macd_at_buy': -0.0017989209851005192, 'volume_change_at_buy': 0.4693271316202403, 'total_value': 25.0, 'fee': 0.05, 'net_value': 24.95, 'final_sell_price': 0.01532, 'trade_duration_secs': 291.605834, 'pnl_amount': -0.05, 'pnl_percent': -0.2, 'was_successful': False, 'end_timestamp': '2025-06-25T11:31:15.909075', 'trade_duration_formatted': '0.1h', 'action': 'BUY', 'sell_orders': [{'qty': 1631.8537859007834, 'price': 0.016053828, 'type': 'TAKE_PROFIT'}, {'qty': 1631.8537859007834, 'price': 0.0151364664, 'type': 'STOP_LOSS'}]}
+2025-06-25 19:26:24 [INFO] Minimum trade quantity for DATAUSDC: 0.1
+2025-06-25 19:26:24 [INFO] [DRY RUN] BUY order simulated for DATAUSDC qty 1631.8537859007834 @ 0.01532
+2025-06-25 19:26:24 [INFO] Scheduled exit orders for DATAUSDC: [{'qty': 1631.8537859007834, 'price': 0.016053828, 'type': 'TAKE_PROFIT'}, {'qty': 1631.8537859007834, 'price': 0.0151364664, 'type': 'STOP_LOSS'}]
+2025-06-25 19:31:15 [INFO] Training data saved: DATAUSDC -> Z:\money_printer\data\transactions\random_forest_v1_trades.csv
+2025-06-25 19:31:15 [INFO] Transaction saved to CSV: DATAUSDC
+2025-06-25 19:31:15 [INFO] Trade completed: {'coin': 'DATAUSDC', 'qty': 1631.8537859007834, 'buy_price': 0.01532, 'take_profit_price': 0.016053828, 'stop_loss_price': 0.0151364664, 'timestamp': '2025-06-25T11:26:24.303241', 'confidence': 0.6906844778644253, 'predicted_profit_pct': 8.0, 'rsi_at_buy': 27.121672717769673, 'macd_at_buy': -0.0017989209851005192, 'volume_change_at_buy': 0.4693271316202403, 'total_value': 25.0, 'fee': 0.05, 'net_value': 24.95, 'final_sell_price': 0.01532, 'trade_duration_secs': 291.605834, 'pnl_amount': -0.05, 'pnl_percent': -0.2, 'was_successful': False, 'end_timestamp': '2025-06-25T11:31:15.909075', 'trade_duration_formatted': '0.1h', 'action': 'BUY', 'sell_orders': [{'qty': 1631.8537859007834, 'price': 0.016053828, 'type': 'TAKE_PROFIT'}, {'qty': 1631.8537859007834, 'price': 0.0151364664, 'type': 'STOP_LOSS'}]}
 2025-06-25 19:31:16 [INFO] Loaded 3 total trades for analysis
 2025-06-25 19:31:16 [INFO] Loaded 3 total trades for analysis
 2025-06-25 19:49:12 [INFO] \u2705 Loaded expected features from Z:\money_printer\data\models\random_forest\expected_features.json: ['confidence', 'predicted_profit_pct', 'rsi_at_buy', 'macd_at_buy', 'volume_change_at_buy']
-2025-06-25 19:49:12 [INFO] \U0001f4c8 Trade started: BTCUSDT (Daily: 1/50)
+2025-06-25 19:49:12 [INFO] \U0001f4c8 Trade started: BTCUSDC (Daily: 1/50)
 2025-06-25 19:49:12 [INFO] \u2705 All models validated for trading
 2025-06-25 19:49:12 [INFO] \u2705 Trading state loaded from persistence
 2025-06-25 19:49:12 [ERROR] API call failed: Test error
@@ -312,9 +312,9 @@ Feature names seen at fit time, yet now missing:
 2025-06-25 19:49:21 [ERROR] Null values found in column: symbol
 2025-06-25 19:53:05 [INFO] \u2705 Loaded expected features from Z:\money_printer\data\models\random_forest\expected_features.json: ['confidence', 'predicted_profit_pct', 'rsi_at_buy', 'macd_at_buy', 'volume_change_at_buy']
 2025-06-25 19:53:05 [INFO] \u2705 Trading state loaded from persistence
-2025-06-25 19:53:05 [INFO] \U0001f4c8 Trade started: BTCUSDT (Daily: 1/50)
+2025-06-25 19:53:05 [INFO] \U0001f4c8 Trade started: BTCUSDC (Daily: 1/50)
 2025-06-25 19:53:05 [INFO] \u2705 Trading state loaded from persistence
-2025-06-25 19:53:05 [INFO] \U0001f50c Connecting to WebSocket: wss://stream.binance.com:9443/ws/btcusdt@ticker/ethusdt@ticker
+2025-06-25 19:53:05 [INFO] \U0001f50c Connecting to WebSocket: wss://stream.binance.com:9443/ws/btcusdc@ticker/ethusdc@ticker
 2025-06-25 19:53:05 [INFO] \u2705 Subscribed to price streams for 2 symbols
 2025-06-25 19:53:06 [INFO] Websocket connected
 2025-06-25 19:53:06 [INFO] \u2705 WebSocket connected successfully
@@ -337,9 +337,9 @@ Feature names seen at fit time, yet now missing:
 2025-06-25 19:53:14 [ERROR] Null values found in column: symbol
 2025-06-25 20:28:16 [INFO] \u2705 Loaded expected features from Z:\money_printer\data\models\random_forest\expected_features.json: ['confidence', 'predicted_profit_pct', 'rsi_at_buy', 'macd_at_buy', 'volume_change_at_buy']
 2025-06-25 20:28:16 [INFO] \u2705 Trading state loaded from persistence
-2025-06-25 20:28:16 [INFO] \U0001f4c8 Trade started: BTCUSDT (Daily: 1/50)
+2025-06-25 20:28:16 [INFO] \U0001f4c8 Trade started: BTCUSDC (Daily: 1/50)
 2025-06-25 20:28:16 [INFO] \u2705 Trading state loaded from persistence
-2025-06-25 20:28:16 [INFO] \U0001f50c Connecting to WebSocket: wss://stream.binance.com:9443/ws/btcusdt@ticker/ethusdt@ticker
+2025-06-25 20:28:16 [INFO] \U0001f50c Connecting to WebSocket: wss://stream.binance.com:9443/ws/btcusdc@ticker/ethusdc@ticker
 2025-06-25 20:28:16 [INFO] \u2705 Subscribed to price streams for 2 symbols
 2025-06-25 20:28:17 [INFO] Websocket connected
 2025-06-25 20:28:17 [INFO] \u2705 WebSocket connected successfully
@@ -367,9 +367,9 @@ Feature names seen at fit time, yet now missing:
 2025-06-25 20:28:25 [ERROR] Null values found in column: symbol
 2025-06-25 20:29:03 [INFO] \u2705 Loaded expected features from Z:\money_printer\data\models\random_forest\expected_features.json: ['confidence', 'predicted_profit_pct', 'rsi_at_buy', 'macd_at_buy', 'volume_change_at_buy']
 2025-06-25 20:29:03 [INFO] \u2705 Trading state loaded from persistence
-2025-06-25 20:29:03 [INFO] \U0001f4c8 Trade started: BTCUSDT (Daily: 1/50)
+2025-06-25 20:29:03 [INFO] \U0001f4c8 Trade started: BTCUSDC (Daily: 1/50)
 2025-06-25 20:29:03 [INFO] \u2705 Trading state loaded from persistence
-2025-06-25 20:29:03 [INFO] \U0001f50c Connecting to WebSocket: wss://stream.binance.com:9443/ws/btcusdt@ticker/ethusdt@ticker
+2025-06-25 20:29:03 [INFO] \U0001f50c Connecting to WebSocket: wss://stream.binance.com:9443/ws/btcusdc@ticker/ethusdc@ticker
 2025-06-25 20:29:03 [INFO] \u2705 Subscribed to price streams for 2 symbols
 2025-06-25 20:29:04 [INFO] Websocket connected
 2025-06-25 20:29:04 [INFO] \u2705 WebSocket connected successfully
@@ -397,9 +397,9 @@ Feature names seen at fit time, yet now missing:
 2025-06-25 20:29:12 [ERROR] Null values found in column: symbol
 2025-06-25 20:29:59 [INFO] \u2705 Loaded expected features from Z:\money_printer\data\models\random_forest\expected_features.json: ['confidence', 'predicted_profit_pct', 'rsi_at_buy', 'macd_at_buy', 'volume_change_at_buy']
 2025-06-25 20:29:59 [INFO] \u2705 Trading state loaded from persistence
-2025-06-25 20:29:59 [INFO] \U0001f4c8 Trade started: BTCUSDT (Daily: 51/50)
+2025-06-25 20:29:59 [INFO] \U0001f4c8 Trade started: BTCUSDC (Daily: 51/50)
 2025-06-25 20:29:59 [INFO] \u2705 Trading state loaded from persistence
-2025-06-25 20:29:59 [INFO] \U0001f50c Connecting to WebSocket: wss://stream.binance.com:9443/ws/btcusdt@ticker/ethusdt@ticker
+2025-06-25 20:29:59 [INFO] \U0001f50c Connecting to WebSocket: wss://stream.binance.com:9443/ws/btcusdc@ticker/ethusdc@ticker
 2025-06-25 20:29:59 [INFO] \u2705 Subscribed to price streams for 2 symbols
 2025-06-25 20:29:59 [INFO] Websocket connected
 2025-06-25 20:29:59 [INFO] \u2705 WebSocket connected successfully
@@ -427,9 +427,9 @@ Feature names seen at fit time, yet now missing:
 2025-06-25 20:30:08 [ERROR] Null values found in column: symbol
 2025-06-25 20:31:48 [INFO] \u2705 Loaded expected features from Z:\money_printer\data\models\random_forest\expected_features.json: ['confidence', 'predicted_profit_pct', 'rsi_at_buy', 'macd_at_buy', 'volume_change_at_buy']
 2025-06-25 20:31:48 [INFO] \u2705 Trading state loaded from persistence
-2025-06-25 20:31:48 [INFO] \U0001f4c8 Trade started: BTCUSDT (Daily: 1/50)
+2025-06-25 20:31:48 [INFO] \U0001f4c8 Trade started: BTCUSDC (Daily: 1/50)
 2025-06-25 20:31:48 [INFO] \u2705 Trading state loaded from persistence
-2025-06-25 20:31:48 [INFO] \U0001f50c Connecting to WebSocket: wss://stream.binance.com:9443/ws/btcusdt@ticker/ethusdt@ticker
+2025-06-25 20:31:48 [INFO] \U0001f50c Connecting to WebSocket: wss://stream.binance.com:9443/ws/btcusdc@ticker/ethusdc@ticker
 2025-06-25 20:31:48 [INFO] \u2705 Subscribed to price streams for 2 symbols
 2025-06-25 20:31:49 [INFO] Websocket connected
 2025-06-25 20:31:49 [INFO] \u2705 WebSocket connected successfully
@@ -481,9 +481,9 @@ Feature names seen at fit time, yet now missing:
 2025-06-25 22:08:03 [INFO] logging in using static token
 2025-06-25 22:08:36 [INFO] \u2705 Loaded expected features from Z:\money_printer\data\models\random_forest\expected_features.json: ['confidence', 'predicted_profit_pct', 'rsi_at_buy', 'macd_at_buy', 'volume_change_at_buy']
 2025-06-25 22:08:36 [INFO] \u2705 Trading state loaded from persistence
-2025-06-25 22:08:36 [INFO] \U0001f4c8 Trade started: BTCUSDT (Daily: 1/50)
+2025-06-25 22:08:36 [INFO] \U0001f4c8 Trade started: BTCUSDC (Daily: 1/50)
 2025-06-25 22:08:36 [INFO] \u2705 Trading state loaded from persistence
-2025-06-25 22:08:36 [INFO] \U0001f50c Connecting to WebSocket: wss://stream.binance.com:9443/ws/btcusdt@ticker/ethusdt@ticker
+2025-06-25 22:08:36 [INFO] \U0001f50c Connecting to WebSocket: wss://stream.binance.com:9443/ws/btcusdc@ticker/ethusdc@ticker
 2025-06-25 22:08:36 [INFO] \u2705 Subscribed to price streams for 2 symbols
 2025-06-25 22:08:37 [INFO] Websocket connected
 2025-06-25 22:08:37 [INFO] \u2705 WebSocket connected successfully
@@ -511,9 +511,9 @@ Feature names seen at fit time, yet now missing:
 2025-06-25 22:08:46 [ERROR] Null values found in column: symbol
 2025-06-25 22:11:35 [INFO] \u2705 Loaded expected features from Z:\money_printer\data\models\random_forest\expected_features.json: ['confidence', 'predicted_profit_pct', 'rsi_at_buy', 'macd_at_buy', 'volume_change_at_buy']
 2025-06-25 22:11:35 [INFO] \u2705 Trading state loaded from persistence
-2025-06-25 22:11:35 [INFO] \U0001f4c8 Trade started: BTCUSDT (Daily: 1/50)
+2025-06-25 22:11:35 [INFO] \U0001f4c8 Trade started: BTCUSDC (Daily: 1/50)
 2025-06-25 22:11:35 [INFO] \u2705 Trading state loaded from persistence
-2025-06-25 22:11:35 [INFO] \U0001f50c Connecting to WebSocket: wss://stream.binance.com:9443/ws/btcusdt@ticker/ethusdt@ticker
+2025-06-25 22:11:35 [INFO] \U0001f50c Connecting to WebSocket: wss://stream.binance.com:9443/ws/btcusdc@ticker/ethusdc@ticker
 2025-06-25 22:11:35 [INFO] \u2705 Subscribed to price streams for 2 symbols
 2025-06-25 22:11:35 [INFO] Websocket connected
 2025-06-25 22:11:35 [INFO] \u2705 WebSocket connected successfully
@@ -541,9 +541,9 @@ Feature names seen at fit time, yet now missing:
 2025-06-25 22:11:46 [ERROR] Null values found in column: symbol
 2025-06-25 22:14:10 [INFO] \u2705 Loaded expected features from Z:\money_printer\data\models\random_forest\expected_features.json: ['confidence', 'predicted_profit_pct', 'rsi_at_buy', 'macd_at_buy', 'volume_change_at_buy']
 2025-06-25 22:14:10 [INFO] \u2705 Trading state loaded from persistence
-2025-06-25 22:14:10 [INFO] \U0001f4c8 Trade started: BTCUSDT (Daily: 1/50)
+2025-06-25 22:14:10 [INFO] \U0001f4c8 Trade started: BTCUSDC (Daily: 1/50)
 2025-06-25 22:14:10 [INFO] \u2705 Trading state loaded from persistence
-2025-06-25 22:14:10 [INFO] \U0001f50c Connecting to WebSocket: wss://stream.binance.com:9443/ws/btcusdt@ticker/ethusdt@ticker
+2025-06-25 22:14:10 [INFO] \U0001f50c Connecting to WebSocket: wss://stream.binance.com:9443/ws/btcusdc@ticker/ethusdc@ticker
 2025-06-25 22:14:10 [INFO] \u2705 Subscribed to price streams for 2 symbols
 2025-06-25 22:14:10 [INFO] Websocket connected
 2025-06-25 22:14:10 [INFO] \u2705 WebSocket connected successfully

@@ -101,7 +101,7 @@ class FinalProductionTest:
                 
                 # Test specific functions exist
                 if 'trade_runner' in module_name:
-                    if hasattr(module, 'run_single_trade') and hasattr(module, 'get_usdt_balance'):
+                    if hasattr(module, 'run_single_trade') and hasattr(module, 'get_usdc_balance'):
                         self.log_test("Trading Functions", "PASS", "Core trading functions available")
                     else:
                         self.log_test("Trading Functions", "FAIL", "Missing core trading functions", is_critical=True)
@@ -193,7 +193,7 @@ class FinalProductionTest:
                 self.log_test("Position Sizing", "FAIL", f"Invalid position size: {position_size}", is_critical=True)
             
             # Test trade validation
-            can_trade, reason = safety_manager.can_trade_symbol("BTCUSDT")
+            can_trade, reason = safety_manager.can_trade_symbol("BTCUSDC")
             self.log_test("Trade Validation", "PASS", f"Trade validation works (can trade: {can_trade})")
             
         except Exception as e:

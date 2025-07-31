@@ -67,7 +67,7 @@ View win rate, profit/loss, and optimize strategy.
 | `/status` | System status with daily PnL | `/status` |
 | `/performance [period]` | Detailed performance stats | `/performance monthly` |
 | `/trading_stats` | Trading performance overview | `/trading_stats` |
-| `/balance` | Check current USDT balance | `/balance` |
+| `/balance` | Check current USDC balance | `/balance` |
 
 ### � Trading
 | Command | Description | Example |
@@ -102,7 +102,7 @@ View win rate, profit/loss, and optimize strategy.
 - **Daily PnL**: Resets every 24 hours, shows today's profit/loss
 - **Daily Win Rate**: Percentage of winning trades today
 - **Total PnL**: All-time cumulative profit/loss
-- **Balance Tracking**: Real-time USDT balance display
+- **Balance Tracking**: Real-time USDC balance display
 - **Performance Periods**: View stats for daily, weekly, monthly, yearly, or all-time
 
 ### 🧪 Testing Progression

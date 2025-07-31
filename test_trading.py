@@ -115,7 +115,7 @@ def show_data_source_info():
     print("  • Perfect for testing strategies")
     print()
     print("📈 MARKET DATA:")
-    print("  • Fetches top 200 USDT pairs by volume")
+    print("  • Fetches top 200 USDC pairs by volume")
     print("  • Uses 1-hour candlestick data")
     print("  • 50 periods for technical analysis")
     print("  • Real-time price data")

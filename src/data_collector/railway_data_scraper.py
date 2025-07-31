@@ -34,7 +34,7 @@ class RailwayDataScraper:
     def __init__(self):
         self.client = None
         self.drive_manager = None
-        self.symbols = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT', 'ADAUSDT', 'BNBUSDT']
+        self.symbols = ['BTCUSDC', 'ETHUSDC', 'SOLUSDC', 'ADAUSDC', 'BNBUSDC']
         self.collection_interval = 300  # 5 minutes
         self.files_uploaded = 0
         

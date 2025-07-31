@@ -76,13 +76,13 @@ try:
     
     if FORCE_REAL_MODULES:
         # Force load real modules when environment variable is set
-        from trading_bot.trade_runner import run_single_trade, get_usdt_balance
+        from trading_bot.trade_runner import run_single_trade, get_usdc_balance
         dry_trade_budget = 1000.0  # Default budget
         TRADING_AVAILABLE = True
         logger.info("🚀 FORCED REAL Trading modules loaded - FULL TRADING ACTIVE")
     else:
         # REAL TRADING MODULE - FULL FUNCTIONALITY (try first)
-        from trading_bot.trade_runner import run_single_trade, get_usdt_balance
+        from trading_bot.trade_runner import run_single_trade, get_usdc_balance
         dry_trade_budget = 1000.0  # Default budget
         TRADING_AVAILABLE = True
         logger.info("✅ REAL Trading modules loaded successfully - FULL TRADING ACTIVE")
@@ -90,7 +90,7 @@ try:
 except ImportError as e:
     logger.warning(f"⚠️ Real trading modules not available: {e}, falling back to simple")
     try:
-        from trading_bot.trade_runner_simple import run_single_trade, get_usdt_balance
+        from trading_bot.trade_runner_simple import run_single_trade, get_usdc_balance
         TRADING_AVAILABLE = True
         logger.info("✅ Simple trading modules loaded as fallback")
     except ImportError as e2:
@@ -100,7 +100,7 @@ except ImportError as e:
         print("✅ Trading module stub loaded successfully")
         def run_single_trade():
             return {"coin": "BTC", "buy_price": 50000, "final_sell_price": 50500, "pnl_percent": 1.0, "pnl_amount": 500}
-        def get_usdt_balance():
+        def get_usdc_balance():
             return 1000.0
         dry_trade_budget = 1000.0
 
@@ -477,7 +477,7 @@ async def status(interaction: discord.Interaction):
         balance_info = get_account_balance_safe()
         
         if balance_info["status"] == "success":
-            balance_text = f"${balance_info['balance']:.2f} USDT"
+            balance_text = f"${balance_info['balance']:.2f} USDC"
             if balance_info["mode"] == "paper":
                 balance_text += " (Paper)"
         else:
@@ -653,7 +653,7 @@ async def start_dry_trade(interaction: discord.Interaction, num_trades: int = 1)
         color=0x0099ff
     )
     embed.add_field(name="Mode", value="🧪 Paper Trading (No Real Money)", inline=True)
-    embed.add_field(name="Budget", value=f"💰 ${dry_trade_budget:.2f} USDT", inline=True)
+    embed.add_field(name="Budget", value=f"💰 ${dry_trade_budget:.2f} USDC", inline=True)
     
     await interaction.followup.send(embed=embed)
     
@@ -1097,7 +1097,7 @@ async def balance(interaction: discord.Interaction):
             balance_info = get_account_balance_safe()
             
             if balance_info["status"] == "success":
-                balance_value = f"${balance_info['balance']:.2f} USDT"
+                balance_value = f"${balance_info['balance']:.2f} USDC"
                 if balance_info["mode"] == "paper":
                     balance_value += " (Paper Trading)"
                 
@@ -1112,7 +1112,7 @@ async def balance(interaction: discord.Interaction):
                     details = balance_info["details"]
                     other_balances = []
                     for asset, amount in details.items():
-                        if asset != "USDT" and float(amount) > 0:
+                        if asset != "USDC" and float(amount) > 0:
                             other_balances.append(f"• **{asset}**: {amount}")
                     
                     if other_balances:

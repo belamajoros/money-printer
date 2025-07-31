@@ -138,7 +138,7 @@ def main():
         return
     
     # Test symbols (just 3 for quick testing)
-    test_symbols = ['BTCUSDT', 'ETHUSDT', 'ADAUSDT']
+    test_symbols = ['BTCUSDC', 'ETHUSDC', 'ADAUSDC']
     logger.info(f"🎯 Testing with symbols: {test_symbols}")
     
     # Initialize WebSocket manager

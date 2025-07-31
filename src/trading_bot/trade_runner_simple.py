@@ -12,7 +12,7 @@ def run_single_trade():
         "pnl_amount": 500
     }
 
-def get_usdt_balance():
+def get_usdc_balance():
     """Stub function for balance"""
     return 1000.0
 

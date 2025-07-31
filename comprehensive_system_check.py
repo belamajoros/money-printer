@@ -42,23 +42,23 @@ def check_binance_connection():
         client = Client(api_key=api_key, api_secret=secret_key)
         account_info = client.get_account()
         
-        # Get USDT balance
-        usdt_balance = 0.0
+        # Get USDC balance
+        usdc_balance = 0.0
         for balance in account_info.get('balances', []):
-            if balance['asset'] == 'USDT':
-                usdt_balance = float(balance['free'])
+            if balance['asset'] == 'USDC':
+                usdc_balance = float(balance['free'])
                 break
         
         # Test data retrieval
-        test_data = client.get_klines(symbol='BTCUSDT', interval='1h', limit=5)
+        test_data = client.get_klines(symbol='BTCUSDC', interval='1h', limit=5)
         
-        logger.info(f"✅ Binance Connected: ${usdt_balance:.2f} USDT")
+        logger.info(f"✅ Binance Connected: ${usdc_balance:.2f} USDC")
         logger.info(f"✅ Account Type: {account_info.get('accountType', 'Unknown')}")
         logger.info(f"✅ Can Trade: {account_info.get('canTrade', False)}")
         logger.info(f"✅ Data Retrieval: {len(test_data)} records retrieved")
         
         return True, {
-            'balance': usdt_balance,
+            'balance': usdc_balance,
             'account_type': account_info.get('accountType'),
             'can_trade': account_info.get('canTrade'),
             'data_access': len(test_data) > 0
@@ -215,7 +215,7 @@ async def test_scraper_functionality():
         client = Client(api_key=api_key, api_secret=secret_key)
         
         # Get fresh data for multiple symbols
-        symbols = ['BTCUSDT', 'ETHUSDT', 'BNBUSDT']
+        symbols = ['BTCUSDC', 'ETHUSDC', 'BNBUSDC']
         collected_data = {}
         
         for symbol in symbols:
@@ -457,7 +457,7 @@ async def comprehensive_system_check():
         # Show details
         if component == 'binance' and status:
             data = result['data']
-            logger.info(f"   💰 Balance: ${data['balance']:.2f} USDT")
+            logger.info(f"   💰 Balance: ${data['balance']:.2f} USDC")
             logger.info(f"   📊 Account: {data['account_type']}")
             logger.info(f"   🔄 Trading: {'Enabled' if data['can_trade'] else 'Disabled'}")
         

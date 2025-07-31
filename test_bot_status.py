@@ -18,7 +18,7 @@ def test_bot_status_variables():
     
     # Import trading functionality with Railway-safe fallbacks
     try:
-        from src.trading_bot.trade_runner import run_single_trade, get_usdt_balance
+        from src.trading_bot.trade_runner import run_single_trade, get_usdc_balance
         TRADING_AVAILABLE = True
         logger.info("✅ Trading modules loaded successfully")
     except ImportError as e:

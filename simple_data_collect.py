@@ -51,7 +51,7 @@ def collect_sample_data():
         client = Client(api_key=api_key, api_secret=secret_key)
         
         # Symbols to collect data for
-        symbols = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT', 'ADAUSDT', 'BNBUSDT']
+        symbols = ['BTCUSDC', 'ETHUSDC', 'SOLUSDC', 'ADAUSDC', 'BNBUSDC']
         
         collected_count = 0
         

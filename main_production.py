@@ -63,9 +63,9 @@ def show_status():
                     logger.info(f"   {balance['asset']}: {balance['total']:.8f} "
                                f"(Free: {balance['free']:.8f}, Locked: {balance['locked']:.8f})")
                 
-                # Calculate total value in USDT (simplified)
-                usdt_balance = next((b['total'] for b in balances if b['asset'] == 'USDT'), 0)
-                logger.info(f"💵 USDT Available for Trading: ${usdt_balance:.2f}")
+                # Calculate total value in USDC (simplified)
+                usdc_balance = next((b['total'] for b in balances if b['asset'] == 'USDC'), 0)
+                logger.info(f"💵 USDC Available for Trading: ${usdc_balance:.2f}")
             else:
                 logger.warning("⚠️ Could not retrieve account information")
         else:
@@ -134,7 +134,7 @@ def run_data_collection(hours: float = None, symbols: list = None, intervals: li
     logger.info("🚀 Starting Production Data Collection")
     
     # Set defaults
-    symbols = symbols or ['BTCUSDT', 'ETHUSDT', 'ADAUSDT', 'DOTUSDT', 'LINKUSDT']
+    symbols = symbols or ['BTCUSDC', 'ETHUSDC', 'ADAUSDC', 'DOTUSDC', 'LINKUSDC']
     intervals = intervals or ['1m', '5m', '15m', '1h']
     
     # Create storage manager (with Drive fallback)
@@ -228,7 +228,7 @@ def main():
     parser.add_argument('--hours', type=float,
                        help='Hours to run data collection (continuous if not specified)')
     parser.add_argument('--symbols', nargs='+',
-                       default=['BTCUSDT', 'ETHUSDT', 'ADAUSDT', 'DOTUSDT', 'LINKUSDT'],
+                       default=['BTCUSDC', 'ETHUSDC', 'ADAUSDC', 'DOTUSDC', 'LINKUSDC'],
                        help='Symbols to collect/trade')
     parser.add_argument('--intervals', nargs='+',
                        default=['1m', '5m', '15m', '1h'],

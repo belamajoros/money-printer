@@ -21,7 +21,7 @@ The unified Discord bot implementation has been successfully completed with all 
 - `/status` - Show comprehensive system status
 - `/leaderboard` - Model performance ranking
 - `/model_info [name]` - Detailed model metrics
-- `/balance` - Check current USDT balance
+- `/balance` - Check current USDC balance
 
 #### 🔧 Management Commands (4)
 - `/retrain [target]` - Manual model retraining

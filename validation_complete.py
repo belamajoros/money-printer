@@ -128,11 +128,11 @@ def show_trainer_metrics_example():
    ❌ Missing Values: 0
    🔄 Duplicate Rows: 0
    📋 📊 COMPLETE Symbol Breakdown (ALL 5 symbols):
-      1. BTCUSDT: 500 rows (40.0%) - ✅ GOOD
-      2. ETHUSDT: 300 rows (24.0%) - ✅ GOOD  
-      3. ADAUSDT: 250 rows (20.0%) - ✅ GOOD
-      4. SOLUSDT: 150 rows (12.0%) - ✅ GOOD
-      5. LINKUSDT: 50 rows (4.0%) - ✅ GOOD
+      1. BTCUSDC: 500 rows (40.0%) - ✅ GOOD
+      2. ETHUSDC: 300 rows (24.0%) - ✅ GOOD  
+      3. ADAUSDC: 250 rows (20.0%) - ✅ GOOD
+      4. SOLUSDC: 150 rows (12.0%) - ✅ GOOD
+      5. LINKUSDC: 50 rows (4.0%) - ✅ GOOD
 
    📊 DATA QUALITY SUMMARY:
       ✅ Symbols with sufficient data (≥50): 5

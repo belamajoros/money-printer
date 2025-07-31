@@ -178,11 +178,11 @@ class TradingUtils:
         Calculate position size based on risk management
         
         Args:
-            balance: Available balance in USDT
+            balance: Available balance in USDC
             risk_percentage: Maximum risk per trade (%)
             entry_price: Entry price for the trade
             stop_loss_price: Stop loss price
-            max_position_size: Maximum position size in USDT
+            max_position_size: Maximum position size in USDC
             
         Returns:
             Position size in base currency units
@@ -191,7 +191,7 @@ class TradingUtils:
             if balance <= 0 or entry_price <= 0 or stop_loss_price <= 0:
                 return 0.0
             
-            # Calculate risk amount in USDT
+            # Calculate risk amount in USDC
             risk_amount = balance * (risk_percentage / 100)
             
             # Calculate price risk per unit
@@ -200,16 +200,16 @@ class TradingUtils:
                 return 0.0
             
             # Calculate position size
-            position_size_usdt = risk_amount / (price_risk / entry_price)
+            position_size_usdc = risk_amount / (price_risk / entry_price)
             
             # Apply maximum position size limit
-            if max_position_size and position_size_usdt > max_position_size:
-                position_size_usdt = max_position_size
+            if max_position_size and position_size_usdc > max_position_size:
+                position_size_usdc = max_position_size
             
             # Convert to base currency units
-            position_size_units = position_size_usdt / entry_price
+            position_size_units = position_size_usdc / entry_price
             
-            logger.debug(f"💰 Position size calculation: {position_size_usdt:.2f} USDT = {position_size_units:.6f} units")
+            logger.debug(f"💰 Position size calculation: {position_size_usdc:.2f} USDC = {position_size_units:.6f} units")
             
             return position_size_units
             
@@ -256,10 +256,10 @@ class TradingUtils:
             return False
     
     @staticmethod
-    def format_price(price: float, symbol: str = 'BTCUSDT') -> str:
+    def format_price(price: float, symbol: str = 'BTCUSDC') -> str:
         """Format price with appropriate decimal places for the symbol"""
         try:
-            if 'USDT' in symbol:
+            if 'USDC' in symbol:
                 return f"{price:.4f}"
             else:
                 return f"{price:.8f}"

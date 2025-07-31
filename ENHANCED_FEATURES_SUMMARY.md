@@ -65,10 +65,10 @@ else:  # Bearish
 
 ### Professional Output Format
 ```
-[18:42:34] 💰  Selected: ENSUSDT - 8.00% predicted profit
+[18:42:34] 💰  Selected: ENSUSDC - 8.00% predicted profit
 [18:42:34] ℹ️  Checking minimum trade requirements...
 [18:42:34] ✅  TRADE COMPLETED SUCCESSFULLY!
-  📊 Symbol: ENSUSDT
+  📊 Symbol: ENSUSDC
   💰 Amount: $1.00 (0.053 ENS)
   📈 Buy Price: $18.87
   🎯 Predicted Profit: 8.00%
@@ -77,7 +77,7 @@ else:  # Bearish
 ### Tax-Ready CSV Export
 | timestamp | symbol | action | quantity | price | total_value | predicted_profit_pct | trade_type |
 |-----------|--------|--------|----------|-------|-------------|-------------------|------------|
-| 2025-06-25T10:42:34 | ENSUSDT | BUY | 0.053 | 18.87 | 1.0 | 8.0 | DRY |
+| 2025-06-25T10:42:34 | ENSUSDC | BUY | 0.053 | 18.87 | 1.0 | 8.0 | DRY |
 
 ## 🚀 USAGE EXAMPLES
 
@@ -111,15 +111,15 @@ python src/trading_bot/trade_runner.py
   🌐 Exchange: Binance Testnet
 
 [18:41:03] ℹ️  Top 5 trading candidates:
-  1. SUSDT: 8.00% profit | 80.0% confidence
-  2. COTIUSDT: 8.00% profit | 79.8% confidence
-  3. WAXPUSDT: 8.00% profit | 72.5% confidence
-  4. JASMYUSDT: 8.00% profit | 78.2% confidence
-  5. WAXPUSDT: 8.00% profit | 79.3% confidence
+  1. SUSDC: 8.00% profit | 80.0% confidence
+  2. COTIUSDC: 8.00% profit | 79.8% confidence
+  3. WAXPUSDC: 8.00% profit | 72.5% confidence
+  4. JASMYUSDC: 8.00% profit | 78.2% confidence
+  5. WAXPUSDC: 8.00% profit | 79.3% confidence
 
-[18:41:03] 💰  Selected: SUSDT - 8.00% predicted profit
+[18:41:03] 💰  Selected: SUSDC - 8.00% predicted profit
 [18:41:03] ✅  TRADE COMPLETED SUCCESSFULLY!
-  📊 Symbol: SUSDT
+  📊 Symbol: SUSDC
   💰 Amount: $5.00 (15.586 S)
   📈 Buy Price: $0.3208
   🎯 Predicted Profit: 8.00%
@@ -151,7 +151,7 @@ python src/trading_bot/trade_runner.py
 
 The system is now production-ready for dry trading and testing. To enable live trading:
 1. Set `LIVE_TRADING = True` in `trade_runner.py`
-2. Ensure sufficient USDT balance in Binance account
+2. Ensure sufficient USDC balance in Binance account
 3. All safety features and logging will work the same way
 
 **The money printer is ready to go BRRR! 🔥💰**

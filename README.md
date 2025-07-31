@@ -83,7 +83,7 @@ RAILWAY_API_TOKEN=your_railway_token
 
 # Phase 4: Live Trading Pilot (500 PHP / ~$8 USD)
 # Set in Railway: LIVE_TRADING=true
-# Fund Binance account with 500 PHP (~$8 USDT)
+# Fund Binance account with 500 PHP (~$8 USDC)
 # Minimum required: $3 USD | Your $8: Perfect for pilot testing
 ```
 
@@ -223,7 +223,7 @@ DISCORD_USER_ID=your_discord_user_id
 # Trading Configuration
 MAX_POSITION_SIZE_PERCENT=2.0
 MAX_DAILY_TRADES=10
-MIN_USDT_BALANCE=10.0
+MIN_USDC_BALANCE=10.0
 
 # Environment
 ENVIRONMENT=production
@@ -313,7 +313,7 @@ python comprehensive_test.py
 | `/train_model [type]` | Train new trading models | Authorized only | `/train_model random_forest` |
 | **Trading** |
 | `/start_dry_trade [num]` | Paper trading (1-10 trades) | Authorized only | `/start_dry_trade 3` |
-| `/balance` | Check current USDT balance | Authorized only | `/balance` |
+| `/balance` | Check current USDC balance | Authorized only | `/balance` |
 | `/trading_stats` | View performance statistics | Authorized only | `/trading_stats` |
 
 ### 🚀 Quick Discord Workflow
@@ -341,7 +341,7 @@ python comprehensive_test.py
 
 **Phase 4: Live Trading Pilot (500 PHP)**
 7. **Enable Live Trading**: Set `LIVE_TRADING=true` in Railway environment
-8. **Fund Account**: Deposit 500 PHP (~$8 USDT) to Binance - exceeds $3 minimum by 167%
+8. **Fund Account**: Deposit 500 PHP (~$8 USDC) to Binance - exceeds $3 minimum by 167%
 9. **Execute Live Trades**: Monitor real money performance with minimal risk
 
 > **🎯 This 4-phase approach ensures maximum safety and validates all systems before scaling up.**

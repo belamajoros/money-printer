@@ -511,7 +511,7 @@ class TradeExecutor:
             self.client = None
     
     def get_balance(self) -> float:
-        """Get current USDT balance"""
+        """Get current USDC balance"""
         if self.mode == TradingMode.DRY:
             return self.dry_balance
         
@@ -519,7 +519,7 @@ class TradeExecutor:
             return 0.0
         
         try:
-            balance_info = self.client.get_asset_balance(asset="USDT")
+            balance_info = self.client.get_asset_balance(asset="USDC")
             return float(balance_info["free"]) if balance_info else 0.0
         except Exception as e:
             self.logger.error(f"Error getting balance: {e}")

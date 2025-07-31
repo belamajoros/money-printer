@@ -80,7 +80,7 @@ The Money Printer trading system has been successfully updated with **simplified
 ```
 💰 **Trading operations initiated, my lord!**
 
-📈 **Trade Completed**: BTCUSDT
+📈 **Trade Completed**: BTCUSDC
 
 💰 **Results:**
 • Buy Price: $104255.77
