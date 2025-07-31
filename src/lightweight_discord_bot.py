@@ -749,12 +749,50 @@ async def train_model(interaction: discord.Interaction, model_type: str = "rando
     try:
         # Start training in background
         if model_type.lower() in ["random_forest", "rf"]:
+            model_name_to_validate = "random_forest_v1"
             result = await asyncio.get_event_loop().run_in_executor(None, train_rf_model_with_metrics)
         elif model_type.lower() in ["xgboost"]:
+            model_name_to_validate = "xgboost_v1"
             result = await asyncio.get_event_loop().run_in_executor(None, train_xgboost_model)
         else:
             await interaction.followup.send("❌ Unsupported model type. Use 'random_forest' or 'rf'")
             return
+
+        # --- Re-validate models after training ---
+        try:
+            # Import ModelValidationService
+            from src.model_validation import ModelValidationService
+            
+            # Create or get the instance of ModelValidationService
+            # Ideally, this would be a singleton accessed here
+            validation_service = ModelValidationService() # Assuming a new instance is acceptable for this fix
+            
+            # Register the trained model (or get the existing validator)
+            validator = validation_service.register_model(model_name_to_validate)
+
+            # Force the ModelDriftDetector to reload the model from disk
+            logger.info(f"🔄 Attempting to force reload model: {model_name_to_validate}")
+            reload_success = validator.force_model_reload()
+            
+            if reload_success:
+                logger.info(f"✅ Model {model_name_to_validate} reloaded successfully.")
+                # Now, re-validate all models to update overall status
+                all_models_valid, validation_results = validation_service.validate_all_models()
+
+                if all_models_valid:
+                    logger.info("✅ All models validated successfully after training. Trading enabled.")
+                    await interaction.followup.send("✅ Trading re-enabled after model training!")
+                else:
+                    logger.warning("⚠️ Models re-validated, but some are still invalid. Trading remains disabled.")
+                    await interaction.followup.send("⚠️ Trading remains disabled: Model re-validation failed.")
+            else:
+                logger.error(f"❌ Failed to reload model {model_name_to_validate} after training. Trading remains disabled.")
+                await interaction.followup.send(f"❌ Failed to reload model {model_name_to_validate} after training. Trading remains disabled.")
+
+        except Exception as e:
+            logger.error(f"❌ Error during model re-validation or reload after training: {e}")
+            await interaction.followup.send(f"❌ Error re-validating or reloading models after training: {e}")
+        # --- End of re-validation and reload section ---
         
         # Training complete - show detailed metrics
         if result and isinstance(result, dict):
