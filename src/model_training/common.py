@@ -112,6 +112,9 @@ def preprocess_data(df):
     drop_cols = [col for col in X.columns if X[col].nunique() <= 1]
     X.drop(columns=drop_cols, inplace=True)
 
+    print("Non-numeric columns in X:", X.select_dtypes(include=["object", "category"]).columns.tolist())
+    print("Example bad values:", X.select_dtypes(include=["object", "category"]).head())
+
     return X, y, groups
 
 def save_model(model, path):
