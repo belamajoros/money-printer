@@ -627,8 +627,14 @@ class EnhancedDriveManager:
         """Add file to async upload queue"""
         if not self.sync_enabled or not self.authenticated or not self.batch_manager:
             return False
+
+        # 🔍 Debug logs for troubleshooting
+        logger.debug(f"[upload_file_async] Received local_path: {local_path}")
+        logger.debug(f"[upload_file_async] Type of local_path: {type(local_path)}")
         
         try:
+            local_path = Path(local_path)  # ← Fix: normalize input to Path
+
             # Generate organized drive path
             if self.folder_structure:
                 folder_path = self.folder_structure.get_folder_path(category, subcategory, date_based)
