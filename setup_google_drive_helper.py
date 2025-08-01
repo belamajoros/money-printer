@@ -6,48 +6,28 @@ import os
 import json
 from pathlib import Path
 
+import os
+import json
+from pathlib import Path
+
 def setup_google_drive():
     """Interactive Google Drive setup"""
     print("🚀 Money Printer - Google Drive Setup")
     print("=" * 50)
     
-    # Check if secrets directory exists
     secrets_dir = Path("secrets")
     secrets_dir.mkdir(exist_ok=True)
     
     service_account_path = secrets_dir / "service_account.json"
+    env_key_json = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON")
+    
+    key_data = None
     
     if service_account_path.exists():
         print("✅ Service account key already exists!")
-        
-        # Validate the key
         try:
             with open(service_account_path, 'r') as f:
                 key_data = json.load(f)
-            
-            required_fields = ['type', 'project_id', 'private_key_id', 'private_key', 'client_email']
-            missing_fields = [field for field in required_fields if field not in key_data]
-            
-            if not missing_fields:
-                print(f"✅ Service account key is valid")
-                print(f"📧 Service account email: {key_data['client_email']}")
-                print(f"🗂️ Project ID: {key_data['project_id']}")
-                
-                # Check environment variables
-                folder_id = os.getenv('GOOGLE_DRIVE_FOLDER_ID')
-                if folder_id:
-                    print(f"✅ Google Drive folder ID configured: {folder_id}")
-                    print("\n🎉 Google Drive is ready to use!")
-                    return True
-                else:
-                    print("⚠️ GOOGLE_DRIVE_FOLDER_ID not set in .env file")
-                    print_folder_setup_instructions()
-                    return False
-            else:
-                print(f"❌ Service account key is missing fields: {missing_fields}")
-                print_service_account_instructions()
-                return False
-                
         except json.JSONDecodeError:
             print("❌ Service account key file is not valid JSON")
             print_service_account_instructions()
@@ -56,9 +36,49 @@ def setup_google_drive():
             print(f"❌ Error reading service account key: {e}")
             return False
     else:
-        print("❌ Service account key not found")
-        print_service_account_instructions()
-        return False
+        # Try to load from env if file missing
+        if env_key_json:
+            try:
+                key_data = json.loads(env_key_json)
+                # Save the key to file for future use
+                with open(service_account_path, 'w') as f:
+                    f.write(env_key_json)
+                print(f"📝 Loaded service account key from environment variable and saved to {service_account_path}")
+            except json.JSONDecodeError:
+                print("❌ Environment variable GOOGLE_SERVICE_ACCOUNT_JSON is not valid JSON")
+                print_service_account_instructions()
+                return False
+        else:
+            print("❌ Service account key not found and GOOGLE_SERVICE_ACCOUNT_JSON env variable is not set")
+            print_service_account_instructions()
+            return False
+    
+    # Validate key_data if loaded
+    if key_data:
+        required_fields = ['type', 'project_id', 'private_key_id', 'private_key', 'client_email']
+        missing_fields = [field for field in required_fields if field not in key_data]
+        
+        if missing_fields:
+            print(f"❌ Service account key is missing fields: {missing_fields}")
+            print_service_account_instructions()
+            return False
+        
+        print(f"✅ Service account key is valid")
+        print(f"📧 Service account email: {key_data['client_email']}")
+        print(f"🗂️ Project ID: {key_data['project_id']}")
+        
+        folder_id = os.getenv('GOOGLE_DRIVE_FOLDER_ID')
+        if folder_id:
+            print(f"✅ Google Drive folder ID configured: {folder_id}")
+            print("\n🎉 Google Drive is ready to use!")
+            return True
+        else:
+            print("⚠️ GOOGLE_DRIVE_FOLDER_ID not set in .env file")
+            print_folder_setup_instructions()
+            return False
+    
+    # Fallback
+    return False
 
 def print_service_account_instructions():
     """Print instructions for creating a service account"""

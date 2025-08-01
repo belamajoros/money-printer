@@ -179,59 +179,86 @@ def test_batch_upload():
         except:
             pass
 
+import os
+import json
+import base64
+from datetime import datetime
+
 def main():
     """Run all tests"""
     print("🏁 Starting Simple Google Drive Test")
     print("📅 " + datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     print()
-    
+
     # Check environment
     folder_id = os.getenv('GOOGLE_DRIVE_FOLDER_ID')
     if not folder_id:
         print("❌ GOOGLE_DRIVE_FOLDER_ID not set in environment")
         return False
-    
+
     service_key_path = "secrets/service_account.json"
-    if not os.path.exists(service_key_path):
-        print(f"❌ Service account key not found: {service_key_path}")
-        return False
-    
+    key_data = None
+
+    if os.path.exists(service_key_path):
+        print(f"✅ Service account key file found: {service_key_path}")
+        try:
+            with open(service_key_path, 'r') as f:
+                key_data = json.load(f)
+        except Exception as e:
+            print(f"❌ Failed to read service account key file: {e}")
+            return False
+    else:
+        print(f"❌ Service account key file not found: {service_key_path}")
+        print("🔎 Trying GOOGLE_SERVICE_ACCOUNT_JSON from environment...")
+        encoded = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON")
+        if encoded:
+            try:
+                decoded = base64.b64decode(encoded).decode("utf-8")
+                key_data = json.loads(decoded)
+                print("✅ Loaded service account key from environment variable.")
+            except Exception as e:
+                print(f"❌ Failed to decode GOOGLE_SERVICE_ACCOUNT_JSON: {e}")
+                return False
+        else:
+            print("❌ GOOGLE_SERVICE_ACCOUNT_JSON not set in environment")
+            return False
+
     print(f"✅ Environment check passed")
     print(f"📁 Drive folder ID: {folder_id}")
-    print(f"🔑 Service key: {service_key_path}")
-    
+    print(f"🔑 Service key source: {'env var' if not os.path.exists(service_key_path) else service_key_path}")
+
     # Run tests
     results = []
-    
+
     # Test 1: Basic operations
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     basic_result = test_drive_basic()
     results.append(("Basic Drive Operations", basic_result))
-    
+
     # Test 2: Batch upload
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     batch_result = test_batch_upload()
     results.append(("Batch Upload System", batch_result))
-    
+
     # Summary
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("📊 TEST SUMMARY")
-    print("="*60)
-    
+    print("=" * 60)
+
     passed = 0
     for test_name, result in results:
         status = "✅ PASSED" if result else "❌ FAILED"
         print(f"  {status} - {test_name}")
         if result:
             passed += 1
-    
+
     print(f"\n🎯 Overall: {passed}/{len(results)} tests passed")
-    
+
     if passed == len(results):
         print("🎉 All tests passed! Google Drive is working perfectly!")
     else:
         print("⚠️ Some tests failed. Check the output above for details.")
-    
+
     return passed == len(results)
 
 if __name__ == "__main__":

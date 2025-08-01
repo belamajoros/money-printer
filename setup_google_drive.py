@@ -14,6 +14,7 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
+load_dotenv()  # Load environment variables from .env
 
 def check_environment():
     """Check environment configuration"""
@@ -41,61 +42,79 @@ def check_environment():
     return True
 
 def check_service_account_key():
-    """Check if service account key exists"""
+    """Check if service account key exists either as a file or in environment variable"""
     logger.info("🔑 Checking service account key...")
-    
+
     key_path = "secrets/service_account.json"
-    
+    key_data = None
+
+    # Try reading from local file
     if os.path.exists(key_path):
         logger.info(f"✅ Service account key found: {key_path}")
-        
-        # Validate the key file
         try:
             with open(key_path, 'r') as f:
                 key_data = json.load(f)
-            
-            required_fields = ['type', 'project_id', 'private_key_id', 'private_key', 'client_email']
-            missing_fields = [field for field in required_fields if field not in key_data]
-            
-            if missing_fields:
-                logger.error(f"❌ Invalid service account key. Missing fields: {missing_fields}")
-                return False
-            
-            logger.info(f"✅ Service account: {key_data.get('client_email', 'Unknown')}")
-            logger.info(f"✅ Project: {key_data.get('project_id', 'Unknown')}")
-            return True
-            
         except json.JSONDecodeError:
-            logger.error("❌ Service account key is not valid JSON")
+            logger.error("❌ Service account key file is not valid JSON")
             return False
         except Exception as e:
-            logger.error(f"❌ Error reading service account key: {e}")
+            logger.error(f"❌ Error reading service account key file: {e}")
             return False
     else:
-        logger.error(f"❌ Service account key not found: {key_path}")
-        logger.info("\n📋 To set up Google Drive integration:")
-        logger.info("1. Go to Google Cloud Console (https://console.cloud.google.com/)")
-        logger.info("2. Create a new project or select existing one")
-        logger.info("3. Enable Google Drive API")
-        logger.info("4. Create a Service Account:")
-        logger.info("   - Go to IAM & Admin > Service Accounts")
-        logger.info("   - Click 'Create Service Account'")
-        logger.info("   - Give it a name (e.g., 'money-printer-drive')")
-        logger.info("   - Click 'Create and Continue'")
-        logger.info("   - Skip role assignment (click 'Continue')")
-        logger.info("   - Click 'Done'")
-        logger.info("5. Create and download key:")
-        logger.info("   - Click on the service account you created")
-        logger.info("   - Go to 'Keys' tab")
-        logger.info("   - Click 'Add Key' > 'Create new key'")
-        logger.info("   - Choose JSON format")
-        logger.info("   - Download the file")
-        logger.info(f"6. Place the downloaded file at: {key_path}")
-        logger.info("7. Share your Google Drive folder with the service account email")
-        logger.info("   - Right-click on your folder in Google Drive")
-        logger.info("   - Click 'Share'")
-        logger.info("   - Add the service account email with Editor permissions")
+        logger.warning(f"⚠️ Service account key not found at: {key_path}")
+        logger.info("🔎 Trying to load from environment variable: GOOGLE_SERVICE_ACCOUNT_JSON")
+        encoded_key = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON")
+        if not encoded_key:
+            logger.error("❌ GOOGLE_SERVICE_ACCOUNT_JSON not found in environment variables.")
+            _print_setup_instructions(key_path)
+            return False
+        try:
+            decoded = base64.b64decode(encoded_key).decode("utf-8")
+            key_data = json.loads(decoded)
+            logger.info("✅ Service account key loaded from environment variable.")
+        except (base64.binascii.Error, UnicodeDecodeError):
+            logger.error("❌ Failed to decode base64 service account key from environment.")
+            return False
+        except json.JSONDecodeError:
+            logger.error("❌ Decoded service account key is not valid JSON.")
+            return False
+
+    # Validate key data
+    required_fields = ['type', 'project_id', 'private_key_id', 'private_key', 'client_email']
+    missing_fields = [field for field in required_fields if field not in key_data]
+
+    if missing_fields:
+        logger.error(f"❌ Invalid service account key. Missing fields: {missing_fields}")
         return False
+
+    logger.info(f"✅ Service account: {key_data.get('client_email', 'Unknown')}")
+    logger.info(f"✅ Project: {key_data.get('project_id', 'Unknown')}")
+    return True
+
+def _print_setup_instructions(key_path):
+    logger.info("\n📋 To set up Google Drive integration:")
+    logger.info("1. Go to Google Cloud Console (https://console.cloud.google.com/)")
+    logger.info("2. Create a new project or select existing one")
+    logger.info("3. Enable Google Drive API")
+    logger.info("4. Create a Service Account:")
+    logger.info("   - Go to IAM & Admin > Service Accounts")
+    logger.info("   - Click 'Create Service Account'")
+    logger.info("   - Give it a name (e.g., 'money-printer-drive')")
+    logger.info("   - Click 'Create and Continue'")
+    logger.info("   - Skip role assignment (click 'Continue')")
+    logger.info("   - Click 'Done'")
+    logger.info("5. Create and download key:")
+    logger.info("   - Click on the service account you created")
+    logger.info("   - Go to 'Keys' tab")
+    logger.info("   - Click 'Add Key' > 'Create new key'")
+    logger.info("   - Choose JSON format")
+    logger.info("   - Download the file")
+    logger.info(f"6. Place the downloaded file at: {key_path}")
+    logger.info("   OR encode it as base64 and set it as the env var: GOOGLE_SERVICE_ACCOUNT_JSON")
+    logger.info("7. Share your Google Drive folder with the service account email")
+    logger.info("   - Right-click on your folder in Google Drive")
+    logger.info("   - Click 'Share'")
+    logger.info("   - Add the service account email with Editor permissions")
 
 def create_secrets_directory():
     """Create secrets directory if it doesn't exist"""
