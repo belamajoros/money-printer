@@ -636,7 +636,10 @@ class ModelValidationService:
             logger.info(f"📝 Registered model for validation: {model_name}")
         
         return self.validators[model_name]
-    
+
+    def force_model_reload(self) -> bool:
+        return self._load_model()
+
     def validate_all_models(self) -> Tuple[bool, Dict[str, Any]]:
         """Validate all registered models"""
         self.last_validation_time = datetime.utcnow()
