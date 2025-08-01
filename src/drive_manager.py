@@ -32,6 +32,8 @@ from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 from queue import Queue, Empty
 import tempfile
+from google.oauth2 import service_account
+from googleapiclient.discovery import build
 
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
