@@ -524,35 +524,36 @@ class EnhancedDriveManager:
     def _initialize_service_account(self):
         """Initialize Google Drive service with service account"""
         try:
-            from google.oauth2 import service_account
-            from googleapiclient.discovery import build
-            
-            if not self.service_account_path.exists():
-                logger.error(f"Service account key not found: {self.service_account_path}")
-                logger.error("Please place your service account JSON key file at the specified location")
-                self.authenticated = False
-                return
-            
-            # Load service account credentials
             SCOPES = ['https://www.googleapis.com/auth/drive']
-            
-            credentials = service_account.Credentials.from_service_account_file(
-                str(self.service_account_path),
-                scopes=SCOPES
-            )
-            
-            # Build the service
+
+            if self.service_account_path.exists():
+                # Load from local file
+                credentials = service_account.Credentials.from_service_account_file(
+                    str(self.service_account_path),
+                    scopes=SCOPES
+                )
+                logger.info("✅ Loaded service account credentials from local file")
+            else:
+                # Fallback: load from base64-encoded JSON in env var
+                encoded_key = os.getenv('GOOGLE_SERVICE_ACCOUNT_JSON')
+                if not encoded_key:
+                    logger.error(f"Service account key not found locally at {self.service_account_path}, and GOOGLE_SERVICE_ACCOUNT_JSON env var is not set")
+                    self.authenticated = False
+                    return
+
+                decoded_json_str = base64.b64decode(encoded_key).decode('utf-8')
+                key_info = json.loads(decoded_json_str)
+                credentials = service_account.Credentials.from_service_account_info(key_info, scopes=SCOPES)
+                logger.info("✅ Loaded service account credentials from base64-encoded env var")
+
             self.service = build('drive', 'v3', credentials=credentials)
             self.authenticated = True
-            
-            logger.info("✅ Google Drive service initialized with service account")
-            
-            # Test connection
+
             if not self._test_connection():
                 logger.error("❌ Service account connection test failed")
                 self.authenticated = False
-            
-        except ImportError as e:
+
+        except ImportError:
             logger.error("Google API libraries not installed. Install with: pip install google-api-python-client google-auth")
             self.authenticated = False
         except Exception as e:
