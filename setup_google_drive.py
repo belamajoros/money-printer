@@ -7,6 +7,7 @@ Helps set up Google Drive integration for Railway deployment
 import os
 import json
 import logging
+import base64
 
 # Set up logging
 logging.basicConfig(

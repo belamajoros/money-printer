@@ -22,6 +22,7 @@ import time
 import asyncio
 import hashlib
 import threading
+import base64
 import zipfile
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Set
