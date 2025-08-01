@@ -491,6 +491,9 @@ class ModelDriftDetector:
             }
         }
 
+    def force_model_reload(self) -> bool:
+        return self._load_model()
+
 
 # Global instance
 _stats_manager = None
