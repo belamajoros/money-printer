@@ -7,7 +7,7 @@ batch upload management, file chunking, and organized folder structure.
 Features:
 - Service account authentication
 - Batch upload manager (2-3 files per 30-60s)
-- Large file chunking for >10MB files
+- Large file chunking for >10MB files (uses resumable upload)
 - Organized folder structure
 - Cancellable operations
 - Download missing files on boot
@@ -32,7 +32,9 @@ from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 from queue import Queue, Empty
 import tempfile
-from google.oauth2 import service_account
+from google.oauth2.credentials import Credentials
+from google.auth.transport.requests import Request
+from google_auth_oauthlib.flow import InstalledAppFlow # Needed if you ever implement the interactive flow
 from googleapiclient.discovery import build
 
 # Add parent directory to path
@@ -40,7 +42,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 from src.config import (
     USE_GOOGLE_DRIVE, GOOGLE_DRIVE_FOLDER_ID, SECRETS_DIR, DATA_ROOT, LOGS_DIR
-)
+) # GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_OAUTH_REFRESH_TOKEN are also loaded from config now
 
 # Setup logging
 logging.basicConfig(
@@ -68,7 +70,11 @@ CHUNK_SIZE = 10 * 1024 * 1024  # 10MB chunks for large files
 MAX_BATCH_SIZE = 3  # Maximum files per batch
 MIN_BATCH_INTERVAL = 30  # Minimum seconds between batches
 MAX_BATCH_INTERVAL = 60  # Maximum seconds between batches
-MAX_RETRY_ATTEMPTS = 3
+MAX_RETRY_ATTEMPTS = 5 # Increased retries for network robustness
+
+# OAuth 2.0 Constants and Paths
+SCOPES = ['https://www.googleapis.com/auth/drive']
+
 SERVICE_ACCOUNT_KEY_PATH = SECRETS_DIR / "service_account.json"
 
 @dataclass
@@ -496,7 +502,7 @@ class BatchUploadManager:
 class EnhancedDriveManager:
     """Enhanced Google Drive Manager with production features"""
     
-    def __init__(self, service_account_path: str = None, folder_id: str = None):
+    def __init__(self, folder_id: str = None):
         self.service_account_path = Path(service_account_path or SERVICE_ACCOUNT_KEY_PATH)
         self.folder_id = folder_id or GOOGLE_DRIVE_FOLDER_ID
         
@@ -520,49 +526,73 @@ class EnhancedDriveManager:
         self._load_metadata_cache()
         
         if self.sync_enabled:
-            self._initialize_service_account()
+            self._initialize_oauth_credentials() # Call the new OAuth initialization method
             if self.authenticated:
                 self._setup_batch_manager()
-    
-    def _initialize_service_account(self):
-        """Initialize Google Drive service with service account"""
-        try:
-            SCOPES = ['https://www.googleapis.com/auth/drive']
 
-            if self.service_account_path.exists():
-                # Load from local file
-                credentials = service_account.Credentials.from_service_account_file(
-                    str(self.service_account_path),
+    def _initialize_oauth_credentials(self):
+        """Initialize Google Drive service with OAuth 2.0 credentials"""
+        logger.info("🔑 Initializing Google Drive with OAuth 2.0...")
+        creds = None
+
+        # Try to load credentials from environment variable (Refresh Token)
+        refresh_token = os.getenv("GOOGLE_OAUTH_REFRESH_TOKEN")
+        client_id = os.getenv("GOOGLE_CLIENT_ID")
+        client_secret = os.getenv("GOOGLE_CLIENT_SECRET")
+
+        if refresh_token and client_id and client_secret:
+            try:
+                creds = Credentials(
+                    None, # Access token is None initially
+                    refresh_token=refresh_token,
+                    token_uri="https://oauth2.googleapis.com/token",
+                    client_id=client_id,
+                    client_secret=client_secret,
                     scopes=SCOPES
                 )
-                logger.info("✅ Loaded service account credentials from local file")
-            else:
-                # Fallback: load from base64-encoded JSON in env var
-                encoded_key = os.getenv('GOOGLE_SERVICE_ACCOUNT_JSON')
-                if not encoded_key:
-                    logger.error(f"Service account key not found locally at {self.service_account_path}, and GOOGLE_SERVICE_ACCOUNT_JSON env var is not set")
-                    self.authenticated = False
-                    return
 
-                decoded_json_str = base64.b64decode(encoded_key).decode('utf-8')
-                key_info = json.loads(decoded_json_str)
-                credentials = service_account.Credentials.from_service_account_info(key_info, scopes=SCOPES)
-                logger.info("✅ Loaded service account credentials from base64-encoded env var")
+                # Refresh the access token if it's expired
+                if not creds.valid:
+                    logger.info("⏱️ Access token expired, attempting to refresh...")
+                    try:
+                         creds.refresh(Request())
+                         logger.info("✅ Access token refreshed successfully.")
+                    except Exception as refresh_error:
+                         logger.error(f"❌ Failed to refresh access token: {refresh_error}")
+                         self.authenticated = False
+                         return
 
-            self.service = build('drive', 'v3', credentials=credentials)
-            self.authenticated = True
+                logger.info("✅ Loaded OAuth 2.0 credentials from environment variables.")
+                self.authenticated = True
+
+            except Exception as e:
+                logger.error(f"❌ Failed to load OAuth 2.0 credentials from env vars: {e}")
+                self.authenticated = False
+
+        else:
+            logger.warning("⚠️ Google Drive OAuth environment variables not fully set.")
+            logger.warning("   Set GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and GOOGLE_OAUTH_REFRESH_TOKEN")
+            logger.warning("   Use OAuth 2.0 Playground (https://developers.google.com/oauthplayground/) to get a Refresh Token.")
+            self.authenticated = False
+            return # Exit if essential env vars are missing
+
+        # If authenticated, build the service
+        if self.authenticated and creds:
+            try:
+                self.service = build('drive', 'v3', credentials=creds)
 
             if not self._test_connection():
-                logger.error("❌ Service account connection test failed")
+                logger.error("❌ Google Drive connection test failed with OAuth credentials")
                 self.authenticated = False
 
         except ImportError:
             logger.error("Google API libraries not installed. Install with: pip install google-api-python-client google-auth")
+            logger.error("If using OAuth, also install: pip install google-auth-oauthlib")
             self.authenticated = False
         except Exception as e:
             logger.error(f"Failed to initialize service account: {e}")
             self.authenticated = False
-    
+
     def _setup_batch_manager(self):
         """Setup batch upload manager"""
         if self.service:
@@ -936,7 +966,7 @@ class EnhancedDriveManager:
             "authenticated": self.authenticated,
             "folder_id": self.folder_id,
             "cached_files": len(self.file_metadata_cache),
-            "service_account": self.service_account_path.exists(),
+            # "service_account": self.service_account_path.exists(), # Remove service account status
             "batch_manager": None
         }
         
@@ -1016,33 +1046,43 @@ async def main():
     parser.add_argument("--sync", action="store_true", help="Sync trading data")
     parser.add_argument("--download", action="store_true", help="Download missing files")
     parser.add_argument("--status", action="store_true", help="Show status")
-    parser.add_argument("--setup", action="store_true", help="Setup service account")
-    
+    parser.add_argument("--setup-oauth", action="store_true", help="Show OAuth 2.0 setup steps") # Renamed setup
+
     args = parser.parse_args()
-    
+
     try:
-        if args.setup:
-            print("🔧 Enhanced Google Drive Setup")
+        if args.setup_oauth:
+            print("🔧 Enhanced Google Drive OAuth 2.0 Setup")
             print("=" * 50)
-            print("\n📋 Service Account Setup Steps:")
+            print("\n📋 OAuth 2.0 Credential Setup Steps:")
             print("1. Go to Google Cloud Console (https://console.cloud.google.com/)")
-            print("2. Create a new project or select existing one")
-            print("3. Enable the Google Drive API")
-            print("4. Go to 'Credentials' → 'Create Credentials' → 'Service Account'")
-            print("5. Create a service account with Drive access")
-            print("6. Generate and download the JSON key file")
-            print(f"7. Save it as: {SERVICE_ACCOUNT_KEY_PATH}")
-            print("\n📂 Share your Google Drive folder with the service account email")
-            print("   (found in the JSON key file as 'client_email')")
-            print(f"\n⚙️  Add to your .env file:")
+            print("2. Select your project")
+            print("3. Go to 'APIs & Services' -> 'Credentials'")
+            print("4. Click 'Create Credentials' -> 'OAuth client ID'")
+            print("5. Application type: Web application")
+            print("6. Give it a name (e.g., 'Money Printer Bot OAuth')")
+            print("7. For 'Authorized redirect URIs', you can leave it blank for manual flow, or set a local redirect URI if you implement that.")
+            print("8. Click 'Create'")
+            print("9. Note down your Client ID and Client Secret")
+            print("\n🔑 Get a Refresh Token using OAuth 2.0 Playground:")
+            print("1. Go to https://developers.google.com/oauthplayground/")
+            print("2. Click the gear icon (OAuth 2.0 configuration) -> 'Use your own OAuth credentials'")
+            print("3. Enter your Client ID and Client Secret")
+            print("4. In Step 1, add the scope: https://www.googleapis.com/auth/drive")
+            print("5. Click 'Authorize APIs' and follow the Google consent flow.")
+            print("6. In Step 2, click 'Exchange authorization code for tokens'")
+            print("7. Copy the Refresh Token from the response.")
+            print("\n⚙️  Add to your .env file (and Railway variables):")
             print(f"USE_GOOGLE_DRIVE=true")
-            print(f"GOOGLE_DRIVE_FOLDER_ID=your_folder_id_here")
+            print(f"GOOGLE_DRIVE_FOLDER_ID=your_drive_folder_id_here (use a Shared Drive ID for quota)")
+            print(f"GOOGLE_CLIENT_ID=your_client_id_here")
+            print(f"GOOGLE_CLIENT_SECRET=your_client_secret_here")
+            print(f"GOOGLE_OAUTH_REFRESH_TOKEN=your_refresh_token_here")
             return
-        
+
         manager = get_drive_manager()
-        
         if args.test:
-            if manager._test_connection():
+            if manager.test_connection(): # Use the public test_connection method
                 print("✅ Google Drive connection successful")
             else:
                 print("❌ Google Drive connection failed")

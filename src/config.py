@@ -75,9 +75,14 @@ CLEANUP_OLD_FILES_DAYS = 30
 MAX_FILES_PER_SYMBOL = 100
 
 # Model Training Settings
-MIN_TRAINING_ROWS = 500
 TRAIN_TEST_SPLIT = 0.7
 RANDOM_STATE = 42
+# Model Training Settings
+MIN_TRAINING_ROWS_STRICT = 50   # Strict minimum required rows for training
+WARN_MIN_TRAINING_ROWS = 500    # Warning threshold for low data volume
+
+MIN_TRAINING_ROWS = 500 # Keep existing for backward compatibility if needed, or remove if not used elsewhere
+
 
 # Trading Settings
 TRADING_ENABLED = os.getenv("TRADING_ENABLED", "True").lower() == "true"  # Master trading switch - ENABLED
@@ -214,6 +219,11 @@ class Config:
     DATA_ROOT = DATA_ROOT
     MODELS_DIR = MODELS_DIR
     PARQUET_DATA_DIR = PARQUET_DATA_DIR
+
+    # Google drive
+    GOOGLE_CLIENT_ID = GOOGLE_CLIENT_ID
+    GOOGLE_CLIENT_SECRET = GOOGLE_CLIENT_SECRET
+    GOOGLE_OAUTH_REFRESH_TOKEN = GOOGLE_OAUTH_REFRESH_TOKEN
     
     # Technical indicators
     TECHNICAL_INDICATORS = TECHNICAL_INDICATORS

@@ -161,14 +161,27 @@ def main():
         logger.error("❌ No data loaded from local storage!")
         send_rf_trainer_notification("❌ **Training Failed**: No data found in local storage")
         return
-    
-    # Process data for training
+
+        # Process data for training
     logger.info("🔄 Preprocessing data for Random Forest training...")
     X, y, groups = preprocess_data(df)    # Sanity check before training
-    if X.shape[0] < 500 or len(np.unique(y)) < 2:
-        logger.error("🚫 Not enough valid data to train. Exiting.")
-        send_rf_trainer_notification("🚫 **Training Failed**: Not enough valid data to train Random Forest model")
+    
+    # Sanity check before training
+    from src.config import MIN_TRAINING_ROWS_STRICT, WARN_MIN_TRAINING_ROWS # Import configurable values
+    # Also import MIN_TRAINING_ROWS if it's still used elsewhere and you want to keep it
+
+    if len(np.unique(y)) < 2:
+        logger.error("🚫 Not enough valid data to train. Target variable has less than 2 unique values. Exiting.")
+        send_rf_trainer_notification("🚫 **Training Failed**: Target variable has less than 2 unique values - cannot train Random Forest model")
         return
+
+    if X.shape[0] < MIN_TRAINING_ROWS_STRICT:
+        logger.error(f"🚫 Not enough valid data to train ({X.shape[0]} rows, requires at least {MIN_TRAINING_ROWS_STRICT}). Exiting.")
+        send_rf_trainer_notification(f"🚫 **Training Failed**: Not enough valid data to train Random Forest model ({X.shape[0]} rows, requires at least {MIN_TRAINING_ROWS_STRICT})")
+        return
+    elif X.shape[0] < WARN_MIN_TRAINING_ROWS:
+        logger.warning(f"⚠️ Low data volume for training ({X.shape[0]} rows). Consider collecting more data for better performance.")
+        send_rf_trainer_notification(f"⚠️ **Training Warning**: Low data volume ({X.shape[0]} rows). Proceeding with caution, but more data is recommended.")
 
     send_rf_trainer_notification(f"📊 **Data Prepared**: {X.shape[0]} samples with {X.shape[1]} features ready for Random Forest training")
     

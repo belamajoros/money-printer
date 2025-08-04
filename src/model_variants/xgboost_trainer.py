@@ -170,10 +170,21 @@ def main():
     X, y, groups = preprocess_data(df)
 
     # Sanity check before training
-    if X.shape[0] < 500 or len(np.unique(y)) < 2:
-        logger.error("🚫 Not enough valid data to train. Exiting.")
-        send_xgb_trainer_notification("🚫 **Training Failed**: Not enough valid data to train XGBoost model")
+    from src.config import MIN_TRAINING_ROWS_STRICT, WARN_MIN_TRAINING_ROWS # Import configurable values
+    # Also import MIN_TRAINING_ROWS if it's still used elsewhere and you want to keep it
+
+    if len(np.unique(y)) < 2:
+        logger.error("🚫 Not enough valid data to train. Target variable has less than 2 unique values. Exiting.")
+        send_xgb_trainer_notification("🚫 **Training Failed**: Target variable has less than 2 unique values - cannot train XGBoost model")
         return
+
+    if X.shape[0] < MIN_TRAINING_ROWS_STRICT:
+        logger.error(f"🚫 Not enough valid data to train ({X.shape[0]} rows, requires at least {MIN_TRAINING_ROWS_STRICT}). Exiting.")
+        send_xgb_trainer_notification(f"🚫 **Training Failed**: Not enough valid data to train XGBoost model ({X.shape[0]} rows, requires at least {MIN_TRAINING_ROWS_STRICT})")
+        return
+    elif X.shape[0] < WARN_MIN_TRAINING_ROWS:
+         logger.warning(f"⚠️ Low data volume for training ({X.shape[0]} rows). Consider collecting more data for better performance.")
+         send_xgb_trainer_notification(f"⚠️ **Training Warning**: Low data volume ({X.shape[0]} rows). Proceeding with caution, but more data is recommended.")
 
     send_xgb_trainer_notification(f"📊 **Data Prepared**: {X.shape[0]} samples with {X.shape[1]} features ready for XGBoost training")
 
