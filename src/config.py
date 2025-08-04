@@ -59,6 +59,9 @@ GOOGLE_DRIVE_FOLDER_ID = os.getenv("GOOGLE_DRIVE_FOLDER_ID")  # Target folder fo
 SECRETS_DIR = PROJECT_ROOT / "secrets"
 DRIVE_CREDENTIALS_PATH = SECRETS_DIR / "credentials.json"
 DRIVE_TOKEN_PATH = SECRETS_DIR / "token.json"
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
+GOOGLE_OAUTH_REFRESH_TOKEN = os.getenv("GOOGLE_OAUTH_REFRESH_TOKEN")
 
 # Ensure secrets directory exists
 SECRETS_DIR.mkdir(parents=True, exist_ok=True)
