@@ -735,7 +735,7 @@ class EnhancedDriveManager:
             parent_folder_id = self.batch_manager._get_parent_folder_id(drive_path)
 
             # --- Check if file exists on Google Drive and get its ID ---
-            existing_file_id = self.find_file_by_name(local_path_obj.name, parent_folder_id)
+            existing_file_id = self.batch_manager.find_file_by_name(local_path_obj.name, parent_folder_id)
 
             # Check if file needs uploading
             if self._needs_upload(local_path_obj):
