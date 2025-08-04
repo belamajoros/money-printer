@@ -40,9 +40,7 @@ from googleapiclient.discovery import build
 # Add parent directory to path
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-from src.config import (
-    USE_GOOGLE_DRIVE, GOOGLE_DRIVE_FOLDER_ID, SECRETS_DIR, DATA_ROOT, LOGS_DIR
-) # GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_OAUTH_REFRESH_TOKEN are also loaded from config now
+from src.config import (USE_GOOGLE_DRIVE, GOOGLE_DRIVE_FOLDER_ID, SECRETS_DIR, DATA_ROOT, LOGS_DIR, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_OAUTH_REFRESH_TOKEN)
 
 # Setup logging
 logging.basicConfig(
