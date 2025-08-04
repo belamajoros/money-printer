@@ -731,12 +731,8 @@ class EnhancedDriveManager:
             else:
                 drive_path = local_path_obj.name
         
-            # Determine the parent folder ID for the target location
-            # This needs to be called outside the inner try block
-            parent_folder_id = self._get_parent_folder_id(drive_path)
-
-            # Determine the parent folder ID for the target location
-            parent_folder_id = self._get_parent_folder_id(drive_path)
+            # Determine the parent folder ID for the target location using the batch manager
+            parent_folder_id = self.batch_manager._get_parent_folder_id(drive_path)
 
             # --- Check if file exists on Google Drive and get its ID ---
             existing_file_id = self.find_file_by_name(local_path_obj.name, parent_folder_id)
