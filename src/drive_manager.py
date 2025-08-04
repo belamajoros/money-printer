@@ -764,10 +764,7 @@ class EnhancedDriveManager:
             else:
                 logger.debug(f"⏭️ File unchanged, skipping: {local_path.name}")
                 return True
-                 else:
-                     # This case is unlikely but handled for robustness
-                     logger.warning(f"⚠️ File {local_path_obj.name} not found on Drive, but _needs_upload returned False. Cache issue?")
-                     return True # Assume it's on Drive and unchanged
+                
         except Exception as e:
             logger.error(f"Failed to queue upload for {local_path}: {e}")
             return False
