@@ -591,15 +591,6 @@ class EnhancedDriveManager:
                 logger.error(f"Failed to initialize service account: {e}")
                 self.authenticated = False
 
-
-        except ImportError:
-            logger.error("Google API libraries not installed. Install with: pip install google-api-python-client google-auth")
-            logger.error("If using OAuth, also install: pip install google-auth-oauthlib")
-            self.authenticated = False
-        except Exception as e:
-            logger.error(f"Failed to initialize service account: {e}")
-            self.authenticated = False
-
     def _setup_batch_manager(self):
         """Setup batch upload manager"""
         if self.service:
