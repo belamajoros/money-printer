@@ -96,6 +96,7 @@ class UploadTask:
     priority: int = 0  # Higher number = higher priority
     retries: int = 0
     created_at: float = None
+    existing_file_id: Optional[str] = None # Add this field to store existing file ID for updates
     
     def __post_init__(self):
         if self.created_at is None:
