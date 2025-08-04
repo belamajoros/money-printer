@@ -369,10 +369,10 @@ class BatchUploadManager:
             file_size = task.local_path.stat().st_size
             
             if file_size > CHUNK_SIZE:
-                return self._upload_chunked_file(task)
+                return self._upload_chunked_file(task, task.existing_file_id) # Pass existing_file_id
             else:
-                return self._upload_to_drive(task.local_path, task.drive_path)
-                
+                return self._upload_to_drive(task.local_path, task.drive_path, existing_file_id=task.existing_file_id) # Pass existing_file_id
+
         except Exception as e:
             logger.error(f"❌ Single file upload error for {task.drive_path}: {e}")
             return False
@@ -381,18 +381,29 @@ class BatchUploadManager:
         """Upload large file in chunks"""
         try:
             from googleapiclient.http import MediaFileUpload
-            
+
+            if not self.authenticated or not self.drive_service: # Use self.service consistently
+                logger.warning("Drive service not authenticated, cannot upload/update in chunks.")
+                return False
+
+            if not task.local_path.exists():
+                logger.error(f"Local file not found for chunked upload: {task.local_path}")
+                return False
+
             # Use resumable upload for large files
             media = MediaFileUpload(
                 str(task.local_path),
                 resumable=True,
                 chunksize=CHUNK_SIZE
             )
-            
+
+            # Determine the parent folder ID for the target location (needed for create)
+            parent_folder_id = self._get_parent_folder_id(task.drive_path)
+
             # Prepare file metadata
             file_metadata = {
                 'name': Path(task.drive_path).name,
-                'parents': [self._get_parent_folder_id(task.drive_path)]
+                \'parents\': [parent_folder_id]
             }
             
             # Start resumable upload
@@ -424,60 +435,42 @@ class BatchUploadManager:
         except Exception as e:
             logger.error(f"❌ Chunked upload error for {task.drive_path}: {e}")
             return False
+    
+    def _upload_to_drive(self, local_path: Path, drive_path: str, is_batch: bool = False, existing_file_id: Optional[str] = None) -> bool:
+        \"\"\"Upload or update file on Google Drive (upsert logic).\"\"\"\
+        if not self.authenticated or not self.service:
+            logger.warning("Drive service not authenticated, cannot upload/update.")
+            return False
 
-    def _upload_to_drive(self, local_path: Path, drive_path: str, is_batch: bool = False) -> bool:
-        """Upload file to Google Drive"""
+        if not local_path.exists():
+            logger.error(f"Local file not found for upload/update: {local_path}")
+            return False
+
         try:
             from googleapiclient.http import MediaFileUpload
-            
+
             # Determine media type
             media_type = self._get_media_type(local_path)
-            
             media = MediaFileUpload(str(local_path), mimetype=media_type)
-            
-            # Prepare file metadata
-            file_metadata = {
-                'name': Path(drive_path).name,
-                'parents': [self._get_parent_folder_id(drive_path)]
-            }
-
             # --- Upsert Logic ---
-            # Find if the file already exists in the target folder
-            # Note: This search should ideally happen in upload_file_async
-            # and the existing_file_id passed down. For now, adding it here for basic upsert,
-            # but it's less efficient as it happens for every upload attempt.
-            # A better approach is implemented in upload_file_async.
-            # This parameter is now handled by the method signature itself.
-
-            # Determine if this is an update or create operation
-            # The existing_file_id should be passed by the caller (_upload_single_file or _upload_chunked_file)
-            # which gets it from the UploadTask.
-            # However, the current _upload_to_drive method signature doesn't accept existing_file_id.
-            # We need to modify the _upload_to_drive and _upload_single_file/chunked_file methods
-            # to pass this information from the UploadTask.
-
-            # *** TEMPORARY WORKAROUND/DEMONSTRATION (Less Efficient) ***
-            # To show the upsert logic working within _upload_to_drive WITHOUT changing the
-            # call sites (_upload_single_file, etc.), we can perform the find here.
-            # This is less efficient than doing it once in upload_file_async.
-            # We will refactor this properly next.
-            # For now, let's add the existing_file_id parameter to this method.
-            # This means we *will* need to modify the callers later.
-
-            # Assume existing_file_id is passed correctly based on the previous planned change
-            # If existing_file_id is None in the signature, the previous version was used.
-            # Let's use the provided code block that includes existing_file_id in the signature.
-
             if existing_file_id:
                 # Update file
                 logger.info(f"📤 Updating existing file on Drive: {drive_path} (ID: {existing_file_id})")
                 request = self.drive_service.files().update(
                     fileId=existing_file_id,
+                    # body is optional for content updates, but can be used to change metadata
+                    # For example, body={'name': Path(drive_path).name} if you wanted to potentially rename
                     media_body=media,
                     fields='id'
                 )
                 operation = "updated"
             else:
+                # Determine the parent folder ID for the target location
+                parent_folder_id = self._get_parent_folder_id(drive_path)
+                file_metadata = {
+                    'name': Path(drive_path).name,
+                    'parents': [parent_folder_id] # Specify parent for new file
+                }
                 # Create new file
                 logger.info(f"📤 Uploading new file to Drive: {drive_path}")
                 fields='id'
@@ -716,13 +709,28 @@ class EnhancedDriveManager:
     
     def upload_file_async(self, local_path: Path, category: str, subcategory: str = None, 
                          priority: int = 0, date_based: bool = False) -> bool:
-        """Add file to async upload queue"""
+        """Add file to async upload queue (with upsert logic and deduplication)."""
         if not self.sync_enabled or not self.authenticated or not self.batch_manager:
             return False
 
         # 🔍 Debug logs for troubleshooting
         logger.debug(f"[upload_file_async] Received local_path: {local_path}")
         logger.debug(f"[upload_file_async] Type of local_path: {type(local_path)}")
+
+        # Ensure local_path is a Path object
+        local_path_obj = Path(local_path)
+
+        if not local_path_obj.exists():
+            logger.warning(f"Local file not found for upload: {local_path_obj}. Skipping.")
+            return False
+
+        try:
+            # Generate organized drive path
+            if self.folder_structure:
+                folder_path = self.folder_structure.get_folder_path(category, subcategory, date_based)
+                drive_path = f"{folder_path}/{local_path_obj.name}"
+            else:
+                drive_path = local_path_obj.name
         
         try:
             local_path = Path(local_path)  # ← Fix: normalize input to Path
@@ -734,6 +742,46 @@ class EnhancedDriveManager:
             else:
                 drive_path = local_path.name
             
+            # Determine the parent folder ID for the target location
+            parent_folder_id = self._get_parent_folder_id(drive_path)
+
+            # --- Check if file exists on Google Drive and get its ID ---
+            existing_file_id = self.find_file_by_name(local_path_obj.name, parent_folder_id)
+
+            if existing_file_id:
+                # File with the same name exists on Google Drive.
+                # Decide if we need to update it based on local file changes.
+                # This is a simplified check based on local cache. For a robust check,
+                # you'd compare local file metadata with Drive file metadata.
+
+                if self._needs_upload(local_path_obj): # Check if local file changed
+                     logger.debug(f"🔄 File exists on Drive and local content changed, queuing for update: {local_path_obj.name} (ID: {existing_file_id})")
+                     task = UploadTask(
+                         local_path=local_path_obj,
+                         drive_path=drive_path,
+                         priority=priority,
+                         existing_file_id=existing_file_id # Pass the existing file ID for update
+                     )
+                     # Add task to queue
+                     self.batch_manager.add_upload_task(task)
+                     logger.debug(f"📤 Queued for update: {drive_path}")
+                     return True
+                else:
+                    # File exists on Drive and local content is unchanged. Skip queuing.
+                    logger.debug(f"⏭️ File exists and local content unchanged, skipping upload: {local_path_obj.name}")
+                    return True
+
+            else:
+                # File does not exist on Google Drive. Check if local file needs uploading.
+                 if self._needs_upload(local_path_obj): # _needs_upload will be true for a new file not in cache
+                    logger.debug(f"✨ File does not exist on Drive, queuing for new upload: {local_path_obj.name}")
+                    task = UploadTask(
+                        local_path=local_path_obj,
+                        drive_path=drive_path,
+                        priority=priority,
+                        existing_file_id=None # This is a new file
+                    )
+
             # Check if file needs uploading
             if self._needs_upload(local_path):
                 task = UploadTask(
@@ -741,6 +789,7 @@ class EnhancedDriveManager:
                     drive_path=drive_path,
                     priority=priority
                 )
+                 # Add task to queue
                 
                 self.batch_manager.add_upload_task(task)
                 logger.debug(f"📤 Queued for upload: {drive_path}")
@@ -748,7 +797,10 @@ class EnhancedDriveManager:
             else:
                 logger.debug(f"⏭️ File unchanged, skipping: {local_path.name}")
                 return True
-                
+                 else:
+                     # This case is unlikely but handled for robustness
+                     logger.warning(f"⚠️ File {local_path_obj.name} not found on Drive, but _needs_upload returned False. Cache issue?")
+                     return False
         except Exception as e:
             logger.error(f"Failed to queue upload for {local_path}: {e}")
             return False
