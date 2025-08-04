@@ -455,26 +455,25 @@ class BatchUploadManager:
             # --- Upsert Logic ---
             if existing_file_id:
                 # Update file
-                logger.info(f"📤 Updating existing file on Drive: {drive_path} (ID: {existing_file_id})")
-                request = self.drive_service.files().update(
+                # ...
+                request = self.service.files().update( # <-- This returns a request object
                     fileId=existing_file_id,
-                    # body is optional for content updates, but can be used to change metadata
-                    # For example, body={'name': Path(drive_path).name} if you wanted to potentially rename
                     media_body=media,
                     fields='id'
                 )
+                file = request.execute() # <-- .execute() is called on the request object
                 operation = "updated"
+
             else:
-                # Determine the parent folder ID for the target location
-                parent_folder_id = self._get_parent_folder_id(drive_path)
-                file_metadata = {
-                    'name': Path(drive_path).name,
-                    'parents': [parent_folder_id] # Specify parent for new file
-                }
                 # Create new file
-                logger.info(f"📤 Uploading new file to Drive: {drive_path}")
-                fields='id'
-            ).execute()
+                # ...
+                request = self.service.files().create( # <-- This also returns a request object
+                    body=file_metadata,
+                    media_body=media,
+                    fields='id'
+                )
+                file = request.execute() # <-- .execute() is called on the same type of request object
+                operation = "uploaded"
             
             file_id = file.get('id')
             if file_id:
