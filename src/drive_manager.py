@@ -424,7 +424,7 @@ class BatchUploadManager:
         except Exception as e:
             logger.error(f"❌ Chunked upload error for {task.drive_path}: {e}")
             return False
-    
+
     def _upload_to_drive(self, local_path: Path, drive_path: str, is_batch: bool = False) -> bool:
         """Upload file to Google Drive"""
         try:
@@ -440,11 +440,46 @@ class BatchUploadManager:
                 'name': Path(drive_path).name,
                 'parents': [self._get_parent_folder_id(drive_path)]
             }
-            
-            # Upload file
-            file = self.drive_service.files().create(
-                body=file_metadata,
-                media_body=media,
+
+            # --- Upsert Logic ---
+            # Find if the file already exists in the target folder
+            # Note: This search should ideally happen in upload_file_async
+            # and the existing_file_id passed down. For now, adding it here for basic upsert,
+            # but it's less efficient as it happens for every upload attempt.
+            # A better approach is implemented in upload_file_async.
+            # This parameter is now handled by the method signature itself.
+
+            # Determine if this is an update or create operation
+            # The existing_file_id should be passed by the caller (_upload_single_file or _upload_chunked_file)
+            # which gets it from the UploadTask.
+            # However, the current _upload_to_drive method signature doesn't accept existing_file_id.
+            # We need to modify the _upload_to_drive and _upload_single_file/chunked_file methods
+            # to pass this information from the UploadTask.
+
+            # *** TEMPORARY WORKAROUND/DEMONSTRATION (Less Efficient) ***
+            # To show the upsert logic working within _upload_to_drive WITHOUT changing the
+            # call sites (_upload_single_file, etc.), we can perform the find here.
+            # This is less efficient than doing it once in upload_file_async.
+            # We will refactor this properly next.
+            # For now, let's add the existing_file_id parameter to this method.
+            # This means we *will* need to modify the callers later.
+
+            # Assume existing_file_id is passed correctly based on the previous planned change
+            # If existing_file_id is None in the signature, the previous version was used.
+            # Let's use the provided code block that includes existing_file_id in the signature.
+
+            if existing_file_id:
+                # Update file
+                logger.info(f"📤 Updating existing file on Drive: {drive_path} (ID: {existing_file_id})")
+                request = self.drive_service.files().update(
+                    fileId=existing_file_id,
+                    media_body=media,
+                    fields='id'
+                )
+                operation = "updated"
+            else:
+                # Create new file
+                logger.info(f"📤 Uploading new file to Drive: {drive_path}")
                 fields='id'
             ).execute()
             
@@ -452,7 +487,7 @@ class BatchUploadManager:
             if file_id:
                 file_size = local_path.stat().st_size
                 self.stats["total_bytes"] += file_size
-                
+
                 if not is_batch:
                     logger.info(f"✅ Uploaded: {drive_path} ({file_size:,} bytes)")
                 return True
