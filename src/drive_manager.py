@@ -501,7 +501,6 @@ class EnhancedDriveManager:
     """Enhanced Google Drive Manager with production features"""
     
     def __init__(self, folder_id: str = None):
-        self.service_account_path = Path(service_account_path or SERVICE_ACCOUNT_KEY_PATH)
         self.folder_id = folder_id or GOOGLE_DRIVE_FOLDER_ID
         
         self.service = None
