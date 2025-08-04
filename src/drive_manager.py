@@ -483,6 +483,35 @@ class BatchUploadManager:
         
         return media_types.get(suffix, 'application/octet-stream')
     
+    def find_file_by_name(self, filename: str, folder_id: str) -> Optional[str]:
+        """Find file by name in a specific folder and return its ID."""
+        if not self.authenticated or not self.drive_service:
+            logger.warning("Drive service not authenticated, cannot find file.")
+            return None
+
+        try:
+            # Use a query to search for the file by name and parent folder
+            query = f"name='{filename}' and '{folder_id}' in parents and trashed=false"
+            results = self.drive_service.files().list(
+                q=query,
+                pageSize=1, # We only need one result
+                fields="files(id)" # Only retrieve the id field
+            ).execute()
+
+            files = results.get('files', [])
+            if files:
+                # Return the ID of the first matching file
+                logger.debug(f"Found existing file {filename} with ID: {files[0]['id']}")
+                return files[0]['id']
+            else:
+                # No file found with that name in the folder
+                logger.debug(f"File not found in Drive folder {folder_id}: {filename}")
+                return None
+
+        except Exception as e:
+            logger.error(f"Failed to search for file {filename} in folder {folder_id}: {e}")
+            return None
+
     def _get_parent_folder_id(self, drive_path: str) -> str:
         """Get parent folder ID for drive path"""
         # This would need to be implemented based on folder structure
