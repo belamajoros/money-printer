@@ -574,14 +574,23 @@ class EnhancedDriveManager:
             self.authenticated = False
             return # Exit if essential env vars are missing
 
-        # If authenticated, build the service
         if self.authenticated and creds:
             try:
                 self.service = build('drive', 'v3', credentials=creds)
 
-            if not self._test_connection():
-                logger.error("❌ Google Drive connection test failed with OAuth credentials")
+                if not self._test_connection():
+                    logger.error("❌ Google Drive connection test failed with OAuth credentials")
+                    self.authenticated = False
+
+            except ImportError:
+                logger.error("Google API libraries not installed. Install with: pip install google-api-python-client google-auth")
+                logger.error("If using OAuth, also install: pip install google-auth-oauthlib")
                 self.authenticated = False
+
+            except Exception as e:
+                logger.error(f"Failed to initialize service account: {e}")
+                self.authenticated = False
+
 
         except ImportError:
             logger.error("Google API libraries not installed. Install with: pip install google-api-python-client google-auth")
