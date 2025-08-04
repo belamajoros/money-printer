@@ -403,7 +403,7 @@ class BatchUploadManager:
             # Prepare file metadata
             file_metadata = {
                 'name': Path(task.drive_path).name,
-                \'parents\': [parent_folder_id]
+                'parents': [parent_folder_id]
             }
             
             # Start resumable upload
