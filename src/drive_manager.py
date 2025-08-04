@@ -437,7 +437,7 @@ class BatchUploadManager:
             return False
     
     def _upload_to_drive(self, local_path: Path, drive_path: str, is_batch: bool = False, existing_file_id: Optional[str] = None) -> bool:
-        \"\"\"Upload or update file on Google Drive (upsert logic).\"\"\"\
+        "Upload or update file on Google Drive (upsert logic)."
         if not self.authenticated or not self.service:
             logger.warning("Drive service not authenticated, cannot upload/update.")
             return False
@@ -732,67 +732,35 @@ class EnhancedDriveManager:
             else:
                 drive_path = local_path_obj.name
         
-        try:
-            local_path = Path(local_path)  # ← Fix: normalize input to Path
+            # Determine the parent folder ID for the target location
+            # This needs to be called outside the inner try block
+            parent_folder_id = self._get_parent_folder_id(drive_path)
 
-            # Generate organized drive path
-            if self.folder_structure:
-                folder_path = self.folder_structure.get_folder_path(category, subcategory, date_based)
-                drive_path = f"{folder_path}/{local_path.name}"
-            else:
-                drive_path = local_path.name
-            
             # Determine the parent folder ID for the target location
             parent_folder_id = self._get_parent_folder_id(drive_path)
 
             # --- Check if file exists on Google Drive and get its ID ---
             existing_file_id = self.find_file_by_name(local_path_obj.name, parent_folder_id)
 
-            if existing_file_id:
-                # File with the same name exists on Google Drive.
-                # Decide if we need to update it based on local file changes.
-                # This is a simplified check based on local cache. For a robust check,
-                # you'd compare local file metadata with Drive file metadata.
-
-                if self._needs_upload(local_path_obj): # Check if local file changed
-                     logger.debug(f"🔄 File exists on Drive and local content changed, queuing for update: {local_path_obj.name} (ID: {existing_file_id})")
-                     task = UploadTask(
-                         local_path=local_path_obj,
-                         drive_path=drive_path,
-                         priority=priority,
-                         existing_file_id=existing_file_id # Pass the existing file ID for update
-                     )
-                     # Add task to queue
-                     self.batch_manager.add_upload_task(task)
-                     logger.debug(f"📤 Queued for update: {drive_path}")
-                     return True
-                else:
-                    # File exists on Drive and local content is unchanged. Skip queuing.
-                    logger.debug(f"⏭️ File exists and local content unchanged, skipping upload: {local_path_obj.name}")
-                    return True
-
-            else:
-                # File does not exist on Google Drive. Check if local file needs uploading.
-                 if self._needs_upload(local_path_obj): # _needs_upload will be true for a new file not in cache
-                    logger.debug(f"✨ File does not exist on Drive, queuing for new upload: {local_path_obj.name}")
-                    task = UploadTask(
-                        local_path=local_path_obj,
-                        drive_path=drive_path,
-                        priority=priority,
-                        existing_file_id=None # This is a new file
-                    )
-
             # Check if file needs uploading
-            if self._needs_upload(local_path):
+            if self._needs_upload(local_path_obj):
+                if existing_file_id:
+                    # File exists and needs update
+                    logger.debug(f"🔄 File exists on Drive and local content changed, queuing for update: {local_path_obj.name} (ID: {existing_file_id})")
+                else:
+                    # File doesn't exist, new upload
+                    logger.debug(f"✨ File does not exist on Drive, queuing for new upload: {local_path_obj.name}")
+
                 task = UploadTask(
-                    local_path=local_path,
+                    local_path=local_path_obj,
                     drive_path=drive_path,
-                    priority=priority
+                    priority=priority,
+                    existing_file_id=existing_file_id # Pass the existing ID for either update or None for create
                 )
-                 # Add task to queue
-                
+
+                # Add task to queue
                 self.batch_manager.add_upload_task(task)
-                logger.debug(f"📤 Queued for upload: {drive_path}")
+                logger.debug(f"📤 Queued for {'update' if existing_file_id else 'upload'}: {drive_path}")
                 return True
             else:
                 logger.debug(f"⏭️ File unchanged, skipping: {local_path.name}")
@@ -800,7 +768,7 @@ class EnhancedDriveManager:
                  else:
                      # This case is unlikely but handled for robustness
                      logger.warning(f"⚠️ File {local_path_obj.name} not found on Drive, but _needs_upload returned False. Cache issue?")
-                     return False
+                     return True # Assume it's on Drive and unchanged
         except Exception as e:
             logger.error(f"Failed to queue upload for {local_path}: {e}")
             return False
