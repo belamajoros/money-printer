@@ -104,7 +104,7 @@ def preprocess_data(df):
     logger.info(f"✅ Preprocessing done: shape = {df.shape}, target dist =\n{df['target'].value_counts()}")
 
     # Exclude non-feature columns including file_version_id
-    exclude_cols = ["timestamp", "target", "symbol", "file_version_id"]
+    exclude_cols = ["timestamp", "target", "symbol", "file_version_id", "source_file"]
     X = df.drop(columns=[col for col in exclude_cols if col in df.columns])
     y = df["target"].astype(int)
     groups = df["symbol_id"].values
