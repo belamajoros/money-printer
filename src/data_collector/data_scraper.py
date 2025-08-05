@@ -295,16 +295,16 @@ def handle_kline_message(msg):
 
     logger.info(f"[{symbol}] OHLCV updated: {kline_data}")
 
-def get_top_100_trading_pairs():
+def get_top_650_trading_pairs():
     """
-    Fetch the top 250 trading pairs by trading volume from Binance.
+    Fetch the top 650 trading pairs by trading volume from Binance.
     :return: A list of trading pair symbols (e.g., ["BTCUSDC", "ETHUSDC", "SOLUSDC"]).
     """
     try:
         # Fetch 24-hour ticker price change statistics
         tickers = client.get_ticker()
-        # Sort by quote volume (descending) and take the top 250
-        top_pairs = sorted(tickers, key=lambda x: float(x['quoteVolume']), reverse=True)[:250]
+        # Sort by quote volume (descending) and take the top 650
+        top_pairs = sorted(tickers, key=lambda x: float(x['quoteVolume']), reverse=True)[:650]
         # Filter for USDC pairs only
         usdc_pairs = [ticker['symbol'] for ticker in top_pairs if ticker['symbol'].endswith("USDC")]
         return usdc_pairs
@@ -321,7 +321,7 @@ def main():
     last_kline_time = time.time()
 
     # Fetch the top 100 trading pairs
-    symbols = get_top_100_trading_pairs()
+    symbols = get_top_650_trading_pairs()
 
     if not symbols:
         logger.error("❌ No trading pairs to scrape. Exiting.")
