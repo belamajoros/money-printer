@@ -284,9 +284,9 @@ def _fetch_data_from_drive():
             logger.info(f"📈 Total rows after concatenation (before duplicate removal): {len(combined_df)}")
 
             # Remove duplicates by timestamp if column exists, like LocalDataLoader
-            if 'timestamp' in combined_df.columns:
-                combined_df = combined_df.drop_duplicates(subset=['timestamp'], keep='last')
-                combined_df = combined_df.sort_values('timestamp')
+            # Remove duplicates by timestamp and symbol
+            if 'timestamp' in combined_df.columns and 'symbol' in combined_df.columns:
+                combined_df = combined_df.drop_duplicates(subset=['timestamp', 'symbol'], keep='last').sort_values('timestamp')
                 logger.info(f"📉 Total rows after duplicate removal: {len(combined_df)}")
 
             return combined_df
