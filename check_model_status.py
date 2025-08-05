@@ -14,7 +14,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
 
 from src.config import get_model_path, DATA_ROOT, PARQUET_DATA_DIR, MODELS_DIR
 from src.data_collector.local_storage import list_parquet_files
-from src.model_training.local_data_loader import fetch_parquet_data_from_local
+from src.model_training.local_data_loader import fetch_parquet_data_from_drive
 
 def check_model_files():
     """Check if model files exist and get their info"""
@@ -147,7 +147,7 @@ def check_data_status():
     # Try to load data for training analysis
     try:
         print("\n🔄 Loading data for analysis...")
-        df = fetch_parquet_data_from_local()
+        df = fetch_parquet_data_from_drive()
         
         if df is not None and not df.empty:
             symbol_counts = df['symbol'].value_counts()

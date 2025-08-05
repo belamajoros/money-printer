@@ -197,8 +197,8 @@ class LocalDataLoader:
         
         return summary
 
-# Legacy compatibility function for existing helper.py files
-def fetch_parquet_data_from_local():
+""" # Legacy compatibility function for existing helper.py files
+def fetch_parquet_data_from_drive():
     """
     Enhanced data loader that tries local storage first, then Google Drive as fallback.
     """
@@ -228,9 +228,32 @@ def fetch_parquet_data_from_local():
         raise ValueError("No valid parquet files found in local storage or Google Drive.")
     
     logger.info(f"Successfully loaded {len(df)} rows from local storage")
-    return df
+    return df """
 
-def _fetch_data_from_drive():
+def fetch_parquet_data_from_drive_only():
+    """
+    Data loader that exclusively fetches data from Google Drive.
+    """
+    logger.info("Attempting to load data from Google Drive...")
+
+    try:
+        from src.config import USE_GOOGLE_DRIVE
+        if USE_GOOGLE_DRIVE:
+            df_drive = _fetch_data_from_drive()
+            if not df_drive.empty:
+                logger.info(f"✅ Successfully loaded {len(df_drive)} rows from Google Drive")
+                return df_drive
+            else:
+                logger.warning("⚠️ No data found in Google Drive")
+        else:
+            logger.info("Google Drive integration disabled in config")
+    except Exception as e:
+        logger.warning(f"⚠️ Google Drive fetch failed: {e}")
+
+    raise ValueError("No valid parquet files found in Google Drive.")
+
+
+""" def _fetch_data_from_drive():
     """
     Fetch data from Google Drive as fallback.
     Downloads recent files to local cache and loads them.
@@ -264,7 +287,76 @@ def _fetch_data_from_drive():
             
     except Exception as e:
         logger.error(f"❌ Failed to fetch data from Google Drive: {e}")
+        return pd.DataFrame() """
+def _fetch_data_from_drive():
+    """
+    Fetch data from Google Drive by downloading parquet files to a temp dir,
+    loading all, and concatenating them into a single DataFrame.
+    Adds 'symbol' and 'source_file' columns to match LocalDataLoader output.
+    """
+    try:
+        import pandas as pd
+        from pathlib import Path
+        import tempfile
+        from src.drive_manager import EnhancedDriveManager
+
+        logger.info("🔄 Attempting to download data from Google Drive...")
+
+        drive_manager = EnhancedDriveManager()
+        if not drive_manager.authenticated:
+            logger.warning("❌ Google Drive not authenticated")
+            return pd.DataFrame()
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir)
+
+            logger.info("📥 Downloading parquet files to temporary directory...")
+
+            # You need a method in EnhancedDriveManager that:
+            # downloads all parquet files to temp_path
+            # This method should return a list of downloaded file paths.
+            downloaded_files = drive_manager.download_all_files()
+            # If that method does not exist, you need to implement it.
+
+            if not downloaded_files:
+                logger.warning("⚠️ No parquet files downloaded from Google Drive.")
+                return pd.DataFrame()
+
+            dataframes = []
+            for file_path in downloaded_files:
+                try:
+                    df = pd.read_parquet(file_path)
+                    if df.empty:
+                        continue
+
+                    # Derive symbol from filename or folder name similar to LocalDataLoader logic
+                    # Assume filename is SYMBOL.parquet or symbol.parquet
+                    symbol = file_path.stem.upper()
+                    df['symbol'] = symbol
+                    df['source_file'] = file_path.name
+
+                    dataframes.append(df)
+                    logger.info(f"✅ Loaded {len(df)} rows from {file_path.name}")
+                except Exception as e:
+                    logger.warning(f"⚠️ Failed to read {file_path.name}: {e}")
+
+            if not dataframes:
+                logger.warning("⚠️ All downloaded files failed to load.")
+                return pd.DataFrame()
+
+            combined_df = pd.concat(dataframes, ignore_index=True)
+
+            # Remove duplicates by timestamp if column exists, like LocalDataLoader
+            if 'timestamp' in combined_df.columns:
+                combined_df = combined_df.drop_duplicates(subset=['timestamp'], keep='last')
+                combined_df = combined_df.sort_values('timestamp')
+
+            return combined_df
+
+    except Exception as e:
+        logger.error(f"❌ Failed to fetch data from Google Drive: {e}")
         return pd.DataFrame()
+
 
 if __name__ == "__main__":
     # Test the data loader

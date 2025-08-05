@@ -135,10 +135,10 @@ def test_model_trainer_data_access():
     
     try:
         # Test local data loader used by trainers
-        from src.model_training.local_data_loader import fetch_parquet_data_from_local
+        from src.model_training.local_data_loader import fetch_parquet_data_from_drive
         
         logger.info("📊 Testing local data loader...")
-        df = fetch_parquet_data_from_local()
+        df = fetch_parquet_data_from_drive()
         
         if df is not None and not df.empty:
             logger.info(f"✅ Model trainer can access data: {len(df)} records from {df['symbol'].nunique()} symbols")
@@ -217,11 +217,11 @@ def test_model_preprocessing():
     logger.info("🧪 STAGE 4: Testing Model Preprocessing")
     
     try:
-        from src.model_training.local_data_loader import fetch_parquet_data_from_local
+        from src.model_training.local_data_loader import fetch_parquet_data_from_drive
         from src.model_training.common import preprocess_data
         
         # Get data
-        df = fetch_parquet_data_from_local()
+        df = fetch_parquet_data_from_drive()
         if df is None or df.empty:
             logger.error("❌ No data available for preprocessing test")
             return False, "No data for preprocessing"

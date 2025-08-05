@@ -1031,6 +1031,43 @@ class EnhancedDriveManager:
             logger.error(f"Failed to find/download file {filename}: {e}")
             return False
     
+    def download_all_files(self) -> Dict[str, int]:
+        """
+        Download all files from the Drive folder to local storage,
+        overwriting existing files if needed.
+        """
+        if not self.sync_enabled or not self.authenticated:
+            return {"status": "disabled"}
+
+        downloaded = {
+            "files": 0
+        }
+
+        try:
+            # List all files in the Drive folder
+            query = f"'{self.folder_id}' in parents and trashed=false"
+            results = self.service.files().list(
+                q=query,
+                fields="files(id, name)",
+                pageSize=1000  # adjust as needed
+            ).execute()
+
+            for file_info in results.get('files', []):
+                local_path = DATA_ROOT / file_info['name']
+
+                # Download file regardless of existing local file
+                if self._download_file(file_info['id'], local_path):
+                    downloaded["files"] += 1
+                    logger.info(f"📥 Downloaded file: {file_info['name']}")
+
+            logger.info(f"📥 Downloaded {downloaded['files']} files from Drive.")
+            return downloaded
+
+        except Exception as e:
+            logger.error(f"Failed to download all files: {e}")
+            return {"error": str(e)}
+
+    
     def cancel_operations(self):
         """Cancel all ongoing operations"""
         logger.info("🛑 Cancelling all Drive operations...")

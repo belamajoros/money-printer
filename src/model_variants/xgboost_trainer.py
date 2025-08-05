@@ -13,7 +13,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.utils.class_weight import compute_sample_weight
 import logging
-from src.model_training.local_data_loader import fetch_parquet_data_from_local
+from src.model_training.local_data_loader import fetch_parquet_data_from_drive
 from src.model_training.common import preprocess_data, save_model
 from src.model_training.trainer_diagnostics import TrainerDiagnostics
 from src.trading_stats import get_stats_manager, TrainingMetrics
@@ -90,7 +90,7 @@ def main():
 
     # Get raw data and show detailed statistics
     logger.info("📊 Loading data from local storage...")
-    df = fetch_parquet_data_from_local()
+    df = fetch_parquet_data_from_drive()
     
     if df is not None and not df.empty:
         # Show extremely detailed data breakdown

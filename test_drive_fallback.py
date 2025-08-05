@@ -26,7 +26,7 @@ def test_drive_fallback():
         logger.info(f"📁 Using temporary directory: {temp_path}")
         
         # Import the data loader with our custom temp directory
-        from src.model_training.local_data_loader import LocalDataLoader, fetch_parquet_data_from_local
+        from src.model_training.local_data_loader import LocalDataLoader, fetch_parquet_data_from_drive
         
         # Test 1: LocalDataLoader with empty directory
         logger.info("\n📋 Test 1: LocalDataLoader with empty directory")
@@ -41,7 +41,7 @@ def test_drive_fallback():
         logger.info(f"   Rows loaded from empty directory: {len(df_empty)}")
         
         # Test 3: Test the enhanced fetch function (with Drive fallback)
-        logger.info("\n📋 Test 3: Testing fetch_parquet_data_from_local with Drive fallback")
+        logger.info("\n📋 Test 3: Testing fetch_parquet_data_from_drive with Drive fallback")
         
         # Temporarily override the data directory in config to point to our empty temp dir
         try:
@@ -51,7 +51,7 @@ def test_drive_fallback():
             
             # Test the fetch function
             try:
-                df_with_fallback = fetch_parquet_data_from_local()
+                df_with_fallback = fetch_parquet_data_from_drive()
                 logger.info(f"   ✅ Successfully loaded {len(df_with_fallback)} rows with fallback")
                 
                 if len(df_with_fallback) > 0:

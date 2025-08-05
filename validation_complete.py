@@ -46,10 +46,10 @@ def show_validation_summary():
     # Show actual data metrics from current system
     try:
         print("\n📊 **CURRENT DATA ANALYSIS (Live from Random Forest Trainer):**")
-        from src.model_training.local_data_loader import fetch_parquet_data_from_local
+        from src.model_training.local_data_loader import fetch_parquet_data_from_drive
         
         # Get current data
-        df = fetch_parquet_data_from_local()
+        df = fetch_parquet_data_from_drive()
         
         if not df.empty:
             symbol_counts = df['symbol'].value_counts()

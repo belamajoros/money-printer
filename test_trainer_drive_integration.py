@@ -27,11 +27,11 @@ def test_trainer_drive_integration():
     logger.info(f"   Local symbols available: {len(local_symbols)}")
     
     # Test 2: Test the enhanced fetch function that includes Drive fallback
-    logger.info("\n📋 Test 2: Testing fetch_parquet_data_from_local with Drive fallback")
-    from model_training.local_data_loader import fetch_parquet_data_from_local
+    logger.info("\n📋 Test 2: Testing fetch_parquet_data_from_drive with Drive fallback")
+    from model_training.local_data_loader import fetch_parquet_data_from_drive
     
     try:
-        df = fetch_parquet_data_from_local()
+        df = fetch_parquet_data_from_drive()
         logger.info(f"   ✅ Successfully loaded {len(df)} rows")
         
         if len(df) > 0:

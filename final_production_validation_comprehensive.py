@@ -142,7 +142,7 @@ def test_data_integration():
         print("✅ Google Drive manager imported successfully")
         
         # Test data loading structure
-        from src.model_training.local_data_loader import fetch_parquet_data_from_local
+        from src.model_training.local_data_loader import fetch_parquet_data_from_drive
         from src.model_training.common import preprocess_data
         print("✅ Data loading and preprocessing modules available")
         

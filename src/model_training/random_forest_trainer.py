@@ -9,7 +9,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import mean_squared_error, accuracy_score, precision_score, recall_score, f1_score, roc_auc_score, classification_report, confusion_matrix
 import logging
-from src.model_training.local_data_loader import fetch_parquet_data_from_local
+from src.model_training.local_data_loader import fetch_parquet_data_from_drive
 from src.model_training.common import preprocess_data, save_model, fill_missing_candles
 from src.model_training.trainer_diagnostics import TrainerDiagnostics, get_trainer_diagnostics
 from src.trading_stats import get_stats_manager, TrainingMetrics
@@ -87,7 +87,7 @@ def main():
 
     # Get raw data and show detailed statistics
     logger.info("📊 Loading data from local storage...")
-    df = fetch_parquet_data_from_local()
+    df = fetch_parquet_data_from_drive()
     
     if df is not None and not df.empty:
         # Show extremely detailed data breakdown

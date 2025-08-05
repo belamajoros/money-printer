@@ -340,8 +340,8 @@ def enhanced_trainer_main():
     
     # Load data
     try:
-        from src.model_training.local_data_loader import fetch_parquet_data_from_local
-        df = fetch_parquet_data_from_local()
+        from src.model_training.local_data_loader import fetch_parquet_data_from_drive
+        df = fetch_parquet_data_from_drive()
     except Exception as e:
         logger.error(f"❌ Failed to load data: {e}")
         return False

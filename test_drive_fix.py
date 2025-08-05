@@ -85,11 +85,11 @@ def test_data_loader():
     logger.info("🧪 Testing enhanced data loader...")
     
     try:
-        from src.model_training.local_data_loader import fetch_parquet_data_from_local
+        from src.model_training.local_data_loader import fetch_parquet_data_from_drive
         
         # Test data loading
         logger.info("📊 Testing data loading with Drive fallback...")
-        df = fetch_parquet_data_from_local()
+        df = fetch_parquet_data_from_drive()
         
         if not df.empty:
             logger.info(f"✅ Successfully loaded {len(df)} rows")
