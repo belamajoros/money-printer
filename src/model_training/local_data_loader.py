@@ -246,7 +246,7 @@ def _fetch_data_from_drive():
             # You need a method in EnhancedDriveManager that:
             # downloads all parquet files to temp_path
             # This method should return a list of downloaded file paths.
-            downloaded_files = drive_manager.download_all_files()
+            downloaded_files = drive_manager.download_all_files(destination_dir=temp_path)
             # If that method does not exist, you need to implement it.
 
             if not downloaded_files:

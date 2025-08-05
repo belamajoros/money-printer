@@ -1031,10 +1031,10 @@ class EnhancedDriveManager:
             logger.error(f"Failed to find/download file {filename}: {e}")
             return False
     
-    def download_all_files(self) -> Dict[str, int]:
+    def download_all_files(self, destination_dir: Path) -> List[Path]:
         """
         Download all files from the Drive folder to local storage,
-        overwriting existing files if needed.
+        overwriting existing files if needed. Returns a list of downloaded file paths.
         """
         if not self.sync_enabled or not self.authenticated:
             return {"status": "disabled"}
@@ -1043,6 +1043,7 @@ class EnhancedDriveManager:
             "files": 0
         }
 
+        downloaded_paths = [] # Initialize a list to store downloaded file paths
         try:
             # List all files in the Drive folder
             query = f"'{self.folder_id}' in parents and trashed=false"
@@ -1053,19 +1054,21 @@ class EnhancedDriveManager:
             ).execute()
 
             for file_info in results.get('files', []):
-                local_path = DATA_ROOT / file_info['name']
+                # Construct the local path using the provided destination_dir
+                local_path = destination_dir / file_info['name']
 
                 # Download file regardless of existing local file
                 if self._download_file(file_info['id'], local_path):
                     downloaded["files"] += 1
+                    downloaded_paths.append(local_path) # Add the downloaded path to the list
                     logger.info(f"📥 Downloaded file: {file_info['name']}")
 
             logger.info(f"📥 Downloaded {downloaded['files']} files from Drive.")
-            return downloaded
+            return downloaded_paths # Return the list of downloaded file paths
 
         except Exception as e:
             logger.error(f"Failed to download all files: {e}")
-            return {"error": str(e)}
+            return [] # Return an empty list on error
 
     
     def cancel_operations(self):
