@@ -197,7 +197,7 @@ class LocalDataLoader:
         
         return summary
 
-def fetch_parquet_data_from_drive_only():
+def fetch_parquet_data_from_drive():
     """
     Data loader that exclusively fetches data from Google Drive.
     """
