@@ -374,7 +374,7 @@ def main():
             
             save_cycle += 1
             logger.info(f"🔄 Starting save cycle #{save_cycle} (disabled local save)")
-            """ save_all_to_parquet() """  # Save OHLCV data periodically
+            save_all_to_parquet()  # Save OHLCV data periodically
             save_ohlcv_buffer_to_disk()  # Periodically save buffer to disk
     except Exception as e:
         logger.error(f"Error in main loop: {e}")
@@ -385,7 +385,7 @@ def main():
         # Save any remaining data before shutdown
         try:
             logger.info("💾 Saving remaining data before shutdown...")
-            """ save_all_to_parquet() """
+            save_all_to_parquet()
             save_ohlcv_buffer_to_disk()
             logger.info("✅ Final save completed")
         except Exception as save_error:
