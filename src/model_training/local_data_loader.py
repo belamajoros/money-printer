@@ -248,6 +248,7 @@ def _fetch_data_from_drive():
             # This method should return a list of downloaded file paths.
             downloaded_files = drive_manager.download_all_files(destination_dir=temp_path)
             # If that method does not exist, you need to implement it.
+            logger.info(f"📋 Downloaded {len(downloaded_files)} files from Google Drive to temporary directory.")
 
             if not downloaded_files:
                 logger.warning("⚠️ No parquet files downloaded from Google Drive.")
@@ -273,13 +274,20 @@ def _fetch_data_from_drive():
             if not dataframes:
                 logger.warning("⚠️ All downloaded files failed to load.")
                 return pd.DataFrame()
+            logger.info(f"📦 Collected {len(dataframes)} DataFrames for concatenation.")
+
+            # Log the number of rows in each DataFrame before concatenation
+            for i, df in enumerate(dataframes):
+                logger.info(f"📊 DataFrame {i+1} (File: {df['source_file'].iloc[0] if not df.empty else 'Unknown'}) has {len(df)} rows.")
 
             combined_df = pd.concat(dataframes, ignore_index=True)
+            logger.info(f"📈 Total rows after concatenation (before duplicate removal): {len(combined_df)}")
 
             # Remove duplicates by timestamp if column exists, like LocalDataLoader
             if 'timestamp' in combined_df.columns:
                 combined_df = combined_df.drop_duplicates(subset=['timestamp'], keep='last')
                 combined_df = combined_df.sort_values('timestamp')
+                logger.info(f"📉 Total rows after duplicate removal: {len(combined_df)}")
 
             return combined_df
 
