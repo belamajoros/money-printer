@@ -172,8 +172,8 @@ class FolderStructure:
 class BatchUploadManager:
     """Manages batch uploads with rate limiting"""
     
-    def __init__(self, drive_service, folder_id: str, max_batch_size: int = MAX_BATCH_SIZE):
-        self.drive_service = drive_service
+    def __init__(self, service, folder_id: str, max_batch_size: int = MAX_BATCH_SIZE):
+        self.service = service
         self.folder_id = folder_id
         self.max_batch_size = max_batch_size
         self.upload_queue = Queue()
@@ -382,7 +382,7 @@ class BatchUploadManager:
         try:
             from googleapiclient.http import MediaFileUpload
 
-            if not self.authenticated or not self.drive_service: # Use self.service consistently
+            if not self.service:
                 logger.warning("Drive service not authenticated, cannot upload/update in chunks.")
                 return False
 
@@ -407,7 +407,7 @@ class BatchUploadManager:
             }
             
             # Start resumable upload
-            request = self.drive_service.files().create(
+            request = self.service.files().create(
                 body=file_metadata,
                 media_body=media,
                 fields='id'
@@ -438,7 +438,7 @@ class BatchUploadManager:
     
     def _upload_to_drive(self, local_path: Path, drive_path: str, is_batch: bool = False, existing_file_id: Optional[str] = None) -> bool:
         "Upload or update file on Google Drive (upsert logic)."
-        if not self.authenticated or not self.service:
+        if not self.service:
             logger.warning("Drive service not authenticated, cannot upload/update.")
             return False
 
@@ -452,6 +452,12 @@ class BatchUploadManager:
             # Determine media type
             media_type = self._get_media_type(local_path)
             media = MediaFileUpload(str(local_path), mimetype=media_type)
+
+            file_metadata = {
+                'name': local_path.name,
+                'parents': [self._get_parent_folder_id(drive_path)]
+            }
+
             # --- Upsert Logic ---
             if existing_file_id:
                 # Update file
@@ -513,14 +519,14 @@ class BatchUploadManager:
     
     def find_file_by_name(self, filename: str, folder_id: str) -> Optional[str]:
         """Find file by name in a specific folder and return its ID."""
-        if not self.authenticated or not self.drive_service:
+        if not self.service:
             logger.warning("Drive service not authenticated, cannot find file.")
             return None
 
         try:
             # Use a query to search for the file by name and parent folder
             query = f"name='{filename}' and '{folder_id}' in parents and trashed=false"
-            results = self.drive_service.files().list(
+            results = self.service.files().list(
                 q=query,
                 pageSize=1, # We only need one result
                 fields="files(id)" # Only retrieve the id field
