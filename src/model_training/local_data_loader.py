@@ -254,14 +254,13 @@ def _fetch_data_from_drive():
                 return pd.DataFrame()
 
             dataframes = []
-            for file_path in downloaded_files:
+            for file_path_str in downloaded_files:
                 try:
+                    file_path = Path(file_path_str)  # convert to Path object
                     df = pd.read_parquet(file_path)
                     if df.empty:
                         continue
 
-                    # Derive symbol from filename or folder name similar to LocalDataLoader logic
-                    # Assume filename is SYMBOL.parquet or symbol.parquet
                     symbol = file_path.stem.upper()
                     df['symbol'] = symbol
                     df['source_file'] = file_path.name
