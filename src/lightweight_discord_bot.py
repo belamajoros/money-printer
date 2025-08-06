@@ -441,7 +441,7 @@ def is_authorized(interaction: discord.Interaction) -> bool:
 async def on_ready():
     logger.info(f"⚡ Enhanced Discord Bot logged in as {bot.user}")
 
-    success, message = await start_background_scraper()
+    # success, message = await start_background_scraper()
     
     # Sync slash commands
     try:
