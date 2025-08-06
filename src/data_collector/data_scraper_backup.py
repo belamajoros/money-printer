@@ -264,7 +264,7 @@ def handle_kline_message(msg):
 # Load symbols from environment variable or use default
 symbols = os.getenv("SCRAPE_SYMBOLS", "btcusdc,ethusdc,solusdc").split(",")
 
-def get_top_650_trading_pairs():
+def get_top_350_trading_pairs():
     """
     Fetch the top 100 trading pairs by trading volume from Binance.
     :return: A list of trading pair symbols (e.g., ["BTCUSDC", "ETHUSDC", "SOLUSDC"]).
@@ -283,7 +283,7 @@ def get_top_650_trading_pairs():
 
 
 # Fetch the top 100 trading pairs
-symbols = get_top_650_trading_pairs()
+symbols = get_top_350_trading_pairs()
 
 if not symbols:
     logger.error("❌ No trading pairs to scrape. Exiting.")
@@ -350,7 +350,7 @@ def main():
 if __name__ == "__main__":
     # Test with a single symbol
     
-    symbols = get_top_650_trading_pairs()
+    symbols = get_top_350_trading_pairs()
 
     # Run the main scraper logic
     main()
