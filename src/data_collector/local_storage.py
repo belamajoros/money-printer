@@ -133,7 +133,7 @@ def save_parquet_file(data, filename, symbol=None):
         else:
             filepath = os.path.join(PARQUET_DATA_DIR, filename)
         
-        """ # Save the data locally first
+        # Save the data locally first
         if isinstance(data, pd.DataFrame):
             data.to_parquet(filepath, index=False, compression="snappy")
         elif isinstance(data, bytes):
@@ -151,7 +151,7 @@ def save_parquet_file(data, filename, symbol=None):
         logger.info(f"✅ Saved parquet file locally: {filename} ({file_size / (1024 * 1024):.2f} MB)")
         
         # Check storage after saving
-        check_storage_space() """
+        check_storage_space()
 
         # Upload to Google Drive if enabled
         try:
