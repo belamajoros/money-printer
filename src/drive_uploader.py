@@ -237,13 +237,6 @@ class DriveUploader:
                 'filename': filename
             }
             self._save_upload_cache()
-
-            # ✅ Delete local file after successful upload
-            try:
-                local_path.unlink()
-                logger.info(f"🗑️ Deleted local file after upload: {local_path}")
-            except Exception as del_err:
-                logger.warning(f"⚠️ Failed to delete local file {local_path}: {del_err}")
             
             return file_id
             
