@@ -559,6 +559,37 @@ class BatchUploadManager:
             logger.error(f"❌ Drive upload error for {drive_path}: {e}")
             return False """
     
+    def _get_drive_file_content(self, file_id: str) -> Optional[bytes]:
+        """
+        Get the contents of a Google Drive file as bytes (no permanent download).
+        """
+        if not self.service:
+            logger.warning("Drive service not authenticated, cannot fetch file content.")
+            return None
+
+        try:
+            from googleapiclient.http import MediaIoBaseDownload
+            import io
+
+            # In-memory buffer
+            buf = io.BytesIO()
+
+            request = self.service.files().get_media(fileId=file_id)
+            downloader = MediaIoBaseDownload(buf, request)
+
+            done = False
+            while not done:
+                status, done = downloader.next_chunk()
+
+            # Reset pointer to start
+            buf.seek(0)
+            return buf.read()
+
+        except Exception as e:
+            logger.error(f"❌ Error fetching Drive file {file_id}: {e}")
+            return None
+
+
     def _get_media_type(self, file_path: Path) -> str:
         """Get media type for file"""
         suffix = file_path.suffix.lower()
