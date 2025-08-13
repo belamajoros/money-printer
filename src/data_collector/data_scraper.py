@@ -375,7 +375,7 @@ def main():
             save_cycle += 1
             logger.info(f"🔄 Starting save cycle #{save_cycle} (disabled local save)")
             save_all_to_parquet()  # Save OHLCV data periodically
-            save_ohlcv_buffer_to_disk()  # Periodically save buffer to disk
+            """ save_ohlcv_buffer_to_disk() """  # Periodically save buffer to disk
     except Exception as e:
         logger.error(f"Error in main loop: {e}")
         send_scraper_notification(f"❌ **Scraper Error**: {e}")
