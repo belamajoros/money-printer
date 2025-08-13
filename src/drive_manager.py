@@ -437,69 +437,73 @@ class BatchUploadManager:
             return False
     
     def _upload_to_drive(self, local_path: Path, drive_path: str, is_batch: bool = False, existing_file_id: Optional[str] = None) -> bool:
-        "Upload or update file on Google Drive (upsert logic)."
+        """
+        Append a local parquet file to an existing parquet file on Google Drive.
+        If the file does not exist, upload it as-is.
+        """
+        import io
+        import pandas as pd
+        from googleapiclient.http import MediaIoBaseUpload
+
         if not self.service:
             logger.warning("Drive service not authenticated.")
             return False
 
         if not local_path.exists():
-            logger.error(f"Local file not found: {local_path}")
+            logger.error(f"Local parquet file not found: {local_path}")
             return False
 
         try:
-            from googleapiclient.http import MediaIoBaseUpload
-            import io
+            # Step 1: Read new local parquet
+            new_df = pd.read_parquet(local_path)
 
-            # Step 1: Read new content
-            new_content = local_path.read_bytes()
-
-            merged_content = new_content  # default if file does not exist
-
-            # Step 2: If file exists, fetch existing content and append
+            # Step 2: If file exists, download and append
             if existing_file_id:
                 existing_bytes = self._get_drive_file_content(existing_file_id)
                 if existing_bytes is not None:
-                    merged_content = existing_bytes + new_content
+                    existing_df = pd.read_parquet(io.BytesIO(existing_bytes))
+                    merged_df = pd.concat([existing_df, new_df], ignore_index=True)
+                else:
+                    merged_df = new_df
+            else:
+                merged_df = new_df
 
-            # Step 3: Prepare in-memory upload
-            media = MediaIoBaseUpload(io.BytesIO(merged_content), mimetype=self._get_media_type(local_path))
+            # Step 3: Write merged parquet to memory
+            buf = io.BytesIO()
+            merged_df.to_parquet(buf, index=False)
+            buf.seek(0)
+
+            # Step 4: Upload or update
+            media = MediaIoBaseUpload(buf, mimetype="application/octet-stream")
 
             file_metadata = {'name': local_path.name, 'parents': [self._get_parent_folder_id(drive_path)]}
 
-            # Step 4: Upload or update
             if existing_file_id:
-                request = self.service.files().update(
-                    fileId=existing_file_id,
-                    media_body=media,
-                    fields='id'
-                )
+                request = self.service.files().update(fileId=existing_file_id, media_body=media, fields='id')
                 operation = "updated"
             else:
-                request = self.service.files().create(
-                    body=file_metadata,
-                    media_body=media,
-                    fields='id'
-                )
+                request = self.service.files().create(body=file_metadata, media_body=media, fields='id')
                 operation = "uploaded"
 
             file = request.execute()
             if file.get('id'):
-                logger.info(f"✅ Successfully {operation}: {drive_path}")
+                logger.info(f"✅ Parquet file successfully {operation}: {drive_path}")
                 return True
             else:
-                logger.error(f"❌ Failed to {operation}: {drive_path}")
+                logger.error(f"❌ Failed to {operation} parquet: {drive_path}")
                 return False
-            
+
             # ✅ Delete local file after successful upload
-            try:
-                local_path.unlink()
-                logger.info(f"🗑️ Deleted local file after upload: {local_path}")
-            except Exception as del_err:
-                logger.warning(f"⚠️ Failed to delete local file {local_path}: {del_err}")
+                try:
+                    local_path.unlink()
+                    logger.info(f"🗑️ Deleted local file after upload: {local_path}")
+                except Exception as del_err:
+                    logger.warning(f"⚠️ Failed to delete local file {local_path}: {del_err}")
 
         except Exception as e:
-            logger.error(f"❌ Drive error for {drive_path}: {e}")
+            logger.error(f"❌ Error appending parquet to Drive for {drive_path}: {e}")
             return False
+
         """ if not self.service:
             logger.warning("Drive service not authenticated, cannot upload/update.")
             return False
