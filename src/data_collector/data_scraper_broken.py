@@ -246,7 +246,7 @@ def get_top_350_trading_pairs():
         # Fetch 24-hour ticker price change statistics
         tickers = client.get_ticker()
         # Sort by quote volume (descending) and take the top 100
-        top_pairs = sorted(tickers, key=lambda x: float(x['quoteVolume']), reverse=True)[:250]
+        top_pairs = sorted(tickers, key=lambda x: float(x['quoteVolume']), reverse=True)[:100]
         # Filter for USDC pairs only
         usdc_pairs = [ticker['symbol'] for ticker in top_pairs if ticker['symbol'].endswith("USDC")]
         return usdc_pairs
