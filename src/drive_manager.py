@@ -439,6 +439,61 @@ class BatchUploadManager:
     def _upload_to_drive(self, local_path: Path, drive_path: str, is_batch: bool = False, existing_file_id: Optional[str] = None) -> bool:
         "Upload or update file on Google Drive (upsert logic)."
         if not self.service:
+            logger.warning("Drive service not authenticated.")
+            return False
+
+        if not local_path.exists():
+            logger.error(f"Local file not found: {local_path}")
+            return False
+
+        try:
+            from googleapiclient.http import MediaIoBaseUpload
+            import io
+
+            # Step 1: Read new content
+            new_content = local_path.read_bytes()
+
+            merged_content = new_content  # default if file does not exist
+
+            # Step 2: If file exists, fetch existing content and append
+            if existing_file_id:
+                existing_bytes = self._get_drive_file_content(existing_file_id)
+                if existing_bytes is not None:
+                    merged_content = existing_bytes + new_content
+
+            # Step 3: Prepare in-memory upload
+            media = MediaIoBaseUpload(io.BytesIO(merged_content), mimetype=self._get_media_type(local_path))
+
+            file_metadata = {'name': local_path.name, 'parents': [self._get_parent_folder_id(drive_path)]}
+
+            # Step 4: Upload or update
+            if existing_file_id:
+                request = self.service.files().update(
+                    fileId=existing_file_id,
+                    media_body=media,
+                    fields='id'
+                )
+                operation = "updated"
+            else:
+                request = self.service.files().create(
+                    body=file_metadata,
+                    media_body=media,
+                    fields='id'
+                )
+                operation = "uploaded"
+
+            file = request.execute()
+            if file.get('id'):
+                logger.info(f"✅ Successfully {operation}: {drive_path}")
+                return True
+            else:
+                logger.error(f"❌ Failed to {operation}: {drive_path}")
+                return False
+
+        except Exception as e:
+            logger.error(f"❌ Drive error for {drive_path}: {e}")
+            return False
+        """ if not self.service:
             logger.warning("Drive service not authenticated, cannot upload/update.")
             return False
 
@@ -495,7 +550,7 @@ class BatchUploadManager:
                 
         except Exception as e:
             logger.error(f"❌ Drive upload error for {drive_path}: {e}")
-            return False
+            return False """
     
     def _get_media_type(self, file_path: Path) -> str:
         """Get media type for file"""
@@ -719,8 +774,8 @@ class EnhancedDriveManager:
             return False
 
         # 🔍 Debug logs for troubleshooting
-        logger.debug(f"[upload_file_async] Received local_path: {local_path}")
-        logger.debug(f"[upload_file_async] Type of local_path: {type(local_path)}")
+        logger.info(f"[upload_file_async] Received local_path: {local_path}")
+        logger.info(f"[upload_file_async] Type of local_path: {type(local_path)}")
 
         # Ensure local_path is a Path object
         local_path_obj = Path(local_path)
