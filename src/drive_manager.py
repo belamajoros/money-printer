@@ -489,6 +489,13 @@ class BatchUploadManager:
             else:
                 logger.error(f"❌ Failed to {operation}: {drive_path}")
                 return False
+            
+            # ✅ Delete local file after successful upload
+            try:
+                local_path.unlink()
+                logger.info(f"🗑️ Deleted local file after upload: {local_path}")
+            except Exception as del_err:
+                logger.warning(f"⚠️ Failed to delete local file {local_path}: {del_err}")
 
         except Exception as e:
             logger.error(f"❌ Drive error for {drive_path}: {e}")
