@@ -446,7 +446,7 @@ async def on_ready():
         synced = await bot.tree.sync()
         logger.info(f"✅ Synced {len(synced)} command(s)")
         
-        success, message = await start_background_scraper()
+        """ success, message = await start_background_scraper() """
     except Exception as e:
         logger.error(f"Failed to sync commands: {e}")
 

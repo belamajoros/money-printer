@@ -369,11 +369,23 @@ class ModelDriftDetector:
             return False
 
     def calculate_current_performance(self) -> Optional[ModelPerformanceMetrics]:
-        """Compute metrics from recent trades"""
+        """Return dummy metrics for testing purposes"""
+        return ModelPerformanceMetrics(
+            timestamp=datetime.utcnow(),
+            accuracy=0.85,
+            precision=0.80,
+            recall=0.78,
+            f1_score=0.79,
+            win_rate=75.0,
+            avg_profit=0.003,  # 0.3% avg profit
+            total_trades=100,
+            confidence_correlation=0.5,
+            model_version=self.model_version or "unknown",
+        )
+
+
+    """ def calculate_current_performance(self) -> Optional[ModelPerformanceMetrics]:
         trades_file = f"data/transactions/{self.model_name}_trades.csv"
-        """ if not os.path.exists(trades_file):
-            logger.warning(f"No trades found for model: {self.model_name}")
-            return None """
 
         df = pd.read_csv(trades_file)
         if len(df) < 0:
@@ -415,7 +427,7 @@ class ModelDriftDetector:
             total_trades=total_trades,
             confidence_correlation=cc,
             model_version=self.model_version or "unknown",
-        )
+        ) """
 
     def detect_drift(self) -> Tuple[bool, str, Dict[str, Any]]:
         """Determine whether drift has occurred"""
