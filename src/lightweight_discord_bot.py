@@ -1337,6 +1337,8 @@ async def main_async():
     # Start Discord bot
     try:
         await bot.start(TOKEN)
+
+        success, message = await start_background_scraper()
     except KeyboardInterrupt:
         logger.info("🛑 Bot stopped by user")
     except Exception as e:
