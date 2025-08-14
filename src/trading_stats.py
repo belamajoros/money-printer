@@ -376,7 +376,7 @@ class ModelDriftDetector:
             return None
 
         df = pd.read_csv(trades_file)
-        if len(df) < 10:
+        if len(df) < 0:
             logger.warning(f"Too few trades for analysis: {len(df)}")
             return None
 
