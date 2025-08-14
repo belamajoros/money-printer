@@ -370,8 +370,8 @@ class ModelDriftDetector:
 
     def calculate_current_performance(self) -> Optional[ModelPerformanceMetrics]:
         """Compute metrics from recent trades"""
-        """ trades_file = f"data/transactions/{self.model_name}_trades.csv"
-        if not os.path.exists(trades_file):
+        trades_file = f"data/transactions/{self.model_name}_trades.csv"
+        """ if not os.path.exists(trades_file):
             logger.warning(f"No trades found for model: {self.model_name}")
             return None """
 
