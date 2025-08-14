@@ -440,13 +440,13 @@ def is_authorized(interaction: discord.Interaction) -> bool:
 @bot.event
 async def on_ready():
     logger.info(f"⚡ Enhanced Discord Bot logged in as {bot.user}")
-
-    # success, message = await start_background_scraper()
     
     # Sync slash commands
     try:
         synced = await bot.tree.sync()
         logger.info(f"✅ Synced {len(synced)} command(s)")
+        
+        success, message = await start_background_scraper()
     except Exception as e:
         logger.error(f"Failed to sync commands: {e}")
 
@@ -1337,8 +1337,6 @@ async def main_async():
     # Start Discord bot
     try:
         await bot.start(TOKEN)
-
-        success, message = await start_background_scraper()
     except KeyboardInterrupt:
         logger.info("🛑 Bot stopped by user")
     except Exception as e:
